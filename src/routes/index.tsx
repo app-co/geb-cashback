@@ -1,0 +1,31 @@
+import { Center } from 'native-base';
+
+import { Loading } from '@/components/Loading';
+import { useAuth } from '@/context/auth';
+import { NavigationContainer } from '@react-navigation/native';
+
+import { NormalStack } from './normal-user/normal-stack';
+import { SimpleStack } from './Simple-user/stack';
+import { StackRoutes } from './stackRoutes';
+
+export function Routes() {
+  const { user, loading } = useAuth();
+
+  const routeType = {
+    simple: <SimpleStack />,
+    normal: <NormalStack />,
+  };
+
+  if (loading) {
+    return (
+      <Center flex="1">
+        <Loading />
+      </Center>
+    );
+  }
+  return (
+    <NavigationContainer>
+      {user ? routeType.normal : <StackRoutes />}
+    </NavigationContainer>
+  );
+}
