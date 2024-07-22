@@ -17,10 +17,12 @@ import {
   Roboto_700Bold as Bold,
   Roboto_300Light as Light,
   Roboto_400Regular as Regular,
+  Roboto_100Thin as trin,
 } from '@expo-google-fonts/roboto';
 
 import { NativeBaseProvider } from 'native-base';
 
+import { ConectionErrorModal } from '@/components/modals/conexao-error';
 import { UnauthorizedModal } from '@/components/modals/unauthorizedModal';
 import { Splash } from '@/components/Splash';
 import { reactotron } from '@/config/reactotron';
@@ -37,6 +39,7 @@ export default function App() {
     Regular,
     Bold,
     Black,
+    trin,
   });
 
   React.useEffect(() => {
@@ -84,9 +87,10 @@ export default function App() {
               <StorageProvider>
                 <Routes />
                 <UnauthorizedModal />
+                <ConectionErrorModal />
               </StorageProvider>
             </AuthContextProvider>
-            <StatusBar style="auto" />
+            <StatusBar style="light" />
           </SafeAreaProvider>
         </NativeBaseProvider>
       </QueryClientProvider>

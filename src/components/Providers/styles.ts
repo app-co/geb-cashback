@@ -10,7 +10,7 @@ export const Container = styled.View`
   padding-top: 20px;
 `;
 
-export const boxProvider = styled.View`
+export const boxProvider = styled.TouchableOpacity`
   width: 100%;
   border-radius: 10px;
 

@@ -21,7 +21,7 @@ export function PrivateDrawerRoute() {
         drawerLabelStyle: {
           fontFamily: 'Bold',
         },
-        headerShown: false,
+        // headerShown: false,
       }}
     >
       <S.Screen

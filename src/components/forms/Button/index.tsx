@@ -31,7 +31,7 @@ export function Button({
       {...rest}
     >
       {load ? (
-        <ActivityIndicator color={cor.bgcolor} size={36} />
+        <ActivityIndicator color={cor.text.light} size={36} />
       ) : (
         <S.title styleType={styleType} color={txt_color}>
           {title}

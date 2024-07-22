@@ -8,11 +8,7 @@ const { Screen, Navigator } = createNativeStackNavigator();
 
 export function StackRoutes() {
   return (
-    <Navigator
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
+    <Navigator screenOptions={{ headerShown: false }}>
       <Screen name="login" component={Login} />
       <Screen name="signUp" component={Cadastro} />
       <Screen name="simpleCadastro" component={SimpleCadastro} />

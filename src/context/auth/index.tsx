@@ -117,16 +117,12 @@ export function AuthContextProvider({ children }: TAuthContext) {
   }, []);
 
   const updateUser = useCallback(async () => {
-    await api.get(`/provider/${data.user.id}`).then(async h => {
-      const provider = h.data;
-      const dados = {
-        token: data.token,
-        user,
-      };
-
-      setData(dados);
+    const user = await api.get(pathsRoutes.byId.user);
+    setData({
+      token: data.token,
+      user: user.data,
     });
-  }, [data.user, data.token]);
+  }, [data]);
 
   return (
     <AuthContext.Provider

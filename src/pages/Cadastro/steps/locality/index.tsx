@@ -1,17 +1,44 @@
 import React from 'react';
 
+import axios from 'axios';
 import { Box, HStack, VStack } from 'native-base';
 
 import { FormInput } from '@/components/forms/FormInput';
 
 import * as S from './styles';
 
+export interface ICep {
+  cep: string;
+  city: string;
+  neighborhood: string;
+  service: string;
+  state: string;
+  street: string;
+}
+
 interface I {
   error: any;
   control: any;
+  getCep: (h: ICep) => void;
 }
 
-export function Locality({ error, control }: I) {
+export function Locality({ error, control, getCep }: I) {
+  const [cep, setCep] = React.useState('');
+
+  async function get() {
+    const { data } = await axios.get(
+      `https://brasilapi.com.br/api/cep/v1/${cep}`,
+    );
+
+    getCep(data);
+  }
+
+  React.useEffect(() => {
+    if (cep.length === 8) {
+      get();
+    }
+  }, [cep]);
+
   return (
     <S.Container>
       <S.main>
@@ -28,6 +55,9 @@ export function Locality({ error, control }: I) {
             keyboardType="numeric"
             control={control}
             placeholder="CEP"
+            value={cep}
+            maxLength={8}
+            onChangeText={setCep}
           />
 
           <HStack space={2} alignItems="center">

@@ -1,7 +1,7 @@
 export const corSwit = {
   hubA: {
     bgcolor: '#232020ff',
-    bgSoft: 'rgba(48, 48, 48, 1)',
+    bgSoft: '#303030ff',
 
     button_bg_color: {
       a: 'rgb(255, 205, 0)',

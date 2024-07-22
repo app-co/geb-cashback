@@ -6,3 +6,21 @@ export function _hourToMinutis(valor: string) {
 
   return minuti;
 }
+
+export function convertNumberToCurrency(v: number) {
+  const amount = v;
+  const valor = amount.toLocaleString('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+    minimumFractionDigits: 2,
+  });
+
+  return valor;
+}
+
+export function _toNumber(v: string): number {
+  let value = v.replace(/\D/g, '');
+  value = value.length <= 2 ? value : (Number(value) / 100).toString();
+
+  return Number(value);
+}

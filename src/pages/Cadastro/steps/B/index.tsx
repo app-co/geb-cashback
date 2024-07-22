@@ -22,13 +22,15 @@ export function B({ error, control }: I) {
 
         <VStack mt="8" space={4}>
           <FormInput
-            label="CPF/RG"
+            label="CPF"
+            mask="cpf"
             error={error.document}
             name="document"
             autoCapitalize="none"
             keyboardType="numeric"
             control={control}
-            placeholder="Seu CPF/RG"
+            placeholder="Seu CPF"
+            maxLength={14}
           />
 
           <FormInput
@@ -38,16 +40,21 @@ export function B({ error, control }: I) {
             keyboardType="numeric"
             control={control}
             placeholder="Seu número de WhattsApp"
+            mask="cell-phone"
+            maxLength={15}
           />
 
           <FormInput
             label="Dt. de nascimento"
             error={error.born}
             name="born"
+            keyboardType="numeric"
             autoCapitalize="none"
             control={control}
             icon="lock"
-            placeholder="dd/MM/ano"
+            placeholder="dd/mm/yyyy"
+            mask="date"
+            maxLength={10}
           />
 
           <FormInput
@@ -57,7 +64,7 @@ export function B({ error, control }: I) {
             autoCapitalize="none"
             control={control}
             icon="lock"
-            placeholder="Nome da sua profição"
+            placeholder="Nome da sua profissão"
           />
         </VStack>
       </S.main>

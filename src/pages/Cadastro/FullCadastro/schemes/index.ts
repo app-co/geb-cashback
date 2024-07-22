@@ -30,7 +30,7 @@ export const shcmeC = y.object({
 });
 
 export const schemaLocality = z.object({
-  id: z.string().optional(),
+  id: z.string(),
   city: z.string(),
   region_code: z.string(),
   postal_code: z.string(),

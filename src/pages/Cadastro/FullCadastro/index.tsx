@@ -1,29 +1,20 @@
-import React, { useCallback } from 'react';
+import React, { useReducer } from 'react';
 import { useForm } from 'react-hook-form';
-import {
-  ActivityIndicator,
-  KeyboardAvoidingView,
-  Modal,
-  TouchableOpacity,
-} from 'react-native';
+import { ActivityIndicator, Modal, TouchableOpacity } from 'react-native';
 
 import { Box, Center, HStack, ScrollView, useToast } from 'native-base';
 import { ArrowCircleLeft, ArrowCircleRight } from 'phosphor-react-native';
 import { z } from 'zod';
 
+import { Button } from '@/components/forms/Button';
 import { useAuth } from '@/context/auth';
 import { useStepByStep } from '@/context/step-by-step';
-import { api } from '@/services/api';
+import { useSignUp } from '@/hooks/mutations';
 import { AppError } from '@/services/AppError';
-import { pathsRoutes } from '@/services/schemeRoutes';
 import { cor } from '@/styles/cor';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  useFocusEffect,
-  useNavigation,
-  useRoute,
-} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 import { A } from '../steps/A';
 import { B } from '../steps/B';
@@ -45,23 +36,65 @@ interface IB {
   document: string;
 }
 
-type TLocality = z.infer<typeof schemaLocality>;
+export type TLocality = z.infer<typeof schemaLocality>;
 
-type TCadastroParams = {
-  type: 'search' | 'extra_cash' | 'businnes';
-  session?: boolean;
+type TAction =
+  | { step: 0; payload: IA }
+  | { step: 1; payload: IB }
+  | { step: 2; payload: Omit<TLocality, 'id'> };
+
+type TState = {
+  user: IA;
+  profile: Omit<IB, 'id'>;
+  locality: Omit<TLocality, 'id'>;
+};
+
+const initialState: TState = {
+  locality: {
+    city: '',
+    region_code: '',
+    postal_code: '',
+    complement: '',
+    street: '',
+    number: '',
+  },
+  profile: {
+    born: '',
+    profission: '',
+    contato: '',
+    document: '',
+  },
+  user: {
+    name: '',
+    email: '',
+    password: '',
+    confirmation_pass: '',
+  },
 };
 
 export function FullCadastro() {
-  const { params } = useRoute();
   const { updateUser } = useAuth();
+  const { isLoading, mutateAsync } = useSignUp();
 
-  const { type, session } = params as TCadastroParams;
+  function reducer(state: TState, action: TAction) {
+    switch (action.step) {
+      case 0:
+        return { ...state, user: action.payload };
+      case 1:
+        return { ...state, profile: action.payload };
+      case 2:
+        return { ...state, locality: action.payload };
+      default:
+        return state;
+    }
+  }
+
+  const [state, dispatch] = useReducer(reducer, initialState);
+
   const [load, setLoad] = React.useState<boolean>(false);
 
   const { goBack, navigate } = useNavigation();
   const toast = useToast();
-  const [token, setToken] = React.useState<string>('');
 
   const controlA = useForm<IA>({
     resolver: yupResolver(schemeA),
@@ -71,8 +104,8 @@ export function FullCadastro() {
     resolver: yupResolver(shcmeB),
   });
 
-  const controlLocality = useForm<TLocality>({
-    resolver: zodResolver(schemaLocality),
+  const controlLocality = useForm<Omit<TLocality, 'id'>>({
+    resolver: zodResolver(schemaLocality.omit({ id: true })),
   });
 
   const components = [
@@ -81,6 +114,12 @@ export function FullCadastro() {
     <Locality
       control={controlLocality.control}
       error={controlLocality.formState.errors}
+      getCep={h => {
+        controlLocality.setValue('postal_code', h.cep);
+        controlLocality.setValue('city', h.city);
+        controlLocality.setValue('street', h.street);
+        controlLocality.setValue('region_code', h.state);
+      }}
     />,
   ];
 
@@ -99,30 +138,11 @@ export function FullCadastro() {
   }
 
   const handleUser = React.useCallback(
-    async (input: any) => {
+    async (input: IA) => {
       setLoad(true);
-      try {
-        await api.post(pathsRoutes.register.user, input);
-
-        const { data } = await api.post(pathsRoutes.session.user, {
-          email: input.email,
-          password: input.password,
-        });
-
-        setToken(data.token);
-        setLoad(false);
-
-        changeStep(currentStep + 1);
-      } catch (error) {
-        if (error instanceof AppError) {
-          toast.show({
-            title: 'Erro ao fazer login',
-            description: error.message,
-            placement: 'bottom',
-            bg: 'red.500',
-          });
-        }
-      }
+      dispatch({ step: 0, payload: input });
+      changeStep(currentStep + 1);
+      setLoad(false);
     },
     [changeStep, currentStep],
   );
@@ -130,45 +150,48 @@ export function FullCadastro() {
   const handleProfile = React.useCallback(
     async (input: IB) => {
       setLoad(true);
-      try {
-        await api.post(pathsRoutes.register.profile, input);
-        updateUser();
+      dispatch({ step: 1, payload: input });
+      changeStep(currentStep + 1);
 
-        setLoad(false);
-        changeStep(currentStep + 1);
-      } catch (error) {
-        setLoad(false);
-        if (error instanceof AppError) {
-          toast.show({
-            description: error.message,
-            bg: 'red.600',
-          });
-        }
-      }
+      setLoad(false);
     },
     [changeStep, currentStep],
   );
 
   const handleLocality = React.useCallback(
-    async (input: TLocality) => {
-      try {
-        await api.post(pathsRoutes.register.locality, input);
-
-        setLoad(false);
-        changeStep(currentStep + 1);
-      } catch (error) {
-        setLoad(false);
-      }
+    async (input: Omit<TLocality, 'id'>) => {
+      setLoad(true);
+      dispatch({ step: 2, payload: input });
     },
     [changeStep, currentStep],
   );
 
-  useFocusEffect(
-    useCallback(() => {
-      if (session) {
-        changeStep(1);
+  const handleSave = React.useCallback(
+    async (L: Omit<TLocality, 'id'>) => {
+      console.log({ L });
+      const { user, profile } = state;
+      try {
+        const U = {
+          name: user.name,
+          email: user.email,
+          password: user.password,
+          account_type: 'normal' as any,
+        };
+
+        await mutateAsync({ U, P: profile, L });
+        navigate('login');
+      } catch (error) {
+        if (error instanceof AppError) {
+          toast.show({
+            title: 'Erro ao salvar',
+            description: error.message,
+            placement: 'bottom',
+            bg: 'red.500',
+          });
+        }
       }
-    }, [changeStep, session]),
+    },
+    [mutateAsync, navigate, state],
   );
 
   const submit = {
@@ -188,19 +211,40 @@ export function FullCadastro() {
         <S.title>Cadastre-se</S.title>
       </Box>
       <ScrollView>
-        <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={30}>
-          <S.main>
-            <Box>{currentComponent}</Box>
+        {/* <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={30}> */}
+        <S.main>
+          <Box>{currentComponent}</Box>
 
+          {lastStep ? (
+            <HStack space={4}>
+              <Box flex={1}>
+                <Button
+                  txt_color="#fff"
+                  onPress={() => changeStep(currentStep - 1)}
+                  styleType="border"
+                  title="VOLTAR"
+                />
+              </Box>
+
+              <Box flex={1}>
+                <Button
+                  onPress={controlLocality.handleSubmit(handleSave)}
+                  load={isLoading}
+                  title="FINALIZAR"
+                />
+              </Box>
+            </HStack>
+          ) : (
             <HStack w="full" justifyContent="space-between">
-              {session && <Box />}
-              {!session && (
+              {currentStep > 0 ? (
                 <TouchableOpacity
                   onPress={() => preview()}
                   style={{ padding: 5 }}
                 >
                   <ArrowCircleLeft color={cor.focus.a} size={50} />
                 </TouchableOpacity>
+              ) : (
+                <Box />
               )}
 
               <TouchableOpacity
@@ -210,8 +254,9 @@ export function FullCadastro() {
                 <ArrowCircleRight color={cor.focus.a} size={50} />
               </TouchableOpacity>
             </HStack>
-          </S.main>
-        </KeyboardAvoidingView>
+          )}
+        </S.main>
+        {/* </KeyboardAvoidingView> */}
       </ScrollView>
     </S.Container>
   );

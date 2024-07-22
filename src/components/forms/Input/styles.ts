@@ -32,17 +32,25 @@ export const Container = styled.View<I>`
       border-color: ${cor.focus.a};
       border-width: 2px;
     `}
+
   ${(h: I) =>
     h.focus &&
     css`
       border-color: ${cor.focus.a};
       border-width: 2px;
     `};
+
+  ${(h: I) =>
+    h.error &&
+    css`
+      border-color: #770101;
+      border-width: 2px;
+    `};
 `;
 
 export const title = styled.Text`
   color: ${cor.text.light};
-  font-family: ${font.bold};
+  font-family: ${font.light};
   margin-bottom: 5px;
   font-size: ${_text}px;
 `;

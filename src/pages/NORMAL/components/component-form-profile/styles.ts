@@ -1,5 +1,15 @@
 import styled from 'styled-components/native';
 
-export const Container = styled.View``;
+import { cor } from '@/styles/cor';
+import { font } from '@/styles/fonts';
+import { _subtitle } from '@/styles/sizes';
 
-export const title = styled.Text``;
+export const Container = styled.View`
+  flex: 1;
+`;
+
+export const title = styled.Text`
+  font-family: ${font.regular};
+  color: ${cor.text.light};
+  font-size: ${_subtitle}px;
+`;

@@ -10,7 +10,13 @@ export declare global {
       simpleCadastro: TCadastro;
       fullCadastro: TCadastro;
       login: undefined;
+      profile: undefined;
       providers: undefined;
+      invit: undefined;
+      rewards: undefined;
+      cacheOut: undefined;
+      extrato: undefined;
+      transactions: T<{ providerId: string }>;
     }
   }
 }

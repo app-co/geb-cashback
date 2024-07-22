@@ -17,7 +17,7 @@ export const _title = PixelRatio.roundToNearestPixel(
   (_height * parseFloat('3')) / 100,
 );
 export const _subtitle = PixelRatio.roundToNearestPixel(
-  (_height * parseFloat('2.3')) / 100,
+  (_height * parseFloat('2')) / 100,
 );
 export const _text = PixelRatio.roundToNearestPixel(
   (_height * parseFloat('1.6')) / 100,

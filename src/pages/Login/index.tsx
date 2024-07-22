@@ -8,6 +8,7 @@ import Logo from '@/assets/logo.png';
 import { FormInput } from '@/components/forms/FormInput';
 import { Line } from '@/components/Line';
 import { useAuth } from '@/context/auth';
+import { useSignIn } from '@/hooks/mutations';
 import { cor } from '@/styles/cor';
 import { _text } from '@/styles/sizes';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -27,6 +28,7 @@ const scheme = y.object({
 });
 
 export function Login() {
+  const { isLoading } = useSignIn();
   const { navigate } = useNavigation();
   const { login } = useAuth();
   const [shoModal, setShowModal] = React.useState(false);
@@ -68,7 +70,11 @@ export function Login() {
           placeholder="Sua senha"
         />
         <Box mt="4" w="full">
-          <Button title="Entrar" load={false} onPress={handleSubmit(submit)} />
+          <Button
+            title="Entrar"
+            load={isLoading}
+            onPress={handleSubmit(submit)}
+          />
         </Box>
         <S.forgotPass onPress={() => setShowModal(true)}>
           <S.text style={{ color: cor.text.lightSoft }}>

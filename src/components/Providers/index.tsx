@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable prettier/prettier */
 import React, { useCallback } from 'react';
@@ -12,12 +13,12 @@ import {
   WhatsappLogo,
 } from 'phosphor-react-native';
 
-import { useStorage } from '@/context/storage';
-import { ICompany } from '@/dtos';
-import { api } from '@/services/api';
+import { useSaveLocal } from '@/hooks/mutations';
+import { useGetAllCompany, useGetLocalSegemnto } from '@/hooks/querys';
 import { cor } from '@/styles/cor';
 import { canvaPercent, hightPercent, widtPercent } from '@/styles/sizes';
-import { Segments } from '@/utils/segments';
+import { _segmentos } from '@/utils/segments';
+import { useNavigation } from '@react-navigation/native';
 
 import { Button } from '../forms/Button';
 import { Input } from '../forms/Input';
@@ -25,110 +26,98 @@ import { Loading } from '../Loading';
 import { Select } from '../Select';
 import * as S from './styles';
 
-export function Providers() {
-  const { getSegments, updateSegments } = useStorage()
 
-  const [company, setCompany] = React.useState<ICompany[]>([]);
-  const [segments, setSegments] = React.useState<string[]>(getSegments!.segments);
+const transformEnununsSegmentos = _segmentos().transform
+const segmentos = _segmentos().enun
+
+export function Providers() {
+  const nav = useNavigation()
+  const getLocalSegmento = useGetLocalSegemnto()
+  const updateSegmento = useSaveLocal()
+  const getSegmento = getLocalSegmento.data
+  const segmento = getSegmento || _segmentos().enun.map(h => { return { ...h, value: Number(h.value) } })
+
+
   const [search, setSearch] = React.useState<string>('');
-  const [itensSegments, setItensSegments] = React.useState<string[]>(getSegments!.segments)
+  const [selectedSegmento, setSelectedSegmento] = React.useState<{ value: number, label: string }[]>(segmento)
 
   const [isOpem, setIsOpem] = React.useState<boolean>(false)
 
-  React.useEffect(() => {
-    api.get('/company/get-all').then(h => {
-      const data = h.data as ICompany[];
-      setCompany(data);
-    });
-  }, []);
+  const seg = JSON.stringify(selectedSegmento.map(h => Number(h.value)))
 
 
-  const companyList = React.useMemo(() => {
-    const list = company || [];
+  const { data, fetchNextPage } = useGetAllCompany({
+    segmento: seg,
+  })
 
-    const preferenceList: ICompany[] = [];
-
-    segments.forEach(h => {
-      list.forEach(l => {
-        if (h === l.segmento) {
-          preferenceList.push(l);
-        }
-      });
-    });
-
-    const preference = search
-      ? preferenceList.filter(h => {
-        const name = h.name.toLocaleLowerCase();
-
-        if (name.includes(search.toLocaleLowerCase())) {
-          return h;
-        }
-        return null
-      })
-      : preferenceList;
-
-    return { list, preference };
-  }, [company, search, segments]);
+  const company = data?.pages[0]?.records ?? []
 
   const toggleSecection = useCallback(
-    (item: string) => {
-      const index = itensSegments.findIndex(i => i === item);
+    (item: number) => {
+      const index = selectedSegmento.findIndex(i => i.value === item);
 
-      const arrSelect = [...itensSegments];
+      const arrSelect = [...selectedSegmento];
       if (index !== -1) {
         arrSelect.splice(index, 1);
       } else {
-        arrSelect.push(item);
+        arrSelect.push({ value: item, label: transformEnununsSegmentos[item] });
       }
 
-      setItensSegments(arrSelect);
-      setSegments(arrSelect)
+      setSelectedSegmento(arrSelect)
     },
-    [itensSegments],
+    [selectedSegmento],
   );
 
-  const handleSaveSegmenots = React.useCallback(async (
-  ) => {
-    const dt = {
-      firstLogin: false,
-      segments: itensSegments
-    }
+  const handleSaveSegmenots = React.useCallback(async () => {
+    await updateSegmento.mutateAsync({
+      value: selectedSegmento,
+      key: 'segmento'
+    })
 
-    updateSegments(dt)
-
-    setSegments(itensSegments)
+    getLocalSegmento.refetch()
     setIsOpem(false)
 
-  }, [itensSegments, updateSegments])
+  }, [selectedSegmento])
 
-  if (!company) return <Loading />
+  function selectAll() {
+    selectedSegmento.length === segmentos.length
+      ? setSelectedSegmento([])
+      : setSelectedSegmento(segmentos.map(h => { return { value: Number(h.value), label: h.label } }))
+    return null
+  }
 
-  console.log(company[0])
+  if (!company && updateSegmento.isLoading) return <Loading />
+
+
 
   return (
     <S.Container>
       <Modal isOpen={isOpem} onClose={() => setIsOpem(false)} >
         <Modal.CloseButton />
 
-        <Box flex='1' w='full' pt='16' bg={cor.bgcolor}>
+        <Box p={4} flex='1' w='full' pt='16' bg={cor.bgcolor}>
           <S.title style={{ textAlign: 'center' }} >Selecione suas novas preferencias</S.title>
-          <VStack h={canvaPercent('70')} space={4} mt="8">
+          <VStack h={canvaPercent('70')} space={3} mt={8}>
             <Select
-              selected={itensSegments.length === 20}
+              selected={selectedSegmento.length === 20}
               title="Todos"
-              pres={() => setItensSegments(Segments)}
+              pres={() => selectAll()}
             />
             <FlatList
               contentContainerStyle={{
                 paddingBottom: 200,
+                gap: 12
               }}
-              data={Segments}
+              onEndReached={() => {
+                fetchNextPage()
+              }}
+              data={segmentos}
               renderItem={({ item: h }) => (
-                <Box mt="4">
+                <Box>
                   <Select
-                    selected={itensSegments.findIndex(i => i === h) !== -1}
-                    pres={() => toggleSecection(h)}
-                    title={h}
+                    selected={selectedSegmento.findIndex(i => i.value === Number(h.value)) !== -1}
+                    pres={() => toggleSecection(Number(h.value))}
+                    title={h.label}
                   />
                 </Box>
               )}
@@ -144,7 +133,7 @@ export function Providers() {
         </Box>
 
       </Modal>
-      <HStack alignContent="center" my="4">
+      <HStack px={4} alignContent="center" my="4">
         <Box flex="1">
           <Input
             label=""
@@ -171,7 +160,7 @@ export function Providers() {
         </TouchableOpacity>
       </HStack>
 
-      {companyList.preference.length === 0 && (
+      {company.length === 0 && (
         <S.title>No momento não temos prestadores para esses segmentos</S.title>
       )}
 
@@ -179,9 +168,9 @@ export function Providers() {
         contentContainerStyle={{
           paddingBottom: 100,
         }}
-        data={companyList.preference}
+        data={company}
         renderItem={({ item: h }) => (
-          <S.boxProvider>
+          <S.boxProvider onPress={() => nav.navigate('transactions', { providerId: h.id })} >
             <S.logo>
               <Image size="full" src={h.logo} alt="logo" />
             </S.logo>
@@ -192,23 +181,23 @@ export function Providers() {
                 {h.location?.street}, {h.location?.number}, {h.location?.city} -{' '}
                 {h.location?.region_code}
               </S.texts>
-              <S.texts>Contato: {h.user.contato}</S.texts>
+              <S.texts>Contato: {h.telefone}</S.texts>
 
               <HStack space={8} mt="4">
                 <TouchableOpacity>
-                  <WhatsappLogo size={30} color="green" weight="duotone" />
+                  <WhatsappLogo size={25} color="green" weight="duotone" />
                 </TouchableOpacity>
 
                 <TouchableOpacity>
-                  <InstagramLogo size={30} color="#2096e4" weight="duotone" />
+                  <InstagramLogo size={25} color="#2096e4" weight="duotone" />
                 </TouchableOpacity>
 
                 <TouchableOpacity>
-                  <Globe color="#c1c1c1" size={30} weight="duotone" />
+                  <Globe color="#c1c1c1" size={25} weight="duotone" />
                 </TouchableOpacity>
 
                 <TouchableOpacity>
-                  <MapTrifold color="#c1c1c1" size={30} weight="duotone" />
+                  <MapTrifold color="#c1c1c1" size={25} weight="duotone" />
                 </TouchableOpacity>
               </HStack>
             </S.bx>

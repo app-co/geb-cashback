@@ -26,6 +26,8 @@ export function Input({ value, error, label, icon, ...rest }: TypeInput) {
     setIsFocused(true);
   }, []);
 
+  // 462.773.130-29
+
   const handleBlur = React.useCallback(async () => {
     setIsFocused(false);
     setIsFiled(!!value);
@@ -34,13 +36,13 @@ export function Input({ value, error, label, icon, ...rest }: TypeInput) {
   return (
     <Box w="full">
       {error ? (
-        <S.title style={{ color: '#ff0000', fontFamily: font.bold }}>
+        <S.title style={{ color: '#ff0000', fontFamily: font.regular }}>
           {error}
         </S.title>
       ) : (
         <S.title>{label}</S.title>
       )}
-      <S.Container focus={isFocused} filed={isFiled} error>
+      <S.Container focus={isFocused} filed={isFiled} error={!!error}>
         <S.input
           value={value}
           onBlur={handleBlur}

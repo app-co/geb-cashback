@@ -13,7 +13,7 @@ export function PrivateBottonRoute() {
   return (
     <S.Navigator
       screenOptions={{
-        headerShown: false,
+        // headerShown: false,
         tabBarActiveTintColor: cor.focus.a,
         tabBarLabelStyle: {
           fontFamily: 'Regular',

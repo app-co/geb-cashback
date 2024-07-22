@@ -14,6 +14,7 @@ export interface ILocality {
   postal_code: string;
   region_code: string;
   street: string;
+  complement?: string;
   number: string;
   crated_at: string;
   updated_at: string;
@@ -46,16 +47,28 @@ export interface IUser {
   cashback: ICashback[];
   updated_at: string | Date;
   locality: ILocality;
+  cardToken: {
+    brand: string;
+    number: string;
+    token: string;
+  };
 }
 
 export interface ICompany {
-  casheback: number;
-  cnpj: string;
-  id: string;
-  logo?: string;
-  name: string;
-  segmento: string;
-  userId: string;
-  user: IUser;
-  location: ILocality;
+  totalPages: number;
+  currentPage: number;
+  totalRecords: number;
+  recordsPerPage: number;
+  totalRecordsPerPage: number;
+  records: {
+    casheback: number;
+    cnpj: string;
+    id: string;
+    logo?: string;
+    name: string;
+    segmento: string;
+    userId: string;
+    user: IUser;
+    location: ILocality;
+  }[];
 }
