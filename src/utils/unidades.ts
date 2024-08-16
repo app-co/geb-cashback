@@ -18,9 +18,20 @@ export function convertNumberToCurrency(v: number) {
   return valor;
 }
 
-export function _toNumber(v: string): number {
+export function _currencyToNumber(v: string): number {
   let value = v.replace(/\D/g, '');
   value = value.length <= 2 ? value : (Number(value) / 100).toString();
 
   return Number(value);
+}
+
+export function _toCurrency(v: number) {
+  const amount = v;
+  const valor = amount.toLocaleString('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+    minimumFractionDigits: 2,
+  });
+
+  return valor;
 }

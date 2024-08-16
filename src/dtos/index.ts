@@ -51,7 +51,7 @@ export interface IUser {
     brand: string;
     number: string;
     token: string;
-  };
+  }[];
 }
 
 export interface ICompany {

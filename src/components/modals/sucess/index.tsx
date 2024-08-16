@@ -7,7 +7,8 @@ import React, {
 } from 'react';
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-import { Warning } from 'phosphor-react-native';
+import { Center } from 'native-base';
+import { CheckFat } from 'phosphor-react-native';
 
 import { cor } from '@/styles/cor';
 
@@ -59,9 +60,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export function GlobalErrorModal() {
+export function SucessModal() {
   const [isOpen, setIsOpen] = useState(false);
-  const [error, setError] = React.useState<{
+  const [message, setMessage] = React.useState<{
     title: string;
     description: string;
   }>();
@@ -82,7 +83,7 @@ export function GlobalErrorModal() {
 
   function obj(item: { title: string; description: string }) {
     setIsOpen(true);
-    setError(item);
+    setMessage(item);
   }
 
   useLayoutEffect(() => {
@@ -105,10 +106,14 @@ export function GlobalErrorModal() {
       <View style={styles.modalOverlay}>
         <View style={styles.modalBody}>
           <View style={styles.modalHeader}>
-            <Warning weight="duotone" size={90} />
+            <CheckFat weight="duotone" size={90} />
           </View>
 
-          <Text style={styles.bodyText}>{error?.description}</Text>
+          <Center>
+            <Text style={styles.title}>{message?.title}</Text>
+          </Center>
+
+          <Text style={styles.bodyText}>{message?.description}</Text>
 
           <TouchableOpacity
             onPress={handleConfirm}

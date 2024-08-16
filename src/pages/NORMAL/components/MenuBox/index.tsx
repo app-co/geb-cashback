@@ -80,7 +80,7 @@ export function MenuBox({
                   size={`${canvaPercent('4.3')}px`}
                 />
               </S.box>
-              <S.title>MenuBox</S.title>
+              <S.title>Extrato</S.title>
             </Center>
           </TouchableOpacity>
         </HStack>

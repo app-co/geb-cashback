@@ -10,7 +10,7 @@ import { Input, TypeInput } from '../Input';
 type T = TypeInput & {
   name: string;
   control: Control<any>;
-  error?: FieldError | undefined;
+  error?: FieldError;
   mask?: 'date' | 'cpf' | 'cell-phone' | 'placa' | 'money' | 'card';
 };
 

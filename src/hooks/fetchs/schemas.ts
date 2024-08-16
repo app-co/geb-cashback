@@ -56,17 +56,6 @@ export const schemaCreateUser = z.object({
   P: schemaProfile.omit({ id: true, userId: true }),
 });
 
-export const schemaSaveCardToken = z.object({
-  userId: z.string(),
-  holderName: z.string(),
-  card_number: z.string(),
-  expiryMonth: z.string(),
-  expiry: z.string(),
-  expiryYear: z.string(),
-  ccv: z.string(),
-  remoteIp: z.string(),
-});
-
 export const schemeCompany = z.object({
   id: z.string(),
   name: z.string(),

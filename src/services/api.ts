@@ -2,6 +2,7 @@
 import axios, { AxiosError, AxiosInstance } from 'axios';
 
 import ConectionErrorModalHandler from '@/components/modals/conexao-error/handler';
+import GlobalErrorModalHandler from '@/components/modals/global-error/handler';
 import UnauthorizedModalHandler from '@/components/modals/unauthorizedModal/handler';
 
 import { AppError } from './AppError';
@@ -12,7 +13,7 @@ type APIInstaceProps = AxiosInstance & {
   registerIntercepTokenManager: (signOut: SignOut) => () => void;
 };
 
-const dev = 'http://192.168.0.103:3333';
+const dev = 'http://192.168.0.107:3333';
 // const dev = 'http://192.168.0.86:3333';
 // const dev = 'http://192.168.0.115:3333';
 // const dev = 'http://192.168.15.47:3333';
@@ -49,6 +50,10 @@ api.interceptors.response.use(
     }
 
     if (status && status === 409) {
+      GlobalErrorModalHandler.setTitle({
+        title: 'Error',
+        description: data.error,
+      });
       return Promise.reject(new AppError(data.error));
     }
 

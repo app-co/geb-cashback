@@ -1,0 +1,84 @@
+"locality": "jose",
+"city": "botucatu",
+"region_code": "SP",
+"country": "BRA",
+"postal_code": "18698640"
+}
+},
+"charges": [
+{
+"id": "CHAR_1337AE66-E10F-4EC7-B2C1-4CE7CFBCBB01",
+"reference_id": "Mql1R3fu5G6t0dcWgwSF",
+"status": "PAID",
+"created_at": "2024-08-13T20:47:55.696-03:00",
+"paid_at": "2024-08-13T20:47:56.000-03:00",
+"description": "Compra de produtos pela plataforma G.E.B - casheback",
+"amount": {
+  "value": 100,
+  "currency": "BRL",
+  "summary": {
+    "total": 100,
+    "paid": 100,
+    "refunded": 0
+  }
+},
+"payment_response": {
+  "code": "20000",
+  "message": "SUCESSO",
+  "reference": "032416400102",
+  "raw_data": {
+    "authorization_code": "145803",
+    "nsu": "032416400102",
+    "reason_code": "00"
+  }
+},
+"payment_method": {
+  "type": "CREDIT_CARD",
+  "installments": 1,
+  "capture": true,
+  "card": {
+    "id": "CARD_D5DAD3DA-DFBD-41E2-830C-C918CDC23056",
+    "brand": "visa",
+    "first_digits": "411111",
+    "last_digits": "1111",
+    "exp_month": "12",
+    "exp_year": "2025",
+    "holder": {
+      "name": "William"
+    },
+    "store": true
+  },
+  "soft_descriptor": "sellervirtual"
+},
+"links": [
+  {
+    "rel": "SELF",
+    "href": "https://sandbox.api.pagseguro.com/charges/CHAR_1337AE66-E10F-4EC7-B2C1-4CE7CFBCBB01",
+    "media": "application/json",
+    "type": "GET"
+  },
+  {
+    "rel": "CHARGE.CANCEL",
+    "href": "https://sandbox.api.pagseguro.com/charges/CHAR_1337AE66-E10F-4EC7-B2C1-4CE7CFBCBB01/cancel",
+    "media": "application/json",
+    "type": "POST"
+  }
+]
+}
+],
+"notification_urls": [],
+"links": [
+{
+"rel": "SELF",
+"href": "https://sandbox.api.pagseguro.com/orders/ORDE_CF91C48F-8D4C-471D-99AC-A32ABA4B7847",
+"media": "application/json",
+"type": "GET"
+},
+{
+"rel": "PAY",
+"href": "https://sandbox.api.pagseguro.com/orders/ORDE_CF91C48F-8D4C-471D-99AC-A32ABA4B7847/pay",
+"media": "application/json",
+"type": "POST"
+}
+]
+}

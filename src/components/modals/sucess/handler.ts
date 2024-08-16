@@ -2,7 +2,7 @@ import { MutableRefObject } from 'react';
 
 import { GlobalErrorModalRef } from './types';
 
-export default class GlobalErrorModalHandler {
+export default class SucessHandler {
   static ref: MutableRefObject<GlobalErrorModalRef | undefined>;
 
   static setRef(ref: MutableRefObject<GlobalErrorModalRef | undefined>) {
@@ -17,7 +17,7 @@ export default class GlobalErrorModalHandler {
     this.ref.current?.hide();
   }
 
-  static setTitle(item: { title: string; description: string }) {
+  static message(item: { title: string; description: string }) {
     this.ref.current?.item(item);
   }
 }
