@@ -6,7 +6,6 @@ import * as y from 'yup';
 
 import { Button } from '@/components/forms/Button';
 import { FormInput } from '@/components/forms/FormInput';
-import { Toast } from '@/components/Toast';
 import { api } from '@/services/api';
 import { AppError } from '@/services/AppError';
 import { cor } from '@/styles/cor';
@@ -16,6 +15,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigation } from '@react-navigation/native';
 
 import * as S from './styles';
+import Toast from '@/components/modals/toast/handler';
 
 type TFormaData = {
   name: string;

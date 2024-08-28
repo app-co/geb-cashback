@@ -100,14 +100,7 @@ export function AuthContextProvider({ children }: TAuthContext) {
           await storageToken.setToken(token);
         });
     } catch (error) {
-      if (error instanceof AppError) {
-        toast.show({
-          title: 'Erro ao fazer login',
-          description: error.message,
-          placement: 'bottom',
-          bg: 'red.500',
-        });
-      }
+      console.log(error)
     }
   }, []);
 

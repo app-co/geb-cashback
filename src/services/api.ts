@@ -13,9 +13,9 @@ type APIInstaceProps = AxiosInstance & {
   registerIntercepTokenManager: (signOut: SignOut) => () => void;
 };
 
-const dev = 'http://192.168.0.107:3333';
+//const dev = 'http://192.168.0.107:3333';
 // const dev = 'http://192.168.0.86:3333';
-// const dev = 'http://192.168.0.115:3333';
+const dev = 'http://192.168.88.153:3333';
 // const dev = 'http://192.168.15.47:3333';
 // const production = 'https://geb-server.appcom.dev';
 
