@@ -8,7 +8,7 @@ import { Box, HStack } from 'native-base';
 
 import { useAuth } from '@/context/auth';
 import { cor } from '@/styles/cor';
-import { convertNumberToCurrency } from '@/utils/unidades';
+import { _toCurrency } from '@/utils/unidades';
 import { useRoute } from '@react-navigation/native';
 
 import { Card } from './orders/cartao';
@@ -45,7 +45,7 @@ export function Transactions() {
   // const value = control.getValues('value');
   // const parcelamento = installments(value ?? '0');
 
-  const casheback = convertNumberToCurrency(user.wallet.amount_cashback);
+  const casheback = _toCurrency(user!.wallet!.amount_cashback);
 
   const components = {
     pix: (

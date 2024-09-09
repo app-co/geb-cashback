@@ -133,7 +133,7 @@ export function Providers() {
         </Box>
 
       </Modal>
-      <HStack px={4} alignContent="center" my="4">
+      <HStack px={4} alignContent="center">
         <Box flex="1">
           <Input
             label=""

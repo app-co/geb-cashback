@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-no-bind */
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { Alert, Image, TouchableOpacity } from 'react-native';
+import { Image, TouchableOpacity } from 'react-native';
 
 import * as Clipboard from 'expo-clipboard';
 
@@ -9,6 +9,7 @@ import { Box, Center, HStack, ScrollView, useToast } from 'native-base';
 
 import { Button } from '@/components/forms/Button';
 import { FormInput } from '@/components/forms/FormInput';
+import Toast from '@/components/modals/toast/handler';
 import { useAuth } from '@/context/auth';
 import { AppError } from '@/services/AppError';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -63,19 +64,22 @@ export function Pix({ providerId, setPaymentType, paymentType }: I) {
       updateUser();
     } catch (error) {
       if (error instanceof AppError) {
-        toast.show({
-          title: 'Erro ao salvar',
-          description: error.message,
-          placement: 'top',
-          bg: 'red.500',
-        });
+        // Toast.show({
+        //   title: 'Erro!',
+        //   description: 'Texto copiado com sucesso.',
+        //   tipo: 'error',
+        // });
       }
     }
   }
 
   async function qrCodeCopy() {
     await Clipboard.setStringAsync(imageQrcode!.text);
-    Alert.alert('Texto copiado');
+    Toast.show({
+      description: 'Texto copiado com sucesso.',
+      title: 'Sucesso!',
+      tipo: 'success',
+    });
   }
 
   return (

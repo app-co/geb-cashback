@@ -38,6 +38,7 @@ export function CacheOut() {
       SucessHandler.message({
         title: 'Solicitação realizada',
         description: 'Sua solicitação de saque foi realizada com sucesso.',
+        tipo: 'success',
       });
     } catch (error) { }
   }, []);

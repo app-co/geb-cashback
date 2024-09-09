@@ -18,7 +18,6 @@ import { useToast } from 'native-base';
 
 import { IUser } from '@/dtos';
 import { useSignIn } from '@/hooks/mutations';
-import { AppError } from '@/services/AppError';
 import { api } from '@/services/api';
 import { pathsRoutes } from '@/services/schemeRoutes';
 import { TokenStorage } from '@/services/storage/token-storage';
@@ -79,28 +78,36 @@ export function AuthContextProvider({ children }: TAuthContext) {
 
   React.useEffect(() => {
     LoadingUser();
-  }, [LoadingUser]);
+  }, []);
 
   const login = useCallback(async ({ email, password }: ILogin) => {
     try {
-      const userSession = await mutateAsync({ email, password });
-      await api
-        .post(pathsRoutes.session.user, {
-          email,
-          password,
-        })
-        .then(async h => {
-          const { token } = h.data;
+      const { token } = await mutateAsync({ email, password });
 
-          api.defaults.headers.common.Authorization = `Bearer ${token}`;
+      api.defaults.headers.common.Authorization = `Bearer ${token}`;
 
-          const user = await api.get(pathsRoutes.byId.user);
+      const user = await api.get(pathsRoutes.byId.user);
 
-          setData({ token, user: user.data });
-          await storageToken.setToken(token);
-        });
+      setData({ token, user: user.data });
+      await storageToken.setToken(token);
+
+      //   await api
+      //     .post(pathsRoutes.session.user, {
+      //       email,
+      //       password,
+      //     })
+      //     .then(async h => {
+      //       const { token } = h.data;
+
+      //       api.defaults.headers.common.Authorization = `Bearer ${token}`;
+
+      //       const user = await api.get(pathsRoutes.byId.user);
+
+      //       setData({ token, user: user.data });
+      //       await storageToken.setToken(token);
+      //     });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }, []);
 

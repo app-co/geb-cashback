@@ -1,5 +1,6 @@
 import { MutableRefObject } from 'react';
 
+import { T } from '../sucess/types';
 import { GlobalErrorModalRef } from './types';
 
 export default class Toast {
@@ -17,7 +18,7 @@ export default class Toast {
     this.ref.current?.hide();
   }
 
-  static show(item: { title: string; description: string }) {
+  static show(item: T) {
     this.ref.current?.item(item);
   }
 }

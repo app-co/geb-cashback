@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "mobile",
-    "slug": "mobile",
+    "name": "GEB Cacheback",
+    "slug": "geb-cacheback",
+    "scheme": "geb-cacheback",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

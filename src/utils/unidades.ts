@@ -26,11 +26,13 @@ export function _currencyToNumber(v: string): number {
 }
 
 export function _toCurrency(v: number) {
+  if (!v) return 'R$ 0,00';
   const amount = v;
   const valor = amount.toLocaleString('pt-BR', {
     style: 'currency',
     currency: 'BRL',
     minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
   });
 
   return valor;

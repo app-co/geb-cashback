@@ -1,6 +1,8 @@
-type T = {
+export type TType = 'success' | 'error' | 'warning';
+export type T = {
   title: string;
   description: string;
+  tipo: TType;
 };
 export type GlobalErrorModalRef = {
   show: () => void;

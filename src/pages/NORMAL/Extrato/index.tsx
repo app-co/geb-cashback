@@ -23,13 +23,15 @@ export function Extrato() {
 
   const transactions = data?.pages.flatMap(h => h.records);
 
-  // React.useEffect(() => {
-  //   refMonth.current?.scrollToIndex({
-  //     animated: true,
-  //     index: month,
-  //     viewPosition: 0.5,
-  //   });
-  // }, [month]);
+  React.useEffect(() => {
+    refMonth.current?.scrollToIndex({
+      animated: true,
+      index: month,
+      viewPosition: 0.5,
+    });
+  }, [month]);
+
+  console.log(transactions);
 
   return (
     <S.Container>
@@ -44,7 +46,11 @@ export function Extrato() {
         </Center>
       </S.headerCongidados>
 
-      <Box zIndex={0} mt={8}>
+      <Center mt={4}>
+        <S.title style={{ fontSize: _title }}>{getYear(new Date())}</S.title>
+      </Center>
+
+      <Box zIndex={0} mt={2} mb={4}>
         <LinearGradient
           style={{
             position: 'absolute',
@@ -75,6 +81,12 @@ export function Extrato() {
           }}
           horizontal
           data={months}
+          initialScrollIndex={month}
+          getItemLayout={(data, index) => ({
+            length: 71,
+            offset: 71 * index,
+            index,
+          })}
           keyExtractor={(h, i) => i.toString()}
           renderItem={({ item: h, index }) => (
             <S.mothBox
@@ -108,9 +120,6 @@ export function Extrato() {
           colors={['#1b1b1b00', cor.bgcolor]}
         />
       </Box>
-      <Center mt={4}>
-        <S.title style={{ fontSize: _title }}>{getYear(new Date())}</S.title>
-      </Center>
 
       {isLoading ? (
         <Modal transparent visible={isLoading}>

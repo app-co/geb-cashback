@@ -40,6 +40,7 @@ export function Card({ providerId, setPaymentType, ref, paymentType }: I) {
   const { payCard, saveCard } = usePagamento();
   const toast = useToast();
   const [cvv, setCvv] = React.useState<string>('')
+  const casheback = Number(user!.wallet!.amount_cashback);
 
   const {
     control,
@@ -77,13 +78,21 @@ export function Card({ providerId, setPaymentType, ref, paymentType }: I) {
         cardToken: user.cardToken[0].token
       };
 
+      if (obj.cachebakCliente > casheback) {
+        return Toast.show({
+          title: 'Saldo insuficiente',
+          description: 'Você não possui saldo de cacheback suficiente para realizar este pagamento.',
+          tipo: 'warning'
+        })
+      }
+
 
       await payCard.mutateAsync(dt);
       Toast.show({
         title: 'Pagamento realizado',
         description: 'Seu pagamento foi realizado com sucesso.',
+        tipo: 'success'
       })
-      // SucessHandler.message({ title: 'Pagamento realizado', description: 'Seu pagamento foi realizado com sucesso.' })
       updateUser();
     } catch (error) {
       if (error instanceof AppError) {

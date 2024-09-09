@@ -157,6 +157,17 @@ export function Home() {
       <Box>
         <Parceiros />
       </Box>
+
+      <Box mt="8">
+        <MenuBox
+          presExtrato={() => navigation.navigate('extrato')}
+          presBuy={() => {
+            toggleCameraFacing();
+            setOpneScan(!openScan);
+          }}
+          presProvider={() => navigation.navigate('providers')}
+        />
+      </Box>
     </S.Container>
   );
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Dimensions, FlatList } from 'react-native';
 
 import { Box, Circle, Image } from 'native-base';
@@ -25,31 +25,45 @@ export function Parceiros() {
 
   const [index, setIndex] = React.useState<number>(0);
 
-  const handleScroll = (event: any) => {
-    const offsetX = event.nativeEvent.contentOffset.x;
-    const newIndex = Math.round(offsetX / (width * 1));
-    setIndex(newIndex);
-  };
-
-  React.useEffect(() => {
-    ref.current?.scrollToIndex({
-      animated: true,
-      index,
-    });
-  }, [index]);
-
-  function currecel() {
-    setTimeout(() => {
-      if (index === parceiros.length - 1) {
-        setIndex(0);
-        return;
-      }
-      setIndex(index + 1);
-    }, 4000);
+  function onViewableItemsChanged({ viewableItems }: any) {
+    if (viewableItems.length > 0) {
+      setIndex(viewableItems[0].index);
+    }
   }
 
+  const viewability = useRef([
+    {
+      viewabilityConfig: {
+        itemVisiblePercentThreshold: 50,
+      },
+      onViewableItemsChanged,
+    },
+  ]);
+
   React.useEffect(() => {
-    // currecel();
+    if (index === parceiros.length - 1) {
+      const time = setTimeout(() => {
+        ref.current?.scrollToIndex({
+          animated: false,
+          index: 0,
+          viewPosition: 0.5,
+        });
+        setIndex(0);
+      }, 3000);
+      return () => clearTimeout(time);
+    }
+
+    const time = setTimeout(() => {
+      ref.current?.scrollToIndex({
+        animated: true,
+        index: index + 1,
+        viewPosition: 0.5,
+      });
+
+      setIndex(index + 1);
+    }, 3000);
+
+    return () => clearTimeout(time);
   }, [index]);
 
   return (
@@ -63,7 +77,6 @@ export function Parceiros() {
           paddingHorizontal: 10,
         }}
         data={parceiros}
-        onScroll={handleScroll}
         initialScrollIndex={0}
         keyExtractor={h => h.name}
         renderItem={({ item: h, index: i }) => (
@@ -87,7 +100,9 @@ export function Parceiros() {
           horizontal
           showsHorizontalScrollIndicator={false}
           data={parceiros}
-          initialScrollIndex={0}
+          viewabilityConfigCallbackPairs={viewability.current}
+          pagingEnabled
+          initialScrollIndex={index}
           keyExtractor={h => h.name}
           renderItem={({ item: h, index: i }) => (
             <Circle size="10px" bg={i === index ? 'gray.100' : '#4646466e'} />

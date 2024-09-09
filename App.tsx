@@ -24,7 +24,6 @@ import { NativeBaseProvider } from 'native-base';
 
 import { ConectionErrorModal } from '@/components/modals/conexao-error';
 import { GlobalErrorModal } from '@/components/modals/global-error';
-import { SucessModal } from '@/components/modals/sucess';
 import { ToastModal } from '@/components/modals/toast';
 import { UnauthorizedModal } from '@/components/modals/unauthorizedModal';
 import { Splash } from '@/components/Splash';
@@ -92,7 +91,6 @@ export default function App() {
                 <UnauthorizedModal />
                 <GlobalErrorModal />
                 <ConectionErrorModal />
-                <SucessModal />
                 <ToastModal />
               </StorageProvider>
             </AuthContextProvider>

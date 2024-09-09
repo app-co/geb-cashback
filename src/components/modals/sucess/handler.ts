@@ -1,6 +1,6 @@
 import { MutableRefObject } from 'react';
 
-import { GlobalErrorModalRef } from './types';
+import { GlobalErrorModalRef, T } from './types';
 
 export default class SucessHandler {
   static ref: MutableRefObject<GlobalErrorModalRef | undefined>;
@@ -17,7 +17,7 @@ export default class SucessHandler {
     this.ref.current?.hide();
   }
 
-  static message(item: { title: string; description: string }) {
+  static message(item: T) {
     this.ref.current?.item(item);
   }
 }

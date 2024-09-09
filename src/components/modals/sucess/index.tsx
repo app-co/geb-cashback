@@ -5,73 +5,68 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-
-import { Center } from 'native-base';
-import { CheckFat } from 'phosphor-react-native';
-
-import { cor } from '@/styles/cor';
+import {
+  interpolate,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 
 import GlobalErrorModalHandler from './handler';
-import { GlobalErrorModalRef } from './types';
+import * as S from './styles';
+import { GlobalErrorModalRef, T } from './types';
 
-const styles = StyleSheet.create({
-  modalOverlay: {
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  modalBody: {
-    padding: 24,
-    width: '75%',
-    borderRadius: 8,
-    backgroundColor: cor.focus.a,
-    alignItems: 'center',
-  },
-  modalHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    letterSpacing: 1.28,
-    color: cor.text.black,
-    fontSize: 20,
-    fontFamily: 'black',
-    fontWeight: '900',
-  },
-  bodyText: {
-    marginVertical: 16,
-    color: cor.text.black,
-    fontSize: 16,
-    lineHeight: 24,
-    textAlign: 'center',
-  },
-  button: {
-    paddingVertical: 8,
-    paddingHorizontal: 32,
-    borderRadius: 4,
-    alignSelf: 'center',
-  },
-  buttonText: {
-    color: '#FFFFFF',
-    fontWeight: '500',
-  },
-});
-
-export function SucessModal() {
+export function ToastModal() {
   const [isOpen, setIsOpen] = useState(false);
-  const [message, setMessage] = React.useState<{
-    title: string;
-    description: string;
-  }>();
+
+  const [message, setMessage] = React.useState<T>();
+
+  const animation = useSharedValue(0);
+  const animationScale = useSharedValue(0);
+
+  const animetedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        {
+          translateX: interpolate(
+            animation.value,
+            [0, 0.3, 9.5, 10],
+            [300, -340, -340, 300],
+          ),
+        },
+      ],
+      opacity: interpolate(animation.value, [0, 0.5, 9.5, 10], [0, 1, 1, 0]),
+    };
+  });
+
+  const styleScale = useAnimatedStyle(() => {
+    return {
+      transform: [
+        {
+          scale: interpolate(animationScale.value, [0, 20], [1, 0]),
+        },
+      ],
+    };
+  });
+
+  function animated() {
+    animation.value = 0;
+
+    animation.value = withTiming(10, { duration: 4000 });
+  }
+
+  React.useEffect(() => {
+    animationScale.value = 20;
+    if (message) {
+      animated();
+      setTimeout(() => {
+        // animatedScale();
+        animation.value = 0;
+      }, 4000);
+    }
+  }, [message]);
 
   const ref = useRef<GlobalErrorModalRef>();
-
-  function handleConfirm() {
-    ref.current?.hide();
-  }
 
   function showModal() {
     setIsOpen(true);
@@ -81,7 +76,7 @@ export function SucessModal() {
     setIsOpen(false);
   }
 
-  function obj(item: { title: string; description: string }) {
+  function obj(item: T) {
     setIsOpen(true);
     setMessage(item);
   }
@@ -96,38 +91,17 @@ export function SucessModal() {
     item: h => obj(h),
   }));
 
+  if (!message) {
+    return null;
+  }
+
   return (
-    <Modal
-      animationType="fade"
-      transparent
-      visible={isOpen}
-      onRequestClose={closeModal}
+    <S.container
+      style={[animetedStyle, styleScale]}
+      type={message.tipo ?? 'success'}
     >
-      <View style={styles.modalOverlay}>
-        <View style={styles.modalBody}>
-          <View style={styles.modalHeader}>
-            <CheckFat weight="duotone" size={90} />
-          </View>
-
-          <Center>
-            <Text style={styles.title}>{message?.title}</Text>
-          </Center>
-
-          <Text style={styles.bodyText}>{message?.description}</Text>
-
-          <TouchableOpacity
-            onPress={handleConfirm}
-            style={[
-              styles.button,
-              {
-                backgroundColor: '#302525',
-              },
-            ]}
-          >
-            <Text style={styles.buttonText}>Ok</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </Modal>
+      <S.title>{message?.title}</S.title>
+      <S.text>{message?.description}</S.text>
+    </S.container>
   );
 }

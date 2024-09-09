@@ -7,6 +7,7 @@ import * as y from 'yup';
 import Logo from '@/assets/logo.png';
 import { FormInput } from '@/components/forms/FormInput';
 import { Line } from '@/components/Line';
+import Toast from '@/components/modals/toast/handler';
 import { useAuth } from '@/context/auth';
 import { useSignIn } from '@/hooks/mutations';
 import { cor } from '@/styles/cor';
@@ -28,10 +29,10 @@ const scheme = y.object({
 });
 
 export function Login() {
-  const { isLoading } = useSignIn();
   const { navigate } = useNavigation();
   const { login } = useAuth();
   const [shoModal, setShowModal] = React.useState(false);
+  const { isLoading } = useSignIn();
 
   const {
     control,
@@ -42,7 +43,14 @@ export function Login() {
   });
 
   const submit = React.useCallback(async (data: TFormaData) => {
-    login(data);
+    try {
+      login(data);
+      Toast.show({
+        description: 'Login efetuado com sucesso!',
+        title: 'Bem Vindo!',
+        tipo: 'success',
+      });
+    } catch (error) { }
   }, []);
 
   return (

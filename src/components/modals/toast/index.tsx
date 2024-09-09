@@ -12,16 +12,15 @@ import {
   withTiming,
 } from 'react-native-reanimated';
 
+import { T } from '../sucess/types';
 import GlobalErrorModalHandler from './handler';
 import * as S from './styles';
 import { GlobalErrorModalRef } from './types';
 
 export function ToastModal() {
   const [isOpen, setIsOpen] = useState(false);
-  const [message, setMessage] = React.useState<{
-    title: string;
-    description: string;
-  }>();
+
+  const [message, setMessage] = React.useState<T>();
 
   const animation = useSharedValue(0);
   const animationScale = useSharedValue(0);
@@ -30,12 +29,14 @@ export function ToastModal() {
     return {
       transform: [
         {
-          translateY: interpolate(animation.value, [0, 20], [0, 0]),
-        },
-        {
-          translateX: interpolate(animation.value, [0, 20], [250, -20]),
+          translateX: interpolate(
+            animation.value,
+            [0, 0.3, 9.5, 10],
+            [300, -340, -340, 300],
+          ),
         },
       ],
+      opacity: interpolate(animation.value, [0, 0.5, 9.5, 10], [0, 1, 1, 0]),
     };
   });
 
@@ -52,22 +53,13 @@ export function ToastModal() {
   function animated() {
     animation.value = 0;
 
-    animation.value = withTiming(20, { duration: 400 });
-  }
-
-  function animatedScale() {
-    animationScale.value = 0;
-    animationScale.value = withTiming(20, { duration: 300 });
+    animation.value = withTiming(10, { duration: 4000 });
   }
 
   React.useEffect(() => {
     animationScale.value = 20;
     if (message) {
       animated();
-      setTimeout(() => {
-        animatedScale();
-        animation.value = 0;
-      }, 4000);
     }
   }, [message]);
 
@@ -85,7 +77,7 @@ export function ToastModal() {
     setIsOpen(false);
   }
 
-  function obj(item: { title: string; description: string }) {
+  function obj(item: T) {
     setIsOpen(true);
     setMessage(item);
   }
@@ -100,8 +92,12 @@ export function ToastModal() {
     item: h => obj(h),
   }));
 
+  // if (!message) {
+  //   return null;
+  // }
+
   return (
-    <S.container style={[animetedStyle, styleScale]} type="sucess">
+    <S.container style={[animetedStyle]} type={message?.tipo ?? 'success'}>
       <S.title>{message?.title}</S.title>
       <S.text>{message?.description}</S.text>
     </S.container>
