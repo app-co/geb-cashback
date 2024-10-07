@@ -86,6 +86,7 @@ export function ComponentFormProfile() {
         Toast.show({
           title: 'Sucesso!',
           description: 'Seus dados pessoais foram atualizados',
+          tipo: 'success',
         });
       } catch (error) {
         console.log({ error });
@@ -102,6 +103,7 @@ export function ComponentFormProfile() {
         SucessHandler.message({
           title: 'Sucesso!',
           description: 'Seu endereço foi atualizado',
+          tipo: 'success',
         });
       } catch (error) {
         console.log({ error });
@@ -117,6 +119,7 @@ export function ComponentFormProfile() {
       SucessHandler.message({
         title: 'Sucesso!',
         description: 'Seus dados pessoal foi atualizado',
+        tipo: 'success',
       });
     } catch (error) {
       console.log({ error });
@@ -328,6 +331,7 @@ export function ComponentFormProfile() {
               Endereço
             </S.title>
           </Box>
+
           <FormInput
             label="CEP"
             error={LocalityControl.formState.errors.postal_code}
@@ -404,7 +408,7 @@ export function ComponentFormProfile() {
           />
         </VStack>
 
-        <VStack
+        {/* <VStack
           mb={10}
           space={4}
           borderWidth={1}
@@ -511,7 +515,7 @@ export function ComponentFormProfile() {
               </Box>
             )}
           </Box>
-        </VStack>
+        </VStack> */}
 
         <Button title="SAIR DA CONTA" onPress={() => logOut()} />
       </ScrollView>

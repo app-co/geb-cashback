@@ -56,6 +56,27 @@ export interface IUser {
   locality: ILocality;
 }
 
+export interface IRecordsCompany {
+  id: string;
+  name: string;
+  location: ILocality;
+  logo?: string;
+  segmento: string;
+  casheback: number;
+  telefone: string;
+  social_midia: {
+    id: number;
+    whatsapp: string;
+    linkedin: string;
+    instagram: string;
+    telegram: string;
+    google_maps: string;
+    facebook: string;
+  };
+  favorite: boolean;
+  favoriteId: number;
+}
+
 export interface ICompany {
   totalPages: number;
   currentPage: number;
@@ -63,22 +84,5 @@ export interface ICompany {
   pageSize: number;
   pageNumber: number;
   totalRecordsPerPage: number;
-  records: {
-    id: string;
-    name: string;
-    location: ILocality;
-    logo?: string;
-    segmento: string;
-    casheback: number;
-    telefone: string;
-    social_midia: {
-      id: number;
-      whatsapp: string;
-      linkedin: string;
-      instagram: string;
-      telegram: string;
-      google_maps: string;
-      facebook: string;
-    };
-  }[];
+  records: IRecordsCompany[];
 }

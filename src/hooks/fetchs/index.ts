@@ -2,8 +2,9 @@
 import { api } from '@/services/api';
 import { pathsRoutes } from '@/services/schemeRoutes';
 
-import { ICompany } from './interfaces';
+import { ICompany, IRecordsCompany } from './interfaces';
 import {
+  objRegisterFavorites,
   schemaCreateUser,
   schemaPaymentPix,
   schemaPayWithCard,
@@ -62,6 +63,23 @@ export class Fetch {
   async payWitMoney(input: t.TPayMoney) {
     schemaPayWithCard.parse(input);
     const { data } = await api.post('/cash-in/money', input);
+    return data;
+  }
+
+  async getFavorites() {
+    const { data } = await api.get('/favorites');
+    return data as IRecordsCompany[];
+  }
+
+  async registerFavorites(obj: t.TRegisterFavorites) {
+    objRegisterFavorites.parse(obj);
+
+    const { data } = await api.post(`/favorites/register`, obj);
+    return data as IRecordsCompany[];
+  }
+
+  async removeFavorites(id: number) {
+    const { data } = await api.delete(`/favorites/${id}`);
     return data;
   }
 }

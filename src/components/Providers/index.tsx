@@ -8,13 +8,16 @@ import { Box, FlatList, HStack, Image, Modal, VStack } from 'native-base';
 import {
   Faders,
   Globe,
+  Heart,
   InstagramLogo,
   MapTrifold,
-  WhatsappLogo,
+  ShareNetwork,
+  WhatsappLogo
 } from 'phosphor-react-native';
+import { ZodError } from 'zod';
 
-import { useSaveLocal } from '@/hooks/mutations';
-import { useGetAllCompany, useGetLocalSegemnto } from '@/hooks/querys';
+import { useRegisterFavorites, useRemoveFavorites, useSaveLocal } from '@/hooks/mutations';
+import { useFavorites, useGetAllCompany, useGetLocalSegemnto } from '@/hooks/querys';
 import { cor } from '@/styles/cor';
 import { canvaPercent, hightPercent, widtPercent } from '@/styles/sizes';
 import { _segmentos } from '@/utils/segments';
@@ -23,6 +26,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Button } from '../forms/Button';
 import { Input } from '../forms/Input';
 import { Loading } from '../Loading';
+import Toast from '../modals/toast/handler';
 import { Select } from '../Select';
 import * as S from './styles';
 
@@ -38,6 +42,7 @@ export function Providers() {
   const segmento = getSegmento || _segmentos().enun.map(h => { return { ...h, value: Number(h.value) } })
 
 
+  const [favorites, setFavorites] = React.useState<string[]>([])
   const [search, setSearch] = React.useState<string>('');
   const [selectedSegmento, setSelectedSegmento] = React.useState<{ value: number, label: string }[]>(segmento)
 
@@ -50,7 +55,11 @@ export function Providers() {
     segmento: seg,
   })
 
-  const company = data?.pages[0]?.records ?? []
+  const { mutateAsync } = useRegisterFavorites()
+  const removeFavorites = useRemoveFavorites()
+  const { data: getFavorites = [], isLoading: favoritesLoading } = useFavorites()
+
+  const company = data?.pages.flatMap(h => h.records) ?? []
 
   const toggleSecection = useCallback(
     (item: number) => {
@@ -85,6 +94,52 @@ export function Providers() {
       : setSelectedSegmento(segmentos.map(h => { return { value: Number(h.value), label: h.label } }))
     return null
   }
+
+  const handleAddFavorites = React.useCallback(async (companyId: string) => {
+    try {
+
+      const find = getFavorites.find(h => h.id === companyId)
+
+      if (find) {
+        await removeFavorites.mutateAsync(find.favoriteId)
+        setFavorites((prevSelectedIds) => {
+          if (prevSelectedIds.includes(companyId)) {
+            return prevSelectedIds.filter(selectedId => selectedId !== companyId);
+          }
+          return [...prevSelectedIds, companyId];
+
+        });
+
+        return
+      }
+
+      await mutateAsync({ companyId })
+      setFavorites((prevSelectedIds) => {
+        if (prevSelectedIds.includes(companyId)) {
+          return prevSelectedIds.filter(selectedId => selectedId !== companyId);
+        }
+        return [...prevSelectedIds, companyId];
+
+      });
+
+    } catch (error) {
+      if (error instanceof ZodError) {
+        Toast.show({
+          title: 'Erro ao salvar',
+          description: 'Erro interno',
+          tipo: 'warning'
+        })
+      }
+    }
+  }, [getFavorites])
+
+
+  React.useEffect(() => {
+    const map = getFavorites.map(h => h.id)
+    setFavorites(map)
+  }, [favoritesLoading])
+
+
 
   if (!company && updateSegmento.isLoading) return <Loading />
 
@@ -160,7 +215,7 @@ export function Providers() {
         </TouchableOpacity>
       </HStack>
 
-      {company.length === 0 && (
+      {company?.length === 0 && (
         <S.title>No momento não temos prestadores para esses segmentos</S.title>
       )}
 
@@ -171,12 +226,28 @@ export function Providers() {
         data={company}
         renderItem={({ item: h }) => (
           <S.boxProvider onPress={() => nav.navigate('transactions', { providerId: h.id })} >
+
             <S.logo>
               <Image size="full" src={h.logo} alt="logo" />
             </S.logo>
 
             <S.bx>
-              <S.title>{h.name}</S.title>
+              <HStack alignItems="center" justifyContent="space-between"  >
+                <S.title>{h.name}</S.title>
+                <S.actions>
+                  <TouchableOpacity onPress={() => handleAddFavorites(h.id)} >
+                    {favorites.includes(h.id) ? (
+                      <Heart size={30} color={cor.focus.a} weight='fill' />
+                    ) : (
+                      <Heart size={30} color={cor.focus.a} weight='bold' />
+                    )}
+                  </TouchableOpacity>
+
+                  <TouchableOpacity>
+                    <ShareNetwork size={30} color={cor.focus.a} weight='bold' />
+                  </TouchableOpacity>
+                </S.actions>
+              </HStack>
               <S.texts>
                 {h.location?.street}, {h.location?.number}, {h.location?.city} -{' '}
                 {h.location?.region_code}

@@ -39,3 +39,10 @@ export function useGetLocalSegemnto() {
     queryFn: () => getSegmento(),
   });
 }
+
+export function useFavorites() {
+  return useQuery({
+    queryKey: ['favorites'],
+    queryFn: () => fetch.getFavorites(),
+  });
+}

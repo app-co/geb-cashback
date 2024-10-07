@@ -9,6 +9,7 @@ import { FullCadastro } from '@/pages/Cadastro/FullCadastro';
 import { GlobalHeader } from '@/pages/NORMAL/components/headers/GlobalHeader';
 import { HeadeInvit } from '@/pages/NORMAL/components/headers/HeadeInvit';
 import { Extrato } from '@/pages/NORMAL/Extrato';
+import { Favoritos } from '@/pages/NORMAL/Favoritos';
 import { Home } from '@/pages/NORMAL/Home';
 import { Invit } from '@/pages/NORMAL/Invit';
 import { Profile } from '@/pages/NORMAL/Profile';
@@ -86,6 +87,15 @@ export function NormalStack() {
         }}
         name="extrato"
         component={Extrato}
+      />
+
+      <Screen
+        options={{
+          title: 'FAVORITOS',
+          header: (props: any) => <GlobalHeader {...props} />,
+        }}
+        name="favoritos"
+        component={Favoritos}
       />
     </Navigator>
   );

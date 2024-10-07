@@ -1,3 +1,5 @@
+import React, { ReactNode } from 'react';
+
 import { Center } from 'native-base';
 
 import { Loading } from '@/components/Loading';
@@ -11,7 +13,7 @@ import { StackRoutes } from './stackRoutes';
 export function Routes() {
   const { user, loading } = useAuth();
 
-  const routeType = {
+  const routeType: { [key: string]: ReactNode } = {
     simple: <SimpleStack />,
     normal: <NormalStack />,
   };
@@ -25,7 +27,7 @@ export function Routes() {
   }
   return (
     <NavigationContainer>
-      {user ? routeType.normal : <StackRoutes />}
+      {user ? routeType[user.account_type] : <StackRoutes />}
     </NavigationContainer>
   );
 }

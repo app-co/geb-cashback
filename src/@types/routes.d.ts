@@ -16,6 +16,7 @@ export declare global {
       rewards: undefined;
       cacheOut: undefined;
       extrato: undefined;
+      favoritos: undefined;
       transactions: T<{ providerId: string }>;
     }
   }

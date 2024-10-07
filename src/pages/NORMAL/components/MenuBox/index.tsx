@@ -11,6 +11,7 @@ import {
 } from 'phosphor-react-native';
 
 import { canvaPercent } from '@/styles/sizes';
+import { useNavigation } from '@react-navigation/native';
 
 import * as S from './styles';
 
@@ -29,6 +30,7 @@ export function MenuBox({
   presLoja,
   presProvider,
 }: I) {
+  const navigation = useNavigation();
   return (
     <S.Container>
       <ScrollView horizontal>
@@ -54,7 +56,7 @@ export function MenuBox({
             </Center>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={presFavorito}>
+          <TouchableOpacity onPress={() => navigation.navigate('favoritos')}>
             <Center>
               <S.box>
                 <Heart weight="duotone" size={`${canvaPercent('4.3')}px`} />

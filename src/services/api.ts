@@ -6,21 +6,13 @@ import Toast from '@/components/modals/toast/handler';
 import UnauthorizedModalHandler from '@/components/modals/unauthorizedModal/handler';
 
 import { AppError } from './AppError';
+import { baseURL } from './baseUrl';
 
 type SignOut = () => void;
 
 type APIInstaceProps = AxiosInstance & {
   registerIntercepTokenManager: (signOut: SignOut) => () => void;
 };
-
-const dev = 'http://192.168.0.107:3333';
-// const prd = 'https://cacheback.appcom.dev';
-// const dev = 'http://192.168.0.86:3333';
-// const dev = 'http://192.168.88.153:3333';
-// const dev = 'http://192.168.15.47:3333';
-// const production = 'https://geb-server.appcom.dev';
-
-const baseURL = process.env.EXPO_URL_DEV;
 
 function handleServerError(error: AxiosError) {
   switch (error?.response?.status) {
@@ -36,7 +28,7 @@ function handleServerError(error: AxiosError) {
 }
 
 const api = axios.create({
-  baseURL: dev,
+  baseURL,
 }) as APIInstaceProps;
 
 api.interceptors.response.use(
@@ -44,7 +36,6 @@ api.interceptors.response.use(
     return res;
   },
   (error: AxiosError) => {
-    console.log(error);
     const { status, data } = error?.response as any;
     if (error.message === 'Network Error') {
       ConectionErrorModalHandler.showModal();

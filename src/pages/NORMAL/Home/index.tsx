@@ -1,5 +1,6 @@
+/* eslint-disable react/jsx-no-bind */
 import React, { useCallback, useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 
 import {
   BarcodeScanningResult,
@@ -8,12 +9,14 @@ import {
 } from 'expo-camera';
 
 import { Box, Center, HStack, Image } from 'native-base';
+import { XCircle } from 'phosphor-react-native';
 
 import pix from '@/assets/pix1.png';
 import { Button } from '@/components/forms/Button';
 import { Line } from '@/components/Line';
 import { Parceiros } from '@/components/Parceiros';
 import { useAuth } from '@/context/auth';
+import { cor } from '@/styles/cor';
 import { convertNumberToCurrency } from '@/utils/unidades';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
@@ -102,23 +105,34 @@ export function Home() {
       <MenuHeader />
 
       {openScan && (
-        <Center flex={1} w="full" h="200px" mt="12">
+        <Center
+          position="absolute"
+          top="30%"
+          alignSelf="center"
+          flex={1}
+          mt="12"
+        >
           <CameraView
             onBarcodeScanned={h => handleScan(h)}
             barcodeScannerSettings={{
               barcodeTypes: ['qr'],
             }}
-            style={{ width: 300, height: 200 }}
+            style={{
+              width: 380,
+              height: 300,
+
+              zIndex: 100,
+            }}
             facing={facing}
           >
-            <Box h={26}>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={toggleCameraFacing}
-              >
-                <Text style={styles.text}>Flip Camera</Text>
-              </TouchableOpacity>
-            </Box>
+            <TouchableOpacity
+              style={{
+                padding: 10,
+              }}
+              onPress={() => setOpneScan(false)}
+            >
+              <XCircle size={30} color={cor.focus.a} />
+            </TouchableOpacity>
           </CameraView>
         </Center>
       )}

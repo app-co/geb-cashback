@@ -17,3 +17,4 @@ export type TSaveSegmento = z.infer<typeof s.schemaSaveSegmento>;
 // export type TCasheOut = z.infer<typeof s.shemaCasheOut>;
 export type TPayWithCard = z.infer<typeof s.schemaPayWithCard>;
 export type TPayMoney = z.infer<typeof s.schemaPayMoney>;
+export type TRegisterFavorites = z.infer<typeof s.objRegisterFavorites>;

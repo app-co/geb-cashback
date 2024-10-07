@@ -115,3 +115,7 @@ export const schemaPayMoney = z.object({
   casheClient: z.number(),
   userId: z.string(),
 });
+
+export const objRegisterFavorites = z.object({
+  companyId: z.string(),
+});

@@ -35,6 +35,7 @@ export interface IUser {
   id: string;
   name: string;
   email: string;
+  account_type: 'normal' | 'business' | 'simple';
 
   avatar?: string;
   born?: string;

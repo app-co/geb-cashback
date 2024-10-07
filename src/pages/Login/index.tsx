@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -12,7 +13,9 @@ import { useAuth } from '@/context/auth';
 import { useSignIn } from '@/hooks/mutations';
 import { cor } from '@/styles/cor';
 import { _text } from '@/styles/sizes';
+import { IOS_GOOGLE_KEY, WEB_GOOGLE_KEY } from '@env';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { useNavigation } from '@react-navigation/native';
 
 import { Button } from '../../components/forms/Button';
@@ -28,6 +31,14 @@ const scheme = y.object({
   password: y.string().required('Informe sua senha').min(6, 'Mínimo 6 digitos'),
 });
 
+GoogleSignin.configure({
+  scopes: ['email', 'profile'],
+  webClientId: WEB_GOOGLE_KEY,
+  iosClientId: IOS_GOOGLE_KEY,
+});
+
+console.log(WEB_GOOGLE_KEY);
+
 export function Login() {
   const { navigate } = useNavigation();
   const { login } = useAuth();
@@ -41,6 +52,20 @@ export function Login() {
   } = useForm<TFormaData>({
     resolver: yupResolver(scheme),
   });
+
+  const handleSignWithGoogle = React.useCallback(async () => {
+    try {
+      const res = await GoogleSignin.signIn();
+      console.log(res);
+    } catch (error) {
+      console.log('error => ', error);
+      Toast.show({
+        description: 'Erro ao realizar o login com o Google.',
+        title: 'Atenção',
+        tipo: 'error',
+      });
+    }
+  }, []);
 
   const submit = React.useCallback(async (data: TFormaData) => {
     try {
@@ -108,6 +133,7 @@ export function Login() {
           <Button
             title="Cadastre-se com o Google"
             bg_color={cor.text.lightSoft}
+            onPress={handleSignWithGoogle}
           />
         </VStack>
 

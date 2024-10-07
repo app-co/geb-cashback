@@ -1,10 +1,13 @@
 import React from 'react';
+import Dropdown from 'react-native-input-select';
 
 import { VStack } from 'native-base';
 
 import { FormInput } from '@/components/forms/FormInput';
+import { cor } from '@/styles/cor';
 
 import * as S from './styles';
+import { bussines } from './utils';
 
 interface I {
   error: any;
@@ -12,6 +15,7 @@ interface I {
 }
 
 export function B({ error, control }: I) {
+  const [profission, setProfission] = React.useState('');
   return (
     <S.Container>
       <S.main>
@@ -55,6 +59,41 @@ export function B({ error, control }: I) {
             placeholder="dd/mm/yyyy"
             mask="date"
             maxLength={10}
+          />
+
+          <Dropdown
+            labelStyle={{
+              margin: 1,
+              marginBottom: 3,
+            }}
+            placeholderStyle={{
+              color: cor.text.light,
+            }}
+            dropdownStyle={{
+              backgroundColor: cor.bgSoft,
+              borderColor: cor.bgSoft,
+            }}
+            label="Profissão"
+            placeholder="Select an option..."
+            listComponentStyles={{
+              itemSeparatorStyle: {
+                backgroundColor: cor.focus.a,
+              },
+            }}
+            options={bussines}
+            isSearchable
+            selectedValue={profission}
+            onValueChange={value => setProfission(value)}
+            primaryColor={cor.focus.a}
+            selectedItemStyle={{
+              color: cor.text.light,
+              fontFamily: 'Regular',
+            }}
+            modalControls={{
+              modalOptionsContainerStyle: {
+                backgroundColor: cor.bgSoft,
+              },
+            }}
           />
 
           <FormInput

@@ -44,3 +44,17 @@ export function usePayCard() {
 export function usePayMoney() {
   return useMutation(fetch.payWitMoney);
 }
+
+export function useRegisterFavorites() {
+  const client = useQueryClient();
+  return useMutation(fetch.registerFavorites, {
+    onSuccess: () => client.invalidateQueries('favorites'),
+  });
+}
+
+export function useRemoveFavorites() {
+  const client = useQueryClient();
+  return useMutation(fetch.removeFavorites, {
+    onSuccess: () => client.invalidateQueries('favorites'),
+  });
+}
