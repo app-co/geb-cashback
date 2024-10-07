@@ -110,7 +110,11 @@ export function FullCadastro() {
 
   const components = [
     <A control={controlA.control} error={controlA.formState.errors} />,
-    <B control={controlB.control} error={controlB.formState.errors} />,
+    <B
+      setValue={controlB.setValue}
+      control={controlB.control}
+      error={controlB.formState.errors}
+    />,
     <Locality
       control={controlLocality.control}
       error={controlLocality.formState.errors}

@@ -12,10 +12,16 @@ import { bussines } from './utils';
 interface I {
   error: any;
   control: any;
+  setValue: any;
 }
 
-export function B({ error, control }: I) {
+export function B({ error, setValue, control }: I) {
   const [profission, setProfission] = React.useState('');
+
+  React.useEffect(() => {
+    setValue('profission', profission);
+  }, [profission, setValue]);
+
   return (
     <S.Container>
       <S.main>
@@ -94,16 +100,6 @@ export function B({ error, control }: I) {
                 backgroundColor: cor.bgSoft,
               },
             }}
-          />
-
-          <FormInput
-            label="Sua profissão"
-            error={error.profission}
-            name="profission"
-            autoCapitalize="none"
-            control={control}
-            icon="lock"
-            placeholder="Nome da sua profissão"
           />
         </VStack>
       </S.main>
