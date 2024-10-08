@@ -18,18 +18,11 @@ import * as S from './styles';
 interface I {
   presLoja: () => void;
   presProvider: () => void;
-  presFavorito: () => void;
   presBuy: () => void;
   presExtrato: () => void;
 }
 
-export function MenuBox({
-  presBuy,
-  presExtrato,
-  presFavorito,
-  presLoja,
-  presProvider,
-}: I) {
+export function MenuBox({ presBuy, presExtrato, presLoja, presProvider }: I) {
   const navigation = useNavigation();
   return (
     <S.Container>
