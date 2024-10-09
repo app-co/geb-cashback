@@ -29,9 +29,9 @@ export interface ILocality {
   userId: string;
 }
 
-interface IWallet {
+export interface IWallet {
   amount: number;
-  amount_cashback: string;
+  amount_cashback: number;
   id: string;
   userId: string;
   crated_at: string | Date;

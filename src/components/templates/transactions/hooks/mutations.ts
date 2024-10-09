@@ -1,11 +1,18 @@
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 
 import { postPayWithCard, postPayWithPix, postSaveCard } from './fetch';
 
 export function usePagamento() {
-  const payCard = useMutation(postPayWithCard);
-  const payPix = useMutation(postPayWithPix);
-  const saveCard = useMutation(postSaveCard);
+  const client = useQueryClient();
+  const payCard = useMutation(postPayWithCard, {
+    onSuccess: () => client.invalidateQueries('wallet'),
+  });
+  const payPix = useMutation(postPayWithPix, {
+    onSuccess: () => client.invalidateQueries('wallet'),
+  });
+  const saveCard = useMutation(postSaveCard, {
+    onSuccess: () => client.invalidateQueries('wallet'),
+  });
 
   return { payCard, payPix, saveCard };
 }

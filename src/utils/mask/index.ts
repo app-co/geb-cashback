@@ -8,7 +8,7 @@ export class Mask {
   }
 
   public date(value: string) {
-    const e = null;
+    let e = null;
 
     if (value) {
       e = value.replace(/\D/g, '');
@@ -16,29 +16,6 @@ export class Mask {
     }
 
     return e;
-  }
-
-  public placa(text: string) {
-    // Remove any non-alphanumeric character
-    let cleaned = text.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
-
-    // Apply the old plate mask (LLL-NNNN)
-    // let letters = cleaned.substring(0, 3).replace(/[^A-Z]/g, '');
-    // let digits = cleaned.substring(3).replace(/[^0-934]/g, '');
-
-    // cleaned = letters + digits
-
-    if (cleaned.length <= 7) {
-      cleaned = cleaned.replace(/^([A-Z]{3})([0-9]{1,4})/, '$1-$2');
-    } else {
-      // Apply the new plate mask (LLL1L11)
-      cleaned = cleaned.replace(
-        /^([A-Z]{3})([0-9]{1})([A-Z]{1})([0-9]{1,2})/,
-        '$1$2$3$4',
-      );
-    }
-
-    return cleaned;
   }
 
   formatCPFOrCNPJ(text: string): string {

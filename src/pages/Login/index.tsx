@@ -37,8 +37,6 @@ GoogleSignin.configure({
   iosClientId: IOS_GOOGLE_KEY,
 });
 
-console.log(WEB_GOOGLE_KEY);
-
 export function Login() {
   const { navigate } = useNavigation();
   const { login } = useAuth();
@@ -56,7 +54,6 @@ export function Login() {
   const handleSignWithGoogle = React.useCallback(async () => {
     try {
       const res = await GoogleSignin.signIn();
-      console.log(res);
     } catch (error) {
       console.log('error => ', error);
       Toast.show({

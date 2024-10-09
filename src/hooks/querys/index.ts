@@ -46,3 +46,10 @@ export function useFavorites() {
     queryFn: () => fetch.getFavorites(),
   });
 }
+
+export function useUserWallet() {
+  return useQuery({
+    queryKey: ['wallet'],
+    queryFn: () => fetch.getCasheback(),
+  });
+}

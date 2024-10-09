@@ -5,7 +5,7 @@ export interface IResposePaymentCard {
   customer: Customer;
   items: Items[];
   shipping: Shipping;
-  charges: Charges[];
+  payment_method: Payment_method;
   notification_urls: string[];
   links: Links2[];
 }

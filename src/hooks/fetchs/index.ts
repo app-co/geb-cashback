@@ -2,7 +2,7 @@
 import { api } from '@/services/api';
 import { pathsRoutes } from '@/services/schemeRoutes';
 
-import { ICompany, IRecordsCompany } from './interfaces';
+import { ICompany, IRecordsCompany, IWallet } from './interfaces';
 import {
   objRegisterFavorites,
   schemaCreateUser,
@@ -80,6 +80,11 @@ export class Fetch {
 
   async removeFavorites(id: number) {
     const { data } = await api.delete(`/favorites/${id}`);
+    return data;
+  }
+
+  async getCasheback() {
+    const { data } = await api.get<IWallet>('/casheback');
     return data;
   }
 }

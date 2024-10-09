@@ -39,8 +39,12 @@ export function Card({ providerId, setPaymentType, ref, paymentType }: I) {
   const { user, updateUser } = useAuth();
   const { payCard, saveCard } = usePagamento();
   const toast = useToast();
-  const [cvv, setCvv] = React.useState<string>('')
   const casheback = Number(user!.wallet!.amount_cashback);
+
+  const token = user?.cardToken
+    ? user!.cardToken.token
+    : ''
+
 
   const {
     control,
@@ -54,7 +58,7 @@ export function Card({ providerId, setPaymentType, ref, paymentType }: I) {
       userId: user.id,
       companyId: providerId,
       cachebakCliente: '0',
-      installments: 1,
+      installments: '1',
     },
   });
 
@@ -66,7 +70,7 @@ export function Card({ providerId, setPaymentType, ref, paymentType }: I) {
       holder: user.name,
       cachebakCliente: '0',
       installments: '1',
-      cardToken: user.cardToken.length === 0 ? user.cardToken[0].token : ''
+      encrypted: token
     },
   })
 
@@ -75,8 +79,10 @@ export function Card({ providerId, setPaymentType, ref, paymentType }: I) {
     try {
       const dt = {
         ...obj,
-        cardToken: user.cardToken[0].token
+        cardToken: token
       };
+
+      console.log('dt', dt)
 
       if (obj.cachebakCliente > casheback) {
         return Toast.show({
@@ -95,12 +101,12 @@ export function Card({ providerId, setPaymentType, ref, paymentType }: I) {
       })
       updateUser();
     } catch (error) {
+      console.log(error)
       if (error instanceof AppError) {
-        toast.show({
+        Toast.show({
           title: 'Erro ao pagar com cartão',
           description: error.message,
-          placement: 'top',
-          bg: 'red.500',
+          tipo: 'warning',
         });
       }
     }
@@ -123,6 +129,7 @@ export function Card({ providerId, setPaymentType, ref, paymentType }: I) {
       securityCode: obj.ccv,
     });
 
+
     if (cript?.errors.length > 0) {
       return toast.show({
         title: 'Erro ao salvar cartão',
@@ -131,9 +138,7 @@ export function Card({ providerId, setPaymentType, ref, paymentType }: I) {
         bg: 'red.500',
       });
     }
-
     const { encryptedCard } = cript;
-
 
 
     const dt = {
@@ -146,40 +151,45 @@ export function Card({ providerId, setPaymentType, ref, paymentType }: I) {
       installments: String(watch('installments')),
       store: true,
       userId: user.id,
+      cvv: obj.ccv
     };
+
 
     try {
       const schema = schemaObjPayCard.parse(dt);
 
-
       const pay = await payCard.mutateAsync(schema);
 
       const cardTokek = {
-        token: pay.charges[0].payment_method.card.id,
-        brand: pay.charges[0].payment_method.card.brand,
+        token: pay[0].payment_method.card.id,
+        brand: pay[0].payment_method.card.brand,
         userId: user.id,
-        number: `${obj.number.slice(0, 2)}*********${obj.number.slice(12)}`,
+        number: pay[0].payment_method.card.first_digits
       };
 
       await saveCard.mutateAsync(cardTokek);
+
       Toast.show({
         title: 'Pagamento realizado',
         description: 'Seu pagamento foi realizado com sucesso.',
+        tipo: 'success'
       })
 
-      // GlobalErrorModalHandler.setTitle({
-      //   title: 'Atenção',
-      //   description: 'Para sua comodidade, seu cartão ficará salvo em nossa base de dados. Não salvamo sua SENHA, código de segurança ou o número completo do cartão.'
-      // })
+      GlobalErrorModalHandler.setTitle({
+        title: 'Atenção',
+        description: 'Para sua comodidade, o token do seu cartão será salvo em nossa base de dados. Não salvamos sua SENHA, código de segurança ou o número completo do cartão.'
+      })
 
       updateUser()
 
+
     } catch (error) {
+      console.log('erro =>', error)
       if (error instanceof ZodError) {
         const { message, path } = error.issues[0]
 
 
-        GlobalErrorModalHandler.setTitle({ title: 'Erro de validação', description: 'Erro interno' })
+        GlobalErrorModalHandler.setTitle({ title: 'Erro de validação', description: `${path}, ${message}` })
       }
     }
 
@@ -196,7 +206,7 @@ export function Card({ providerId, setPaymentType, ref, paymentType }: I) {
 
   return (
     <Box>
-      {user?.cardToken.length > 0 ? (
+      {user?.cardToken ? (
         <S.content>
           <FormInput
             mask="money"
@@ -282,21 +292,16 @@ export function Card({ providerId, setPaymentType, ref, paymentType }: I) {
       </S.content>
 
       <S.content>
-        {/* <Selection
-              itens={[]}
-              itemSelected={h => console.log(h)}
-              placeholder="Selecione um cartão"
-            /> */}
 
         <Box>
           {user?.cardToken ? (
             <VStack space={4}>
 
-              {user.cardToken.length === 1 && (
+              {user?.cardToken && (
                 <Center borderRadius={8} mb={4} p={4} borderWidth={1} borderColor={cor.focus.a} mt={2} bg="gray.900">
                   <Box mb={6} >
-                    <S.title>{user?.cardToken[0].brand}</S.title>
-                    <S.title>...{user.cardToken[0].number}</S.title>
+                    <S.title>{user?.cardToken.brand}</S.title>
+                    <S.title>...{user.cardToken.number}</S.title>
                   </Box>
 
 
@@ -350,7 +355,7 @@ export function Card({ providerId, setPaymentType, ref, paymentType }: I) {
                     fontFamily: font.bold,
                   }}
                 >
-                  Cadastre seu cartão de crédito
+                  Dados do seu cartão de crédito
                 </S.title>
               </Box>
 
@@ -379,15 +384,14 @@ export function Card({ providerId, setPaymentType, ref, paymentType }: I) {
                   <Box flex="1">
                     <FormInput
                       control={control}
-                      mask="date"
+                      mask="short-date"
                       label="Vencimento"
                       error={errors.expiry}
                       name="expiry"
                       autoCapitalize="none"
                       placeholder="mês/ano"
-                      maxLength={10}
-                      keyboardType="numeric"
                       maxLength={5}
+                      keyboardType="numeric"
                     />
                   </Box>
 

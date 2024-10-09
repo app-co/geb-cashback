@@ -11,7 +11,7 @@ type T = TypeInput & {
   name: string;
   control: Control<any>;
   error?: FieldError;
-  mask?: 'date' | 'cpf' | 'cell-phone' | 'placa' | 'money' | 'card';
+  mask?: 'date' | 'cpf' | 'cell-phone' | 'short-date' | 'money' | 'card';
 };
 
 const msk = new Mask();
@@ -28,7 +28,8 @@ export function FormInput({ name, control, mask, error, ...rest }: T) {
           cpf: (e: string) => (e ? msk.formatCPFOrCNPJ(e) : ''),
           'cell-phone': (e: string) =>
             e ? e.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3') : '',
-          placa: (e: string) => (e ? msk.placa(e) : ''),
+          'short-date': (e: string) =>
+            e ? e.replace(/(\d{2})(\d{2})/, '$1/$2') : '',
           money: (e: string) => (e ? msk.money(e) : ''),
           card: (e: string) => (e ? msk.card(e) : ''),
         };

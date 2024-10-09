@@ -14,7 +14,6 @@ import React, {
 
 // import * as LocalAuthentication from 'expo-local-authentication';
 
-import { useToast } from 'native-base';
 
 import { IUser } from '@/dtos';
 import { useSignIn } from '@/hooks/mutations';
@@ -53,7 +52,6 @@ const storageToken = new TokenStorage();
 export function AuthContextProvider({ children }: TAuthContext) {
   const { mutateAsync } = useSignIn();
   const [loading, setLoading] = useState(true);
-  const toast = useToast();
   const [data, setData] = useState<AuthState>({} as AuthState);
 
   const userAndTokenUpdate = React.useCallback(async (token: string) => {

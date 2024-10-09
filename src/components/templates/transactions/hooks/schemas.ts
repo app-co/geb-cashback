@@ -13,10 +13,10 @@ export const schemaObjectPaymet = z.object({
 export const schemaObjPayCard = z
   .object({
     holder: z.string(),
-    cardToken: z.string(),
+    encrypted: z.string(),
     store: z.boolean().default(false),
-    cvv: z.string(),
     installments: z.string().transform(h => Number(h)),
+    cvv: z.string(),
   })
   .merge(schemaObjectPaymet);
 

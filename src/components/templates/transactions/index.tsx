@@ -1,12 +1,13 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable consistent-return */
 /* eslint-disable react/jsx-no-bind */
 import React, { useRef } from 'react';
-import { useForm } from 'react-hook-form';
 import { ScrollView } from 'react-native';
 
 import { Box, HStack } from 'native-base';
 
 import { useAuth } from '@/context/auth';
+import { useUserWallet } from '@/hooks/querys';
 import { cor } from '@/styles/cor';
 import { _toCurrency } from '@/utils/unidades';
 import { useRoute } from '@react-navigation/native';
@@ -21,31 +22,14 @@ type TPaymentType = 'pix' | 'card' | 'money';
 export function Transactions() {
   const { user, updateUser } = useAuth();
   const scrollRef = useRef<ScrollView>(null);
+  const { data: wallet } = useUserWallet();
 
   const { providerId } = useRoute().params as { providerId: string };
 
   const [selectedTypePayment, setSelectTypePayment] =
     React.useState<TPaymentType>('pix');
 
-  const MoneyControl = useForm();
-
-  async function cashInMoney(item) {
-    try {
-      const dt = {
-        value: _toNumber(item.value),
-        companyId: providerId,
-        clientCashback: _toNumber(item.valueCache ?? '0'),
-        userId: user.id,
-      };
-
-      await payMoney.mutateAsync(dt);
-    } catch (error) { }
-  }
-
-  // const value = control.getValues('value');
-  // const parcelamento = installments(value ?? '0');
-
-  const casheback = _toCurrency(user!.wallet!.amount_cashback);
+  const casheback = _toCurrency(wallet?.amount_cashback ?? 0);
 
   const components = {
     pix: (

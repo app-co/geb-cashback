@@ -3,12 +3,12 @@ const PagSeguro = (function (exports) {
     typeof globalThis !== 'undefined'
       ? globalThis
       : typeof window !== 'undefined'
-      ? window
-      : typeof global !== 'undefined'
-      ? global
-      : typeof self !== 'undefined'
-      ? self
-      : {};
+        ? window
+        : typeof global !== 'undefined'
+          ? global
+          : typeof self !== 'undefined'
+            ? self
+            : {};
 
   function unwrapExports(x) {
     return x &&
@@ -150,19 +150,19 @@ const PagSeguro = (function (exports) {
       }
 
       /*! *****************************************************************************
-			Copyright (c) Microsoft Corporation. All rights reserved.
-			Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-			this file except in compliance with the License. You may obtain a copy of the
-			License at http://www.apache.org/licenses/LICENSE-2.0
-		
-			THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-			KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
-			WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
-			MERCHANTABLITY OR NON-INFRINGEMENT.
-		
-			See the Apache Version 2.0 License for specific language governing permissions
-			and limitations under the License.
-			***************************************************************************** */
+      Copyright (c) Microsoft Corporation. All rights reserved.
+      Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+      this file except in compliance with the License. You may obtain a copy of the
+      License at http://www.apache.org/licenses/LICENSE-2.0
+  	
+      THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+      KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
+      WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
+      MERCHANTABLITY OR NON-INFRINGEMENT.
+  	
+      See the Apache Version 2.0 License for specific language governing permissions
+      and limitations under the License.
+      ***************************************************************************** */
       /* global Reflect, Promise */
 
       let extendStatics = function (d, b) {
@@ -505,7 +505,7 @@ const PagSeguro = (function (exports) {
         };
         Stream.prototype.parseStringUTF = function (start, end) {
           let s = '';
-          for (let i = start; i < end; ) {
+          for (let i = start; i < end;) {
             const c = this.get(i++);
             if (c < 128) {
               s += String.fromCharCode(c);
@@ -516,8 +516,8 @@ const PagSeguro = (function (exports) {
             } else {
               s += String.fromCharCode(
                 ((c & 0x0f) << 12) |
-                  ((this.get(i++) & 0x3f) << 6) |
-                  (this.get(i++) & 0x3f),
+                ((this.get(i++) & 0x3f) << 6) |
+                (this.get(i++) & 0x3f),
               );
             }
           }
@@ -527,7 +527,7 @@ const PagSeguro = (function (exports) {
           let str = '';
           let hi;
           let lo;
-          for (let i = start; i < end; ) {
+          for (let i = start; i < end;) {
             hi = this.get(i++);
             lo = this.get(i++);
             str += String.fromCharCode((hi << 8) | lo);
@@ -783,10 +783,10 @@ const PagSeguro = (function (exports) {
               return this.sub
                 ? `(${this.sub.length} elem)`
                 : this.stream.parseOctetString(
-                    content,
-                    content + len,
-                    maxLength,
-                  );
+                  content,
+                  content + len,
+                  maxLength,
+                );
             // case 0x05: // NULL
             case 0x06: // OBJECT_IDENTIFIER
               return this.stream.parseOID(content, content + len, maxLength);
@@ -837,11 +837,9 @@ const PagSeguro = (function (exports) {
           return null;
         };
         ASN1.prototype.toString = function () {
-          return `${this.typeName()}@${this.stream.pos}[header:${
-            this.header
-          },length:${this.length},sub:${
-            this.sub === null ? 'null' : this.sub.length
-          }]`;
+          return `${this.typeName()}@${this.stream.pos}[header:${this.header
+            },length:${this.length},sub:${this.sub === null ? 'null' : this.sub.length
+            }]`;
         };
         ASN1.prototype.toPrettyString = function (indent) {
           if (indent === undefined) {
@@ -943,7 +941,7 @@ const PagSeguro = (function (exports) {
             } else {
               // undefined length
               try {
-                for (;;) {
+                for (; ;) {
                   const s = ASN1.decode(stream);
                   if (s.tag.isEOC()) {
                     break;
@@ -2433,7 +2431,7 @@ const PagSeguro = (function (exports) {
       // #region REDUCERS
       // #region NullExp
       var NullExp = /** @class */ (function () {
-        function NullExp() {}
+        function NullExp() { }
         // NullExp.prototype.convert = nNop;
         NullExp.prototype.convert = function (x) {
           return x;
@@ -2861,7 +2859,7 @@ const PagSeguro = (function (exports) {
         return rng_state.next();
       }
       const SecureRandom = /** @class */ (function () {
-        function SecureRandom() {}
+        function SecureRandom() { }
         SecureRandom.prototype.nextBytes = function (ba) {
           for (let i = 0; i < ba.length; ++i) {
             ba[i] = rng_get_byte();
@@ -3035,8 +3033,8 @@ const PagSeguro = (function (exports) {
           const qs = B >> 1;
           this.e = parseInt(E, 16);
           const ee = new BigInteger(E, 16);
-          for (;;) {
-            for (;;) {
+          for (; ;) {
+            for (; ;) {
               this.p = new BigInteger(B - qs, 1, rng);
               if (
                 this.p
@@ -3048,7 +3046,7 @@ const PagSeguro = (function (exports) {
                 break;
               }
             }
-            for (;;) {
+            for (; ;) {
               this.q = new BigInteger(qs, 1, rng);
               if (
                 this.q
@@ -3254,11 +3252,11 @@ const PagSeguro = (function (exports) {
       // RSAKey.prototype.encrypt_b64 = RSAEncryptB64;
 
       /*!
-			Copyright (c) 2011, Yahoo! Inc. All rights reserved.
-			Code licensed under the BSD License:
-			http://developer.yahoo.com/yui/license.html
-			version: 2.9.0
-			*/
+      Copyright (c) 2011, Yahoo! Inc. All rights reserved.
+      Code licensed under the BSD License:
+      http://developer.yahoo.com/yui/license.html
+      version: 2.9.0
+      */
       const YAHOO = {};
       YAHOO.lang = {
         /**
@@ -3279,11 +3277,11 @@ const PagSeguro = (function (exports) {
           if (!superc || !subc) {
             throw new Error(
               'YAHOO.lang.extend failed, please check that ' +
-                'all dependencies are included.',
+              'all dependencies are included.',
             );
           }
 
-          const F = function () {};
+          const F = function () { };
           F.prototype = superc.prototype;
           subc.prototype = new F();
           subc.prototype.constructor = subc;
@@ -3309,7 +3307,7 @@ const PagSeguro = (function (exports) {
              * @static
              * @private
              */
-            let _IEEnumFix = function () {};
+            let _IEEnumFix = function () { };
             const ADD = ['toString', 'valueOf'];
             try {
               if (/MSIE/.test(navigator.userAgent)) {
@@ -3326,7 +3324,7 @@ const PagSeguro = (function (exports) {
                   }
                 };
               }
-            } catch (ex) {}
+            } catch (ex) { }
             _IEEnumFix(subc.prototype, overrides);
           }
         },
@@ -5754,18 +5752,16 @@ const PagSeguro = (function (exports) {
 
   async function confirmAuthentication(id) {
     return exchange({
-      url: `${
-        PSConfigurations.urls().checkoutSdkService
-      }/3ds/authentications/${id}`,
+      url: `${PSConfigurations.urls().checkoutSdkService
+        }/3ds/authentications/${id}`,
       method: 'POST',
     });
   }
 
   async function verifyAuthentication(id, challengeJwt) {
     return exchange({
-      url: `${
-        PSConfigurations.urls().checkoutSdkService
-      }/3ds/authentications/${id}`,
+      url: `${PSConfigurations.urls().checkoutSdkService
+        }/3ds/authentications/${id}`,
       method: 'PATCH',
       body: { jwt: challengeJwt },
     });
@@ -5917,19 +5913,19 @@ const PagSeguro = (function (exports) {
   }
 
   /*! *****************************************************************************
-	Copyright (c) Microsoft Corporation.
+  Copyright (c) Microsoft Corporation.
 
-	Permission to use, copy, modify, and/or distribute this software for any
-	purpose with or without fee is hereby granted.
+  Permission to use, copy, modify, and/or distribute this software for any
+  purpose with or without fee is hereby granted.
 
-	THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-	REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-	AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-	INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-	LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-	OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-	PERFORMANCE OF THIS SOFTWARE.
-	***************************************************************************** */
+  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+  REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+  AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+  INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+  LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+  OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+  PERFORMANCE OF THIS SOFTWARE.
+  ***************************************************************************** */
 
   let __assign = function () {
     __assign =
@@ -5950,8 +5946,8 @@ const PagSeguro = (function (exports) {
       return value instanceof P
         ? value
         : new P(function (resolve) {
-            resolve(value);
-          });
+          resolve(value);
+        });
     }
     return new (P || (P = Promise))(function (resolve, reject) {
       function fulfilled(value) {
@@ -5994,9 +5990,9 @@ const PagSeguro = (function (exports) {
     return (
       (g = { next: verb(0), throw: verb(1), return: verb(2) }),
       typeof Symbol === 'function' &&
-        (g[Symbol.iterator] = function () {
-          return this;
-        }),
+      (g[Symbol.iterator] = function () {
+        return this;
+      }),
       g
     );
     function verb(n) {
@@ -6010,13 +6006,13 @@ const PagSeguro = (function (exports) {
         try {
           if (
             ((f = 1),
-            y &&
+              y &&
               (t =
                 op[0] & 2
                   ? y.return
                   : op[0]
-                  ? y.throw || ((t = y.return) && t.call(y), 0)
-                  : y.next) &&
+                    ? y.throw || ((t = y.return) && t.call(y), 0)
+                    : y.next) &&
               !(t = t.call(y, op[1])).done)
           )
             return t;
@@ -6329,23 +6325,23 @@ const PagSeguro = (function (exports) {
     for (i = 0; i < bytes; i += 16) {
       k1 = [
         (key.charCodeAt(i + 4) & 0xff) |
-          ((key.charCodeAt(i + 5) & 0xff) << 8) |
-          ((key.charCodeAt(i + 6) & 0xff) << 16) |
-          ((key.charCodeAt(i + 7) & 0xff) << 24),
+        ((key.charCodeAt(i + 5) & 0xff) << 8) |
+        ((key.charCodeAt(i + 6) & 0xff) << 16) |
+        ((key.charCodeAt(i + 7) & 0xff) << 24),
         (key.charCodeAt(i) & 0xff) |
-          ((key.charCodeAt(i + 1) & 0xff) << 8) |
-          ((key.charCodeAt(i + 2) & 0xff) << 16) |
-          ((key.charCodeAt(i + 3) & 0xff) << 24),
+        ((key.charCodeAt(i + 1) & 0xff) << 8) |
+        ((key.charCodeAt(i + 2) & 0xff) << 16) |
+        ((key.charCodeAt(i + 3) & 0xff) << 24),
       ];
       k2 = [
         (key.charCodeAt(i + 12) & 0xff) |
-          ((key.charCodeAt(i + 13) & 0xff) << 8) |
-          ((key.charCodeAt(i + 14) & 0xff) << 16) |
-          ((key.charCodeAt(i + 15) & 0xff) << 24),
+        ((key.charCodeAt(i + 13) & 0xff) << 8) |
+        ((key.charCodeAt(i + 14) & 0xff) << 16) |
+        ((key.charCodeAt(i + 15) & 0xff) << 24),
         (key.charCodeAt(i + 8) & 0xff) |
-          ((key.charCodeAt(i + 9) & 0xff) << 8) |
-          ((key.charCodeAt(i + 10) & 0xff) << 16) |
-          ((key.charCodeAt(i + 11) & 0xff) << 24),
+        ((key.charCodeAt(i + 9) & 0xff) << 8) |
+        ((key.charCodeAt(i + 10) & 0xff) << 16) |
+        ((key.charCodeAt(i + 11) & 0xff) << 24),
       ];
       k1 = x64Multiply(k1, c1);
       k1 = x64Rotl(k1, 31);
@@ -6520,7 +6516,7 @@ const PagSeguro = (function (exports) {
       attributes[name] = attributes[name] || [];
       attributes[name].push(value);
     };
-    for (;;) {
+    for (; ;) {
       const match = partsRegex.exec(tagMatch[2]);
       if (!match) {
         break;
@@ -6846,12 +6842,12 @@ const PagSeguro = (function (exports) {
       countTruthy([
         'buildID' in navigator,
         'MozAppearance' in
-          ((_b =
-            (_a = document.documentElement) === null || _a === void 0
-              ? void 0
-              : _a.style) !== null && _b !== void 0
-            ? _b
-            : {}),
+        ((_b =
+          (_a = document.documentElement) === null || _a === void 0
+            ? void 0
+            : _a.style) !== null && _b !== void 0
+          ? _b
+          : {}),
         'onmozfullscreenchange' in w,
         'mozInnerScreenX' in w,
         'CSSMozDocumentRule' in w,
@@ -7498,11 +7494,11 @@ const PagSeguro = (function (exports) {
     context.globalCompositeOperation = 'multiply';
     for (
       let _i = 0,
-        _a = [
-          ['#f2f', 40, 40],
-          ['#2ff', 80, 40],
-          ['#ff2', 60, 80],
-        ];
+      _a = [
+        ['#f2f', 40, 40],
+        ['#2ff', 80, 40],
+        ['#ff2', 60, 80],
+      ];
       _i < _a.length;
       _i++
     ) {
@@ -7724,14 +7720,14 @@ const PagSeguro = (function (exports) {
       replaceNaN(toFloat(s.availTop), null),
       replaceNaN(
         toFloat(s.width) -
-          toFloat(s.availWidth) -
-          replaceNaN(toFloat(s.availLeft), 0),
+        toFloat(s.availWidth) -
+        replaceNaN(toFloat(s.availLeft), 0),
         null,
       ),
       replaceNaN(
         toFloat(s.height) -
-          toFloat(s.availHeight) -
-          replaceNaN(toFloat(s.availTop), 0),
+        toFloat(s.availHeight) -
+        replaceNaN(toFloat(s.availTop), 0),
         null,
       ),
       replaceNaN(toFloat(s.availLeft), null),
@@ -7847,34 +7843,34 @@ const PagSeguro = (function (exports) {
     const flavors = [];
     for (
       let _i = 0,
-        _a = [
-          // Blink and some browsers on iOS
-          'chrome',
-          // Safari on macOS
-          'safari',
-          // Chrome on iOS (checked in 85 on 13 and 87 on 14)
-          '__crWeb',
-          '__gCrWeb',
-          // Yandex Browser on iOS, macOS and Android (checked in 21.2 on iOS 14, macOS and Android)
-          'yandex',
-          // Yandex Browser on iOS (checked in 21.2 on 14)
-          '__yb',
-          '__ybro',
-          // Firefox on iOS (checked in 32 on 14)
-          '__firefox__',
-          // Edge on iOS (checked in 46 on 14)
-          '__edgeTrackingPreventionStatistics',
-          'webkit',
-          // Opera Touch on iOS (checked in 2.6 on 14)
-          'oprt',
-          // Samsung Internet on Android (checked in 11.1)
-          'samsungAr',
-          // UC Browser on Android (checked in 12.10 and 13.0)
-          'ucweb',
-          'UCShellJava',
-          // Puffin on Android (checked in 9.0)
-          'puffinDevice',
-        ];
+      _a = [
+        // Blink and some browsers on iOS
+        'chrome',
+        // Safari on macOS
+        'safari',
+        // Chrome on iOS (checked in 85 on 13 and 87 on 14)
+        '__crWeb',
+        '__gCrWeb',
+        // Yandex Browser on iOS, macOS and Android (checked in 21.2 on iOS 14, macOS and Android)
+        'yandex',
+        // Yandex Browser on iOS (checked in 21.2 on 14)
+        '__yb',
+        '__ybro',
+        // Firefox on iOS (checked in 32 on 14)
+        '__firefox__',
+        // Edge on iOS (checked in 46 on 14)
+        '__edgeTrackingPreventionStatistics',
+        'webkit',
+        // Opera Touch on iOS (checked in 2.6 on 14)
+        'oprt',
+        // Samsung Internet on Android (checked in 11.1)
+        'samsungAr',
+        // UC Browser on Android (checked in 12.10 and 13.0)
+        'ucweb',
+        'UCShellJava',
+        // Puffin on Android (checked in 9.0)
+        'puffinDevice',
+      ];
       _i < _a.length;
       _i++
     ) {
@@ -8338,14 +8334,12 @@ const PagSeguro = (function (exports) {
       message += `\n${filterName}:`;
       for (let _b = 0, _c = filters[filterName]; _b < _c.length; _b++) {
         const selector = _c[_b];
-        message += `\n  ${selector} ${
-          blockedSelectors[selector] ? 'ðŸš«' : 'âž¡ï¸'
-        }`;
+        message += `\n  ${selector} ${blockedSelectors[selector] ? 'ðŸš«' : 'âž¡ï¸'
+          }`;
       }
     }
     // console.log is ok here because it's under a debug clause
     // eslint-disable-next-line no-console
-    console.log(`${message}\n\`\`\``);
   }
 
   /**
@@ -8907,14 +8901,10 @@ const PagSeguro = (function (exports) {
                   // console.log is ok here because it's under a debug clause
                   // eslint-disable-next-line no-console
                   console.log(
-                    `Copy the text below to get the debug data:\n\n\`\`\`\nversion: ${
-                      result.version
-                    }\nuserAgent: ${
-                      navigator.userAgent
-                    }\ntimeBetweenLoadAndGet: ${
-                      startTime - creationTime
-                    }\nvisitorId: ${
-                      result.visitorId
+                    `Copy the text below to get the debug data:\n\n\`\`\`\nversion: ${result.version
+                    }\nuserAgent: ${navigator.userAgent
+                    }\ntimeBetweenLoadAndGet: ${startTime - creationTime
+                    }\nvisitorId: ${result.visitorId
                     }\ncomponents: ${componentsToDebugString(
                       components,
                     )}\n\`\`\``,

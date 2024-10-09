@@ -172,7 +172,6 @@ export function FullCadastro() {
 
   const handleSave = React.useCallback(
     async (L: Omit<TLocality, 'id'>) => {
-      console.log({ L });
       const { user, profile } = state;
       try {
         const U = {
