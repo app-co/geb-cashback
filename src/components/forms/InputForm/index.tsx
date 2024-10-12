@@ -8,14 +8,13 @@ import {
   FieldError,
 } from 'react-hook-form';
 
-import { TypeInput } from '../forms/Input';
 import * as S from './styles';
 
 interface IChildren extends ControllerRenderProps {
   children: ReactNode;
 }
 
-type T = TypeInput & {
+type T = {
   name: string;
   control: Control<any>;
   error?: FieldError;

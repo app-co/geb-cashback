@@ -42,4 +42,5 @@ export const bussines = [
   { label: 'Corretor de Imóveis', value: 'corretor_imoveis' },
   { label: 'Marceneiro', value: 'marceneiro' },
   { label: 'Instrutor de Autoescola', value: 'instrutor_autoescola' },
+  { label: 'Empreendedor(a)', value: 'Empreendedor(a)' },
 ];

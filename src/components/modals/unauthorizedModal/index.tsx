@@ -64,8 +64,6 @@ export function UnauthorizedModal() {
 
   function handleConfirm() {
     ref.current?.hide();
-
-    console.log('log off');
   }
 
   function showModal() {

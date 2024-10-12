@@ -6,12 +6,16 @@ import { ScrollView } from 'react-native';
 
 import { Box, HStack } from 'native-base';
 
+import { Loading } from '@/components/Loading';
+import Toast from '@/components/modals/toast/handler';
 import { useAuth } from '@/context/auth';
 import { useUserWallet } from '@/hooks/querys';
 import { cor } from '@/styles/cor';
+import { _segmentos } from '@/utils/segments';
 import { _toCurrency } from '@/utils/unidades';
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
+import { useBusinnessById } from './hooks/querys';
 import { Card } from './orders/cartao';
 import { Money } from './orders/money';
 import { Pix } from './orders/pix';
@@ -22,9 +26,26 @@ type TPaymentType = 'pix' | 'card' | 'money';
 export function Transactions() {
   const { user, updateUser } = useAuth();
   const scrollRef = useRef<ScrollView>(null);
+
+  const navigation = useNavigation();
   const { data: wallet } = useUserWallet();
 
   const { providerId } = useRoute().params as { providerId: string };
+
+  const { data: businnes, isLoading } = useBusinnessById(providerId);
+  console.log({ providerId });
+
+  React.useEffect(() => {
+    if (!providerId) {
+      Toast.show({
+        title: 'Empresa não encontrada',
+        description: 'Não foi possível encontrar a empresa.',
+        tipo: 'warning',
+      });
+
+      navigation.goBack();
+    }
+  }, [providerId]);
 
   const [selectedTypePayment, setSelectTypePayment] =
     React.useState<TPaymentType>('pix');
@@ -61,12 +82,15 @@ export function Transactions() {
     ),
   };
 
+  if (isLoading) return <Loading />;
+
   return (
     <S.container>
       <HStack justifyContent="space-between">
         <Box style={{ gap: 8 }}>
           <S.text>Empresa</S.text>
-          <S.title>{/* {data?.name} - {data?.segmento} */}</S.title>
+          <S.title>{businnes?.name}</S.title>
+          <S.title>{_segmentos().transform[businnes?.segmento]}</S.title>
         </Box>
         <Box style={{ gap: 8 }}>
           <S.text>Meu Cachback</S.text>

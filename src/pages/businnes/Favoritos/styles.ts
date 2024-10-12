@@ -47,7 +47,7 @@ export const actions = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  right: 5;
+  right: 5px;
   z-index: 100;
   background-color: rgba(58, 57, 57, 0.7);
   border-radius: 10px;

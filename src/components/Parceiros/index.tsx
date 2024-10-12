@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Dimensions, FlatList } from 'react-native';
+import { FlatList } from 'react-native';
 
 import { Box, Circle, Image } from 'native-base';
 
@@ -21,7 +21,6 @@ const parceiros = [
 
 export function Parceiros() {
   const ref = React.useRef<FlatList>(null);
-  const { width } = Dimensions.get('screen');
 
   const [index, setIndex] = React.useState<number>(0);
 

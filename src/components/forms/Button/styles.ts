@@ -2,6 +2,7 @@ import { TouchableOpacity } from 'react-native';
 
 import styled, { css } from 'styled-components/native';
 
+import { cor } from '@/styles/cor';
 import { font } from '@/styles/fonts';
 import { _text, hightPercent } from '@/styles/sizes';
 
@@ -36,6 +37,8 @@ export const Container = styled(TouchableOpacity) <IStyle>`
   align-items: center;
   justify-content: center;
   border-radius: 15px;
+  flex-direction: row;
+  gap: 15px;
 
   margin-top: 10px;
 `;
@@ -59,6 +62,6 @@ export const title = styled.Text<IStyle>`
     ${h =>
     h.styleType === 'border' &&
     css<IStyle>`
-      color: ${h => h.color};
+      color: ${cor.text.light};
     `}
 `;

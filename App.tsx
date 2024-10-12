@@ -4,12 +4,14 @@ import 'intl';
 import 'intl/locale-data/jsonp/pt-BR';
 
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Platform, Text, View } from 'react-native';
+import { OneSignal } from 'react-native-onesignal';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { useFonts } from 'expo-font';
+import * as NavigationBar from 'expo-navigation-bar';
 import { StatusBar } from 'expo-status-bar';
 
 import {
@@ -31,10 +33,16 @@ import { reactotron } from '@/config/reactotron';
 import { AuthContextProvider } from '@/context/auth';
 import { StorageProvider } from '@/context/storage';
 import { Routes } from '@/routes';
+import { cor } from '@/styles/cor';
 
 export default function App() {
+  OneSignal.initialize('8957d932-42f6-4aa7-84d4-9919fd1826e8');
   const [loadSplash, setLoadSplash] = React.useState(true);
   const [hasPermission, setHasPermission] = React.useState<any>(null);
+
+  if (Platform.OS === 'android') {
+    NavigationBar.setBackgroundColorAsync('#3a3a3a');
+  }
 
   const [fontsLoaded, fontError] = useFonts({
     Light,
@@ -81,7 +89,7 @@ export default function App() {
   }
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: cor.bgcolor }}>
       <QueryClientProvider client={client}>
         <NativeBaseProvider>
           <SafeAreaProvider>

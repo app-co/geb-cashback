@@ -7,12 +7,8 @@ import { TouchableOpacity } from 'react-native';
 import { Box, FlatList, HStack, Image, Modal, VStack } from 'native-base';
 import {
   Faders,
-  Globe,
   Heart,
-  InstagramLogo,
-  MapTrifold,
-  ShareNetwork,
-  WhatsappLogo
+  ShareNetwork
 } from 'phosphor-react-native';
 import { ZodError } from 'zod';
 
@@ -20,7 +16,9 @@ import { useRegisterFavorites, useRemoveFavorites, useSaveLocal } from '@/hooks/
 import { useFavorites, useGetAllCompany, useGetLocalSegemnto } from '@/hooks/querys';
 import { cor } from '@/styles/cor';
 import { canvaPercent, hightPercent, widtPercent } from '@/styles/sizes';
+import { Mask } from '@/utils/mask';
 import { _segmentos } from '@/utils/segments';
+import { _socialMidia } from '@/utils/socia-midia';
 import { useNavigation } from '@react-navigation/native';
 
 import { Button } from '../forms/Button';
@@ -33,6 +31,7 @@ import * as S from './styles';
 
 const transformEnununsSegmentos = _segmentos().transform
 const segmentos = _segmentos().enun
+const mask = new Mask()
 
 export function Providers() {
   const nav = useNavigation()
@@ -216,7 +215,10 @@ export function Providers() {
       </HStack>
 
       {company?.length === 0 && (
-        <S.title>No momento não temos prestadores para esses segmentos</S.title>
+        <Box p={8} >
+
+          <S.title style={{ textAlign: 'center' }} >No momento não temos prestadores para esses segmentos</S.title>
+        </Box>
       )}
 
       <FlatList
@@ -232,8 +234,11 @@ export function Providers() {
             </S.logo>
 
             <S.bx>
-              <HStack alignItems="center" justifyContent="space-between"  >
-                <S.title>{h.name}</S.title>
+              <HStack alignItems="center" justifyContent="space-between">
+                <Box>
+                  <S.title>{h.name}</S.title>
+                  <S.texts style={{ color: cor.focus.a }} >{_segmentos().transform[h.segmento]}</S.texts>
+                </Box>
                 <S.actions>
                   <TouchableOpacity onPress={() => handleAddFavorites(h.id)} >
                     {favorites.includes(h.id) ? (
@@ -248,28 +253,16 @@ export function Providers() {
                   </TouchableOpacity>
                 </S.actions>
               </HStack>
-              <S.texts>
-                {h.location?.street}, {h.location?.number}, {h.location?.city} -{' '}
-                {h.location?.region_code}
-              </S.texts>
-              <S.texts>Contato: {h.telefone}</S.texts>
+
+              <S.texts style={{ marginTop: 8 }} >Contato: {mask.cellPhone(h.telefone)}</S.texts>
 
               <HStack space={8} mt="4">
-                <TouchableOpacity>
-                  <WhatsappLogo size={25} color="green" weight="duotone" />
-                </TouchableOpacity>
+                {h.social_midia && h.social_midia.map(j => (
+                  <TouchableOpacity>
+                    {_socialMidia.find(p => p.value === j.type)?.ico}
+                  </TouchableOpacity>
+                ))}
 
-                <TouchableOpacity>
-                  <InstagramLogo size={25} color="#2096e4" weight="duotone" />
-                </TouchableOpacity>
-
-                <TouchableOpacity>
-                  <Globe color="#c1c1c1" size={25} weight="duotone" />
-                </TouchableOpacity>
-
-                <TouchableOpacity>
-                  <MapTrifold color="#c1c1c1" size={25} weight="duotone" />
-                </TouchableOpacity>
               </HStack>
             </S.bx>
           </S.boxProvider>

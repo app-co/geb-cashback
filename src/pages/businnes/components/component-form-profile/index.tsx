@@ -115,14 +115,18 @@ export function ComponentFormProfile() {
   const upateProfile = React.useCallback(async (obj: TFormUpdaProfile) => {
     try {
       await updates.upProfile.mutateAsync(obj);
-      updateUser();
       SucessHandler.message({
         title: 'Sucesso!',
         description: 'Seus dados pessoal foi atualizado',
         tipo: 'success',
       });
+      updateUser();
     } catch (error) {
-      console.log({ error });
+      SucessHandler.message({
+        title: 'Ops!',
+        description: 'Não foi possivel atualizar seus dados',
+        tipo: 'warning',
+      });
     }
   }, []);
 

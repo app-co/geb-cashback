@@ -119,3 +119,11 @@ export const schemaPayMoney = z.object({
 export const objRegisterFavorites = z.object({
   companyId: z.string(),
 });
+
+export const schemaGetComanyExtrato = z
+  .object({
+    userId: z.string(),
+    month: z.string(),
+    status: z.string(),
+  })
+  .merge(pagination);

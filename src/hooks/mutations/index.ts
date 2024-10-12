@@ -1,5 +1,7 @@
 import { useMutation, useQueryClient } from 'react-query';
 
+import Toast from '@/components/modals/toast/handler';
+
 import { Fetch } from '../fetchs';
 import { transactionRegisterCardToken } from '../fetchs/fetch-transactions';
 import { saveDataLocal } from '../storage';
@@ -13,7 +15,22 @@ const fetch = new Fetch();
 export function useSignIn() {
   const queryClient = useQueryClient();
 
-  return useMutation(fetch.signIn);
+  return useMutation(fetch.signIn, {
+    onSuccess: () => {
+      Toast.show({
+        tipo: 'success',
+        title: 'Bem Vindo!',
+        description: 'Você foi logado com sucesso!',
+      });
+    },
+    onError: (error: any) => {
+      Toast.show({
+        tipo: 'error',
+        title: 'Erro ao logar',
+        description: error?.message ?? 'Erro ao efetuar o login',
+      });
+    },
+  });
 }
 
 export function useSignUp() {

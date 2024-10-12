@@ -7,14 +7,14 @@ import { ArrowCircleLeft, ArrowCircleRight } from 'phosphor-react-native';
 import { z } from 'zod';
 
 import { Button } from '@/components/forms/Button';
+import Toast from '@/components/modals/toast/handler';
 import { useAuth } from '@/context/auth';
 import { useStepByStep } from '@/context/step-by-step';
 import { useSignUp } from '@/hooks/mutations';
-import { AppError } from '@/services/AppError';
 import { cor } from '@/styles/cor';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { A } from '../steps/A';
 import { B } from '../steps/B';
@@ -76,6 +76,8 @@ export function FullCadastro() {
   const { updateUser } = useAuth();
   const { isLoading, mutateAsync } = useSignUp();
 
+  const { type } = useRoute().params as { type: 'businnes' | 'normal' };
+  console.log({ type });
   function reducer(state: TState, action: TAction) {
     switch (action.step) {
       case 0:
@@ -99,6 +101,8 @@ export function FullCadastro() {
   const controlA = useForm<IA>({
     resolver: yupResolver(schemeA),
   });
+
+  React.useEffect(() => { }, []);
 
   const controlB = useForm<IB>({
     resolver: yupResolver(shcmeB),
@@ -178,23 +182,28 @@ export function FullCadastro() {
           name: user.name,
           email: user.email,
           password: user.password,
-          account_type: 'normal' as any,
+          account_type: type,
         };
 
         await mutateAsync({ U, P: profile, L });
+
+        Toast.show({
+          title: 'Parabéns!',
+          description: 'Seu cadastro foi realizado com sucesso.',
+          tipo: 'success',
+        });
         navigate('login');
       } catch (error) {
-        if (error instanceof AppError) {
-          toast.show({
-            title: 'Erro ao salvar',
-            description: error.message,
-            placement: 'bottom',
-            bg: 'red.500',
-          });
-        }
+        console.log(error);
+        Toast.show({
+          title: 'Ops!',
+          description:
+            'Ocorreu um erro ao realizar seu cadastro. Tente novamente.',
+          tipo: 'error',
+        });
       }
     },
-    [mutateAsync, navigate, state],
+    [state, type],
   );
 
   const submit = {

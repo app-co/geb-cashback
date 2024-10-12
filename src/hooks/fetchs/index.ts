@@ -2,6 +2,7 @@
 import { api } from '@/services/api';
 import { pathsRoutes } from '@/services/schemeRoutes';
 
+import { IExtrato, IMetrica } from '../interfaces';
 import { ICompany, IRecordsCompany, IWallet } from './interfaces';
 import {
   objRegisterFavorites,
@@ -85,6 +86,25 @@ export class Fetch {
 
   async getCasheback() {
     const { data } = await api.get<IWallet>('/casheback');
+    return data;
+  }
+
+  async getCompanyMetrica(params: { userId: string }) {
+    const { data } = await api.get<IMetrica>('/company/metricas', {
+      params,
+    });
+    return data;
+  }
+
+  async getCompanyExtrato(params: t.TGeCompanyExtrato) {
+    const { data } = await api.get<IExtrato>('/company/extrato', {
+      params,
+    });
+    return data;
+  }
+
+  async getDestaque() {
+    const { data } = await api.get<IRecordsCompany[]>('/company/destaque');
     return data;
   }
 }

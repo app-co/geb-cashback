@@ -1,3 +1,5 @@
+import { ISocialMida } from '@/pages/businnes/BusinnesConfig/hooks/dto/interfaces';
+
 export interface ICardToken {
   id: string;
   number: string;
@@ -64,15 +66,7 @@ export interface IRecordsCompany {
   segmento: string;
   casheback: number;
   telefone: string;
-  social_midia: {
-    id: number;
-    whatsapp: string;
-    linkedin: string;
-    instagram: string;
-    telegram: string;
-    google_maps: string;
-    facebook: string;
-  };
+  social_midia: ISocialMida[];
   favorite: boolean;
   favoriteId: number;
 }

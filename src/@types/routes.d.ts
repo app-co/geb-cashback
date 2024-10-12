@@ -18,6 +18,9 @@ export declare global {
       extrato: undefined;
       favoritos: undefined;
       transactions: T<{ providerId: string }>;
+      BusinnesConfig: undefined;
+      faturamento: undefined;
+      casheout: undefined;
     }
   }
 }

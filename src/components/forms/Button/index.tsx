@@ -1,6 +1,6 @@
 /* eslint-disable react/require-default-props */
 /* eslint-disable react/jsx-props-no-spreading */
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { ActivityIndicator, TouchableOpacityProps } from 'react-native';
 
 import { cor } from '@/styles/cor';
@@ -13,6 +13,7 @@ interface IProps extends TouchableOpacityProps {
   styleType?: 'solid' | 'transpale' | 'border';
   bg_color?: string;
   txt_color?: string;
+  ico?: ReactNode;
 }
 
 export function Button({
@@ -21,6 +22,7 @@ export function Button({
   styleType = 'solid',
   bg_color = cor.button_bg_color.a,
   txt_color = cor.text.black,
+  ico,
   ...rest
 }: IProps) {
   return (
@@ -30,6 +32,7 @@ export function Button({
       disabled={load}
       {...rest}
     >
+      {ico}
       {load ? (
         <ActivityIndicator color={cor.text.light} size={36} />
       ) : (

@@ -65,14 +65,7 @@ export function Login() {
   }, []);
 
   const submit = React.useCallback(async (data: TFormaData) => {
-    try {
-      login(data);
-      Toast.show({
-        description: 'Login efetuado com sucesso!',
-        title: 'Bem Vindo!',
-        tipo: 'success',
-      });
-    } catch (error) { }
+    login(data);
   }, []);
 
   return (

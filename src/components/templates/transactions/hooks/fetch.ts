@@ -1,3 +1,4 @@
+import { ICompanyById } from '@/pages/businnes/BusinnesConfig/hooks/dto/interfaces';
 import { api } from '@/services/api';
 
 import { IResposePaymentCard } from './dto/interfaces';
@@ -19,4 +20,10 @@ export async function postSaveCard(obj: TObjetoSaveCard) {
   const response = await api.post('/order/saveCard', obj);
 
   return response.data;
+}
+
+export async function getBusinesById(id: string) {
+  const { data } = await api.get<ICompanyById>(`/company/${id}`);
+
+  return data;
 }

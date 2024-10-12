@@ -13,7 +13,8 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.appcom.geb-casheback"
+      "bundleIdentifier": "com.appcom.gebcasheback",
+      "googleServicesFile": "firebase-ios.plist"
     },
     "android": {
       "adaptiveIcon": {
@@ -26,12 +27,14 @@
         "android.permission.CAMERA",
         "android.permission.RECORD_AUDIO"
       ],
-      "package": "com.appcom.gebcasheback"
+      "package": "com.appcom.gebcasheback",
+      "googleServicesFile": "firebase-android.json"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
+      "@react-native-firebase/app",
       [
         "expo-local-authentication",
         {

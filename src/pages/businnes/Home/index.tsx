@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-bind */
 import React, { useCallback, useState } from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 
 import {
   BarcodeScanningResult,
@@ -8,16 +8,17 @@ import {
   useCameraPermissions,
 } from 'expo-camera';
 
-import { Box, Center, HStack, Image } from 'native-base';
-import { XCircle } from 'phosphor-react-native';
+import { Box, Center, HStack } from 'native-base';
+import { PixLogo, XCircle } from 'phosphor-react-native';
 
-import pix from '@/assets/pix1.png';
 import { Button } from '@/components/forms/Button';
 import { Line } from '@/components/Line';
 import { Parceiros } from '@/components/Parceiros';
 import { useAuth } from '@/context/auth';
 import { useUserWallet } from '@/hooks/querys';
+import { Destaque } from '@/pages/communs/Destaque';
 import { cor } from '@/styles/cor';
+import { _title } from '@/styles/sizes';
 import { convertNumberToCurrency } from '@/utils/unidades';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
@@ -140,51 +141,61 @@ export function Home() {
         </Center>
       )}
 
-      <HStack mt="8" alignItems="flex-end" justifyContent="space-between">
-        <Box>
-          <S.subtitle style={{ fontWeight: '800' }}>Cashback</S.subtitle>
-          <S.cash>
-            <S.title>{casheback}</S.title>
-          </S.cash>
+      <Button
+        onPress={() => navigation.navigate('BusinnesConfig')}
+        title="Minha Empresa"
+        styleType="border"
+      />
+
+      <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
+        <HStack mt="8" alignItems="flex-end" justifyContent="space-between">
+          <Box>
+            <S.subtitle style={{ fontWeight: '800' }}>Cashback</S.subtitle>
+            <S.cash>
+              <S.title>{casheback}</S.title>
+            </S.cash>
+          </Box>
+
+          <Box>
+            <S.cash onPress={() => navigation.navigate('cacheOut')}>
+              <S.title>SACAR</S.title>
+              <PixLogo weight="duotone" />
+            </S.cash>
+          </Box>
+        </HStack>
+
+        <Box mt="8">
+          <MenuBox
+            presExtrato={() => navigation.navigate('extrato')}
+            presBuy={() => {
+              toggleCameraFacing();
+              setOpneScan(!openScan);
+            }}
+            presProvider={() => navigation.navigate('providers')}
+          />
+        </Box>
+
+        <Box mt="8">
+          <Line />
         </Box>
 
         <Box>
-          <S.cash onPress={() => navigation.navigate('cacheOut')}>
-            <S.title>SACAR</S.title>
-            <Image source={pix} alt="pix" />
-          </S.cash>
+          <Parceiros />
         </Box>
-      </HStack>
 
-      <Box mt="8">
-        <MenuBox
-          presExtrato={() => navigation.navigate('extrato')}
-          presBuy={() => {
-            toggleCameraFacing();
-            setOpneScan(!openScan);
-          }}
-          presProvider={() => navigation.navigate('providers')}
-        />
-      </Box>
-
-      <Box mt="8">
-        <Line />
-      </Box>
-
-      <Box>
-        <Parceiros />
-      </Box>
-
-      <Box mt="8">
-        <MenuBox
-          presExtrato={() => navigation.navigate('extrato')}
-          presBuy={() => {
-            toggleCameraFacing();
-            setOpneScan(!openScan);
-          }}
-          presProvider={() => navigation.navigate('providers')}
-        />
-      </Box>
+        <Box mt="8">
+          <S.title
+            style={{
+              color: cor.focus.a,
+              marginBottom: 10,
+              fontSize: _title - 3,
+            }}
+          >
+            Destaques
+          </S.title>
+          <Destaque />
+        </Box>
+      </ScrollView>
     </S.Container>
   );
 }

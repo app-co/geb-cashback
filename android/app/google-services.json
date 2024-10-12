@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "81506695368",
+    "project_id": "geb-casheback",
+    "storage_bucket": "geb-casheback.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:81506695368:android:10955770b4096389198dfd",
+        "android_client_info": {
+          "package_name": "com.appcom.gebcasheback"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "81506695368-k9lvqbu2urhs1noenbku4okquu7bta2b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXsIX2mOlpKKwlwgI5nzSnZ16nI70tU2Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "81506695368-k9lvqbu2urhs1noenbku4okquu7bta2b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "81506695368-ojom7e4vumoaoukgjjqlevvtsvr08qsb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.appcom.gebcasheback"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

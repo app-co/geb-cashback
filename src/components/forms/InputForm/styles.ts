@@ -8,5 +8,6 @@ export const Container = styled.View``;
 export const error = styled.Text`
   font-size: ${_text}px;
   font-family: ${font.regular};
-  color: #8fff4a;
+  color: #e91919;
+  margin-top: -10px;
 `;

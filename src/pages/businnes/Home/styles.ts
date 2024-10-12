@@ -23,7 +23,7 @@ export const cash = styled.TouchableOpacity`
 
 export const title = styled.Text`
   font-family: ${font.regular};
-  font-size: ${_subtitle - 4}px;
+  font-size: ${_subtitle}px;
   color: ${cor.text.black};
 `;
 
