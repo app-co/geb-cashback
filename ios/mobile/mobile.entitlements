@@ -8,6 +8,7 @@
     <array>
       <string>group.com.appcom.geb-casheback.onesignal</string>
       <string>group.com.appcom.gebcasheback.onesignal</string>
+      <string>group.com.appcom.casheback.onesignal</string>
     </array>
   </dict>
 </plist>

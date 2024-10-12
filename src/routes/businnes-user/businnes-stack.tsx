@@ -2,7 +2,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 
-import { Loading } from '@/components/Loading';
 import { Providers } from '@/components/Providers';
 import { CacheOut } from '@/components/templates/CacheOut';
 import { ComapanyCasheout } from '@/components/templates/company-casheout';
@@ -31,8 +30,6 @@ const { Screen, Navigator } = createNativeStackNavigator();
 export function BusinnesStack() {
   const { user } = useAuth();
   const { data, isLoading } = useCompanyById();
-
-  if (isLoading) return <Loading />;
 
   if (!data?.id) {
     return (

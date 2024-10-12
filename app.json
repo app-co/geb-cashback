@@ -13,8 +13,8 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.appcom.gebcasheback",
-      "googleServicesFile": "firebase-ios.plist"
+      "bundleIdentifier": "com.appcom.casheback",
+      "googleServicesFile": "firebaseIos.plist"
     },
     "android": {
       "adaptiveIcon": {
@@ -27,8 +27,8 @@
         "android.permission.CAMERA",
         "android.permission.RECORD_AUDIO"
       ],
-      "package": "com.appcom.gebcasheback",
-      "googleServicesFile": "firebase-android.json"
+      "package": "com.appcom.casheback",
+      "googleServicesFile": "firebaseA.json"
     },
     "web": {
       "favicon": "./assets/favicon.png"

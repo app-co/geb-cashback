@@ -83,9 +83,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace 'com.appcom.gebcasheback'
+    namespace 'com.appcom.casheback'
     defaultConfig {
-        applicationId 'com.appcom.gebcasheback'
+        applicationId 'com.appcom.casheback'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

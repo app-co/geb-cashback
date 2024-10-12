@@ -1,4 +1,4 @@
-package com.appcom.gebcasheback
+package com.appcom.casheback
 
 import android.app.Application
 import android.content.res.Configuration

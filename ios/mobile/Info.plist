@@ -28,13 +28,7 @@
         <key>CFBundleURLSchemes</key>
         <array>
           <string>geb-cacheback</string>
-          <string>com.appcom.gebcasheback</string>
-        </array>
-      </dict>
-      <dict>
-        <key>CFBundleURLSchemes</key>
-        <array>
-          <string>com.googleusercontent.apps.81506695368-ojom7e4vumoaoukgjjqlevvtsvr08qsb</string>
+          <string>com.appcom.casheback</string>
         </array>
       </dict>
       <dict>

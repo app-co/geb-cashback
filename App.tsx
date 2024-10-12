@@ -35,8 +35,9 @@ import { StorageProvider } from '@/context/storage';
 import { Routes } from '@/routes';
 import { cor } from '@/styles/cor';
 
+OneSignal.initialize('77610791-dd21-497f-a9e0-9ee1e02d6077');
+
 export default function App() {
-  OneSignal.initialize('8957d932-42f6-4aa7-84d4-9919fd1826e8');
   const [loadSplash, setLoadSplash] = React.useState(true);
   const [hasPermission, setHasPermission] = React.useState<any>(null);
 
