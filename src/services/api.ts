@@ -27,6 +27,8 @@ function handleServerError(error: AxiosError) {
   }
 }
 
+console.log(baseURL);
+
 const api = axios.create({
   baseURL,
 }) as APIInstaceProps;
