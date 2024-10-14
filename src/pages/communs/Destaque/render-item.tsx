@@ -24,7 +24,7 @@ export function RenderIdem({ item }: I) {
       <Image
         alt="img"
         h={hightPercent('15')}
-        w={_width * 0.5}
+        w={_width * 0.6}
         source={{ uri: item?.logo }}
       />
       <VStack>

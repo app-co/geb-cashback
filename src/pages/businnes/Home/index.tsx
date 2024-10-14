@@ -1,6 +1,11 @@
 /* eslint-disable react/jsx-no-bind */
 import React, { useCallback, useState } from 'react';
-import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+  RefreshControl,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 
 import {
   BarcodeScanningResult,
@@ -15,7 +20,7 @@ import { Button } from '@/components/forms/Button';
 import { Line } from '@/components/Line';
 import { Parceiros } from '@/components/Parceiros';
 import { useAuth } from '@/context/auth';
-import { useUserWallet } from '@/hooks/querys';
+import { useDestaque, useUserWallet } from '@/hooks/querys';
 import { Destaque } from '@/pages/communs/Destaque';
 import { cor } from '@/styles/cor';
 import { _title } from '@/styles/sizes';
@@ -57,7 +62,14 @@ export function Home() {
   const navigation = useNavigation();
   const { user } = useAuth();
 
-  const { data: wallet } = useUserWallet();
+  const { data: wallet, refetch } = useUserWallet();
+  const {
+    refetch: destaqueRefetch,
+    isLoading,
+    data: destaque = [],
+    isRefetching,
+  } = useDestaque();
+
   const [openScan, setOpneScan] = React.useState<boolean>(false);
 
   const handleScan = React.useCallback(async (data: BarcodeScanningResult) => {
@@ -80,6 +92,11 @@ export function Home() {
       }
     }, [user]),
   );
+
+  function refaching() {
+    destaqueRefetch();
+    refetch();
+  }
 
   if (!permission) {
     // Camera permissions are still loading.
@@ -147,7 +164,12 @@ export function Home() {
         styleType="border"
       />
 
-      <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
+      <ScrollView
+        contentContainerStyle={{ paddingBottom: 100 }}
+        refreshControl={
+          <RefreshControl refreshing={isRefetching} onRefresh={refaching} />
+        }
+      >
         <HStack mt="8" alignItems="flex-end" justifyContent="space-between">
           <Box>
             <S.subtitle style={{ fontWeight: '800' }}>Cashback</S.subtitle>

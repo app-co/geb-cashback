@@ -1,18 +1,21 @@
 import React, { useRef } from 'react';
 import { FlatList } from 'react-native';
 
-import { Loading } from '@/components/Loading';
-import { useDestaque } from '@/hooks/querys';
+import { Box } from 'native-base';
+
+import { IRecordsCompany } from '@/hooks/fetchs/interfaces';
 
 import { RenderIdem } from './render-item';
 import * as S from './styles';
 
-export function Destaque() {
+interface I {
+  destaque: IRecordsCompany[];
+}
+
+export function Destaque({ destaque = [] }: I) {
   const ref = React.useRef<FlatList>(null);
 
   const [index, setIndex] = React.useState<number>(0);
-
-  const { data: destaque = [], isLoading } = useDestaque();
 
   function onViewableItemsChanged({ viewableItems }: any) {
     if (viewableItems.length > 0) {
@@ -55,23 +58,25 @@ export function Destaque() {
     return () => clearTimeout(time);
   }, [index]);
 
-  if (isLoading) return <Loading />;
-
   return (
     <S.Container>
-      <FlatList
-        ref={ref}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{
-          gap: 20,
-          paddingHorizontal: 10,
-        }}
-        data={destaque}
-        initialScrollIndex={0}
-        keyExtractor={h => h.id}
-        renderItem={({ item: h, index: i }) => <RenderIdem item={h} />}
-      />
+      {destaque.length > 0 ? (
+        <FlatList
+          ref={ref}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{
+            gap: 20,
+            paddingHorizontal: 10,
+          }}
+          data={destaque}
+          initialScrollIndex={0}
+          keyExtractor={h => h.id}
+          renderItem={({ item: h, index: i }) => <RenderIdem item={h} />}
+        />
+      ) : (
+        <Box />
+      )}
     </S.Container>
   );
 }

@@ -14,6 +14,7 @@ import React, {
 
 // import * as LocalAuthentication from 'expo-local-authentication';
 
+import { OneSignal } from 'react-native-onesignal';
 
 import { IUser } from '@/dtos';
 import { useSignIn } from '@/hooks/mutations';
@@ -88,6 +89,7 @@ export function AuthContextProvider({ children }: TAuthContext) {
 
       setData({ token, user: user.data });
       await storageToken.setToken(token);
+      OneSignal.User.addTag('user', user.data.id);
 
       //   await api
       //     .post(pathsRoutes.session.user, {

@@ -1,6 +1,11 @@
 /* eslint-disable react/jsx-no-bind */
-import React, { useCallback, useState } from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import {
+  RefreshControl,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 
 import {
   BarcodeScanningResult,
@@ -14,12 +19,15 @@ import { XCircle } from 'phosphor-react-native';
 import pix from '@/assets/pix1.png';
 import { Button } from '@/components/forms/Button';
 import { Line } from '@/components/Line';
+import { Loading } from '@/components/Loading';
 import { Parceiros } from '@/components/Parceiros';
 import { useAuth } from '@/context/auth';
-import { useUserWallet } from '@/hooks/querys';
+import { useDestaque, useUserWallet } from '@/hooks/querys';
+import { Destaque } from '@/pages/communs/Destaque';
 import { cor } from '@/styles/cor';
+import { _title } from '@/styles/sizes';
 import { convertNumberToCurrency } from '@/utils/unidades';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 import { MenuBox } from '../components/MenuBox';
 import { MenuHeader } from '../components/MenuHeader';
@@ -56,7 +64,14 @@ export function Home() {
   const navigation = useNavigation();
   const { user } = useAuth();
 
-  const { data: wallet } = useUserWallet();
+  const { data: wallet, refetch } = useUserWallet();
+  const {
+    refetch: destaqueRefetch,
+    isLoading,
+    data: destaque = [],
+    isRefetching,
+  } = useDestaque();
+
   const [openScan, setOpneScan] = React.useState<boolean>(false);
 
   const handleScan = React.useCallback(async (data: BarcodeScanningResult) => {
@@ -69,16 +84,10 @@ export function Home() {
   const [facing, setFacing] = useState('back');
   const [permission, requestPermission] = useCameraPermissions();
 
-  useFocusEffect(
-    useCallback(() => {
-      if (!user.locality) {
-        navigation.navigate('fullCadastro', {
-          type: 'extra_cash',
-          session: true,
-        });
-      }
-    }, [user]),
-  );
+  function refaching() {
+    destaqueRefetch();
+    refetch();
+  }
 
   if (!permission) {
     // Camera permissions are still loading.
@@ -102,6 +111,8 @@ export function Home() {
   }
 
   const casheback = convertNumberToCurrency(wallet?.amount_cashback ?? 0);
+
+  if (isLoading) return <Loading />;
 
   return (
     <S.Container>
@@ -140,51 +151,60 @@ export function Home() {
         </Center>
       )}
 
-      <HStack mt="8" alignItems="flex-end" justifyContent="space-between">
-        <Box>
-          <S.subtitle style={{ fontWeight: '800' }}>Cashback</S.subtitle>
-          <S.cash>
-            <S.title>{casheback}</S.title>
-          </S.cash>
+      <ScrollView
+        contentContainerStyle={{ paddingBottom: 50 }}
+        refreshControl={
+          <RefreshControl refreshing={isRefetching} onRefresh={refaching} />
+        }
+      >
+        <HStack mt="8" alignItems="flex-end" justifyContent="space-between">
+          <Box>
+            <S.subtitle style={{ fontWeight: '800' }}>Cashback</S.subtitle>
+            <S.cash>
+              <S.title>{casheback}</S.title>
+            </S.cash>
+          </Box>
+
+          <Box>
+            <S.cash onPress={() => navigation.navigate('cacheOut')}>
+              <S.title>SACAR</S.title>
+              <Image source={pix} alt="pix" />
+            </S.cash>
+          </Box>
+        </HStack>
+
+        <Box mt="8">
+          <MenuBox
+            presExtrato={() => navigation.navigate('extrato')}
+            presBuy={() => {
+              toggleCameraFacing();
+              setOpneScan(!openScan);
+            }}
+            presProvider={() => navigation.navigate('providers')}
+          />
+        </Box>
+
+        <Box mt="8">
+          <Line />
         </Box>
 
         <Box>
-          <S.cash onPress={() => navigation.navigate('cacheOut')}>
-            <S.title>SACAR</S.title>
-            <Image source={pix} alt="pix" />
-          </S.cash>
+          <Parceiros />
         </Box>
-      </HStack>
 
-      <Box mt="8">
-        <MenuBox
-          presExtrato={() => navigation.navigate('extrato')}
-          presBuy={() => {
-            toggleCameraFacing();
-            setOpneScan(!openScan);
-          }}
-          presProvider={() => navigation.navigate('providers')}
-        />
-      </Box>
-
-      <Box mt="8">
-        <Line />
-      </Box>
-
-      <Box>
-        <Parceiros />
-      </Box>
-
-      <Box mt="8">
-        <MenuBox
-          presExtrato={() => navigation.navigate('extrato')}
-          presBuy={() => {
-            toggleCameraFacing();
-            setOpneScan(!openScan);
-          }}
-          presProvider={() => navigation.navigate('providers')}
-        />
-      </Box>
+        <Box mt="8">
+          <S.title
+            style={{
+              color: cor.focus.a,
+              marginBottom: 10,
+              fontSize: _title - 3,
+            }}
+          >
+            Destaques
+          </S.title>
+          <Destaque destaque={destaque} />
+        </Box>
+      </ScrollView>
     </S.Container>
   );
 }

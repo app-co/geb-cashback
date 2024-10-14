@@ -34,8 +34,9 @@ import { AuthContextProvider } from '@/context/auth';
 import { StorageProvider } from '@/context/storage';
 import { Routes } from '@/routes';
 import { cor } from '@/styles/cor';
+import { KEY_ONESIGNAL } from '@env';
 
-OneSignal.initialize('77610791-dd21-497f-a9e0-9ee1e02d6077');
+OneSignal.initialize(KEY_ONESIGNAL);
 
 export default function App() {
   const [loadSplash, setLoadSplash] = React.useState(true);

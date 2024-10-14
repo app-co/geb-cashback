@@ -27,8 +27,6 @@ function handleServerError(error: AxiosError) {
   }
 }
 
-console.log(baseURL);
-
 const api = axios.create({
   baseURL,
 }) as APIInstaceProps;
@@ -38,17 +36,14 @@ api.interceptors.response.use(
     return res;
   },
   (error: AxiosError) => {
-    const { status, data } = error?.response as any;
-    if (error.message === 'Network Error') {
+    console.log('error =>', error?.message);
+    if (error?.message === 'Network Error') {
       ConectionErrorModalHandler.showModal();
+      return Promise.reject(error);
     }
+    const { status, data } = error?.response as any;
 
     if (status && status === 409) {
-      Toast.show({
-        title: 'Atenção',
-        description: data?.error,
-        tipo: 'warning',
-      });
       return Promise.reject(new AppError(data?.error));
     }
 
