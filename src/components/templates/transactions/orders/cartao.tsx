@@ -18,6 +18,7 @@ import { cor } from '@/styles/cor';
 import { font } from '@/styles/fonts';
 import { _currencyToNumber, convertNumberToCurrency } from '@/utils/unidades';
 import { zodResolver } from '@hookform/resolvers/zod';
+import {PUBLIC_KEY} from '@env'
 
 import { Encrypt } from '../cripto';
 import {
@@ -82,8 +83,6 @@ export function Card({ providerId, setPaymentType, ref, paymentType }: I) {
         cardToken: token
       };
 
-      console.log('dt', dt)
-
       if (obj.cachebakCliente > casheback) {
         return Toast.show({
           title: 'Saldo insuficiente',
@@ -127,6 +126,7 @@ export function Card({ providerId, setPaymentType, ref, paymentType }: I) {
       number: obj.number,
       holder: obj.holder,
       securityCode: obj.ccv,
+      public_key: PUBLIC_KEY
     });
 
 

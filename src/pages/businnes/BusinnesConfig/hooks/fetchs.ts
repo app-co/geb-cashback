@@ -24,4 +24,10 @@ export const fetchs = {
 
     return data;
   },
+
+  validateCnpj: async (cnpj: string) => {
+    const {data} = await axios.get(`https://brasilapi.com.br/api/cnpj/v1/${cnpj}`)
+
+    return data
+  }
 };

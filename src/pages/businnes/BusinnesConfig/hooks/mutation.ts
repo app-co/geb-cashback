@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import Toast from '@/components/modals/toast/handler';
 
 import { fetchs } from './fetchs';
+import { AppError } from '@/services/AppError';
 
 export function useRegisterCompany() {
   const client = useQueryClient();
@@ -15,6 +16,16 @@ export function useRegisterCompany() {
         tipo: 'success',
       });
     },
+    onError: (error) => {
+      if(error instanceof AppError) {
+        Toast.show({
+          title: 'Ops!',
+          description: error.message,
+          tipo: 'warning'
+        })
+        
+      }
+    }
   });
 }
 

@@ -9,3 +9,8 @@ export function useCompanyById() {
 export function useSocialMida() {
   return useQuery('company', fetchs.getCompanyById);
 }
+
+export function useValidateCnpj(cnpj: string) {
+  
+  return useQuery(['validate', cnpj], () => fetchs.validateCnpj(cnpj))
+}
