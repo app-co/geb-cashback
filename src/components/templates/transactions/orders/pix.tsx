@@ -5,7 +5,7 @@ import { Image, TouchableOpacity } from 'react-native';
 
 import * as Clipboard from 'expo-clipboard';
 
-import { Box, Center, HStack, ScrollView, useToast } from 'native-base';
+import { Box, Center, HStack, ScrollView } from 'native-base';
 
 import { Button } from '@/components/forms/Button';
 import { FormInput } from '@/components/forms/FormInput';
@@ -19,6 +19,8 @@ import { usePagamento } from '../hooks/mutations';
 import { schemaObjectPaymet } from '../hooks/schemas';
 import * as S from '../styles';
 
+// 763.139.015-09
+
 interface I {
   providerId: string;
   setPaymentType: (paymentType: string) => void;
@@ -29,7 +31,6 @@ export function Pix({ providerId, setPaymentType, paymentType }: I) {
   const { user, updateUser } = useAuth();
   const { payPix } = usePagamento();
 
-  const toast = useToast();
   const [imageQrcode, setImageQrcode] = React.useState<{
     img: string;
     text: string;
@@ -64,11 +65,11 @@ export function Pix({ providerId, setPaymentType, paymentType }: I) {
       updateUser();
     } catch (error) {
       if (error instanceof AppError) {
-        // Toast.show({
-        //   title: 'Erro!',
-        //   description: 'Texto copiado com sucesso.',
-        //   tipo: 'error',
-        // });
+        Toast.show({
+          title: 'Ops!',
+          description: error.message,
+          tipo: 'warning',
+        });
       }
     }
   }

@@ -17,8 +17,8 @@ import { AppError } from '@/services/AppError';
 import { cor } from '@/styles/cor';
 import { font } from '@/styles/fonts';
 import { _currencyToNumber, convertNumberToCurrency } from '@/utils/unidades';
+import { PUBLIC_KEY } from '@env';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {PUBLIC_KEY} from '@env'
 
 import { Encrypt } from '../cripto';
 import {
@@ -36,6 +36,8 @@ interface I {
   paymentType: 'card' | 'pix' | 'money';
   ref: () => void;
 }
+
+// 5502090357095572
 export function Card({ providerId, setPaymentType, ref, paymentType }: I) {
   const { user, updateUser } = useAuth();
   const { payCard, saveCard } = usePagamento();
@@ -100,7 +102,6 @@ export function Card({ providerId, setPaymentType, ref, paymentType }: I) {
       })
       updateUser();
     } catch (error) {
-      console.log(error)
       if (error instanceof AppError) {
         Toast.show({
           title: 'Erro ao pagar com cartão',
@@ -112,7 +113,6 @@ export function Card({ providerId, setPaymentType, ref, paymentType }: I) {
   }
 
 
-
   async function payNotCardSave(obj: TPayNotSaveCard) {
     const [mes, ano] = obj.expiry
       .replace(/\D/g, '')
@@ -120,13 +120,14 @@ export function Card({ providerId, setPaymentType, ref, paymentType }: I) {
       .split('/')
       .map(String);
 
+
     const cript = Encrypt({
       expMonth: mes,
       expYear: `20${ano}`,
       number: obj.number,
       holder: obj.holder,
       securityCode: obj.ccv,
-      public_key: PUBLIC_KEY
+      publicKey: PUBLIC_KEY
     });
 
 
@@ -138,6 +139,8 @@ export function Card({ providerId, setPaymentType, ref, paymentType }: I) {
         bg: 'red.500',
       });
     }
+
+
     const { encryptedCard } = cript;
 
 
@@ -159,6 +162,14 @@ export function Card({ providerId, setPaymentType, ref, paymentType }: I) {
       const schema = schemaObjPayCard.parse(dt);
 
       const pay = await payCard.mutateAsync(schema);
+
+      if (pay[0].status !== 'succeeded') {
+        return Toast.show({
+          title: 'Erro ao pagar com cartão',
+          description: 'Não foi possível realizar o pagamento. Por favor, tente novamente ou entre em contato com o seu banco.',
+          tipo: 'warning',
+        });
+      }
 
       const cardTokek = {
         token: pay[0].payment_method.card.id,

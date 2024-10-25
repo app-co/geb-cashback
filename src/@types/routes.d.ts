@@ -1,5 +1,5 @@
 type TCadastro = {
-  type: 'search' | 'extra_cash' | 'businnes';
+  type: 'search' | 'normal' | 'businnes';
   session?: boolean;
 };
 

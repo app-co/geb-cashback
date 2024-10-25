@@ -70,7 +70,7 @@ export function Cadastro() {
 
         <S.boxCard
           style={{ backgroundColor: cor.focus.a }}
-          onPress={() => navigate('fullCadastro', { type: 'extra_cash' })}
+          onPress={() => navigate('fullCadastro', { type: 'normal' })}
         >
           <Box>
             <Info size={50} weight="duotone" color={cor.bgcolor} />

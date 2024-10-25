@@ -33,7 +33,6 @@ export function Transactions() {
   const { providerId } = useRoute().params as { providerId: string };
 
   const { data: businnes, isLoading } = useBusinnessById(providerId);
-  console.log({ providerId });
 
   React.useEffect(() => {
     if (!providerId) {

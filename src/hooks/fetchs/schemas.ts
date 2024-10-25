@@ -46,7 +46,7 @@ export const schemaProfile = z.object({
   avatar: z.string().optional(),
   born: z.string().optional(),
   profission: z.string().optional(),
-  contato: z.string().optional(),
+  contato: z.string().min(11, { message: 'Telefone inválido' }).optional(),
   userId: z.string(),
 });
 

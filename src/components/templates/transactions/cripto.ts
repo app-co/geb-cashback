@@ -9197,7 +9197,7 @@ interface I {
   expMonth: string;
   expYear: string;
   securityCode: string;
-  public_key: string
+  publicKey: string;
 }
 export function Encrypt({
   holder,
@@ -9205,7 +9205,7 @@ export function Encrypt({
   expMonth,
   expYear,
   securityCode,
-  public_key
+  publicKey,
 }: I) {
   const card = PagSeguro.encryptCard({
     publicKey,
