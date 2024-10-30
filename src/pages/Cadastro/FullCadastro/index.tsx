@@ -77,7 +77,6 @@ export function FullCadastro() {
   const { isLoading, mutateAsync } = useSignUp();
 
   const { type } = useRoute().params as { type: 'businnes' | 'normal' };
-  console.log({ type });
   function reducer(state: TState, action: TAction) {
     switch (action.step) {
       case 0:
@@ -194,7 +193,6 @@ export function FullCadastro() {
         });
         navigate('login');
       } catch (error) {
-        console.log(error);
         Toast.show({
           title: 'Ops!',
           description:

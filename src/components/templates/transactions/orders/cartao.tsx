@@ -196,10 +196,15 @@ export function Card({ providerId, setPaymentType, ref, paymentType }: I) {
 
     } catch (error) {
       console.log('erro =>', error)
+      if (error instanceof AppError) {
+        Toast.show({
+          title: 'Erro ao pagar com cartão',
+          description: error.message,
+          tipo: 'warning',
+        });
+      }
       if (error instanceof ZodError) {
         const { message, path } = error.issues[0]
-
-
         GlobalErrorModalHandler.setTitle({ title: 'Erro de validação', description: `${path}, ${message}` })
       }
     }

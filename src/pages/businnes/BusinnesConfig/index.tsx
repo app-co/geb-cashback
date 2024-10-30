@@ -157,7 +157,7 @@ export function BusinnesConfig() {
   const casheback = control.watch('casheback') ? control.watch('casheback') : 0;
 
   async function submit(obj: TFormRegisterCompany) {
-      await register(obj);
+    await register(obj);
   }
 
   async function handleRegisterSocialMida(obj: TFormRegisterSocialMidate) {
@@ -165,11 +165,9 @@ export function BusinnesConfig() {
     await registerSocialMidia(obj);
   }
 
-  const cnpj = control.watch('cnpj')
+  const cnpj = control.watch('cnpj');
 
-  const {data: getCnpj, isLoading: loadingCnpj} = useValidateCnpj(cnpj)
-
-  console.log(getCnpj, cnpj)
+  const { data: getCnpj, isLoading: loadingCnpj } = useValidateCnpj(cnpj);
 
   React.useEffect(() => {
     if (!data) return;
