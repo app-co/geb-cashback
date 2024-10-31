@@ -37,6 +37,7 @@ import { cor } from '@/styles/cor';
 import { KEY_ONESIGNAL } from '@env';
 
 OneSignal.initialize(KEY_ONESIGNAL);
+OneSignal.Notifications.requestPermission(true);
 
 export default function App() {
   const [loadSplash, setLoadSplash] = React.useState(true);

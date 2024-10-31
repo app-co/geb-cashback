@@ -7,7 +7,7 @@
     <key>CFBundleDevelopmentRegion</key>
     <string>$(DEVELOPMENT_LANGUAGE)</string>
     <key>CFBundleDisplayName</key>
-    <string>GEB Cacheback</string>
+    <string>Geb Cashback</string>
     <key>CFBundleExecutable</key>
     <string>$(EXECUTABLE_NAME)</string>
     <key>CFBundleIdentifier</key>
@@ -27,14 +27,13 @@
       <dict>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>geb-cacheback</string>
           <string>com.appcom.casheback</string>
         </array>
       </dict>
       <dict>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>exp+geb-cacheback</string>
+          <string>exp+cashback</string>
         </array>
       </dict>
     </array>

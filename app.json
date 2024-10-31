@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "GEB Cacheback",
-    "slug": "geb-cacheback",
-    "scheme": "geb-cacheback",
+    "name": "Geb Cashback",
+    "slug": "cashback",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -13,22 +13,22 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.appcom.casheback",
-      "googleServicesFile": "firebaseIos.plist"
+      "googleServicesFile": "firebaseIos.plist",
+      "bundleIdentifier": "com.appcom.casheback"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
+      "googleServicesFile": "firebaseA.json",
+      "package": "com.appcom.casheback",
       "permissions": [
         "android.permission.USE_BIOMETRIC",
         "android.permission.USE_FINGERPRINT",
         "android.permission.CAMERA",
         "android.permission.RECORD_AUDIO"
-      ],
-      "package": "com.appcom.casheback",
-      "googleServicesFile": "firebaseA.json"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -58,7 +58,7 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "1037180a-ad10-46ed-89c9-b11be83c2831"
+        "projectId": "466602a9-995b-4e0d-8aed-4fcc0f5d1a69"
       }
     }
   }
