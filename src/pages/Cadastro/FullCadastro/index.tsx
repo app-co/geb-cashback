@@ -92,24 +92,24 @@ export function FullCadastro() {
       try {
         const U = {
           name: obj.name,
-          email: obj.email,
-          password: obj.password,
+          email: obj.email.trim(),
+          password: obj.password.trim(),
           account_type: type,
           codigoInvit: obj.codigoInvit,
         };
 
         const P = {
-          document: obj.document,
+          document: obj.document.replace(/\D/g, ''),
           avatar: '',
           born: obj.born,
           profission: obj.profission,
-          contato: obj.contato,
+          contato: obj.contato.replace(/\D/g, ''),
         };
 
         const L = {
           city: obj.city,
           region_code: obj.region_code,
-          postal_code: obj.postal_code,
+          postal_code: obj.postal_code.replace(/\D/g, ''),
           complement: obj.complement,
           street: obj.street,
           number: obj.number,
