@@ -1,8 +1,13 @@
+/* eslint-disable consistent-return */
 /* eslint-disable class-methods-use-this */
 export class Mask {
   public cellPhone(value: string) {
-    const e = value.replace(/\D/g, '');
-    e.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+    if (!value) return;
+
+    let e = value.replace(/\D/g, '');
+
+    e = value.replace(/^(\d{2})/, '($1) ');
+    e = e.replace(/(.*)(\d{5})(\d{4})/, '$1 $2-$3');
 
     return e;
   }
@@ -18,22 +23,23 @@ export class Mask {
     return e;
   }
 
-  formatCPFOrCNPJ(text: string): string {
-    const numericValue = text.replace(/\D/g, '');
+  formatCPFOrCNPJ(text: string) {
+    if (!text) return;
 
-    if (numericValue.length <= 11) {
-      return numericValue.replace(
-        /(\d{3})(\d{3})(\d{3})(\d{2})/,
-        '$1.$2.$3-$4',
-      );
+    let value = text.replace(/(\D)/g, '');
+
+    if (value.length <= 11) {
+      value = value.replace(/(\d{3})(\d)/, '$1.$2');
+      value = value.replace(/(\d{3})(\d)/, '$1.$2');
+      value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+    } else {
+      value = value.replace(/(\d{2})(\d)/, '$1.$2');
+      value = value.replace(/(\d{3})(\d)/, '$1.$2');
+      value = value.replace(/(\d{3})(\d)/, '$1/$2');
+      value = value.replace(/(\d{4})(\d{1,2})$/, '$1-$2');
     }
-    if (numericValue.length === 14) {
-      return numericValue.replace(
-        /(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/,
-        '$1.$2.$3/$4-$5',
-      );
-    }
-    return numericValue;
+
+    return value;
   }
 
   money(e: string) {

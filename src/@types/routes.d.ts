@@ -13,7 +13,7 @@ export declare global {
       profile: undefined;
       providers: undefined;
       invit: undefined;
-      rewards: undefined;
+      rewards: { codigo?: string };
       cacheOut: undefined;
       extrato: undefined;
       favoritos: undefined;

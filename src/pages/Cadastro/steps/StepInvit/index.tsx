@@ -1,10 +1,22 @@
-import React from 'react'
-import * as S from './styles'
+import React from 'react';
 
-export function StepInvit() {
+import { FormInput } from '@/components/forms/FormInput';
+
+import * as S from './styles';
+
+interface I {
+  control: any;
+}
+
+export function StepInvit({ control }: I) {
   return (
     <S.Container>
-      <S.title>StepInvit</S.title>
+      <S.box>
+        <S.title>
+          Digite o código de convite para participar das promoções
+        </S.title>
+        <FormInput name="codigoInvit" control={control} label="Código" />
+      </S.box>
     </S.Container>
-  )
+  );
 }

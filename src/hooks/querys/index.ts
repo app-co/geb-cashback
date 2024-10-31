@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import { useInfiniteQuery, useQuery } from 'react-query';
 
 import { Fetch } from '../fetchs';
@@ -91,5 +92,37 @@ export function useDestaque() {
   return useQuery({
     queryKey: ['destaque'],
     queryFn: () => fetch.getDestaque(),
+  });
+}
+
+export function useTransactionByInvit(codigoInvit: string) {
+  const newParams = {
+    codigoInvit,
+    pageNumber: 0,
+    pageSize: 17,
+  };
+
+  return useInfiniteQuery({
+    queryKey: ['get@transactionInvit', newParams],
+    queryFn: ({ pageParam }) =>
+      fetch.getTransactionsByInvit({
+        ...newParams,
+        pageNumber: pageParam || 0,
+        pageSize: 17,
+      }),
+    getNextPageParam: lastPage => {
+      if (lastPage.pageNumber === lastPage.totalPages - 1) {
+        return undefined;
+      }
+
+      return lastPage.pageNumber + 1;
+    },
+  });
+}
+
+export function useInvit() {
+  return useQuery({
+    queryKey: ['invit'],
+    queryFn: () => fetch.getInvit(),
   });
 }

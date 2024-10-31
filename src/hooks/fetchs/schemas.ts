@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 const pagination = z.object({
   pageSize: z.number().default(0),
-  pageNumber: z.number().default(50),
+  pageNumber: z.number().default(30),
 });
 
 export const schemaUserSession = z.object({
@@ -125,5 +125,11 @@ export const schemaGetComanyExtrato = z
     userId: z.string(),
     month: z.string(),
     status: z.string(),
+  })
+  .merge(pagination);
+
+export const schemaTransactionByInvit = z
+  .object({
+    codigoInvit: z.string(),
   })
   .merge(pagination);

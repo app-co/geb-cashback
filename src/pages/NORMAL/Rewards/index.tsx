@@ -7,8 +7,11 @@ import { getMonth, getYear } from 'date-fns';
 import { Box, Center } from 'native-base';
 
 import { Extrato } from '@/components/Extrato';
+import { useTransactionByInvit } from '@/hooks/querys';
 import { cor } from '@/styles/cor';
 import { _title } from '@/styles/sizes';
+import { _toCurrency } from '@/utils/unidades';
+import { useRoute } from '@react-navigation/native';
 
 import * as S from './styles';
 import { months } from './utils';
@@ -18,16 +21,26 @@ export function Rewards() {
   const currentMonth = getMonth(new Date());
   const [month, setMonth] = React.useState(currentMonth);
 
+  const { codigo } = useRoute().params as { codigo: string };
+
+  const { data, fetchNextPage, isLoading } = useTransactionByInvit(codigo);
+
+  const invits = data?.pages.flatMap(h => h.records);
+  const total = data?.pages[0].totalRewards ?? 0;
+  const totalInvit = data?.pages[0].totalPages ?? 0;
+
   return (
     <S.Container>
       <S.headerCongidados>
         <Center>
           <S.text style={{ color: cor.text.black }}>Seus convidados</S.text>
-          <S.title style={{ color: cor.text.black }}>04</S.title>
+          <S.title style={{ color: cor.text.black }}>{totalInvit}</S.title>
         </Center>
         <Center>
           <S.text style={{ color: cor.text.black }}>Cashback Rewards</S.text>
-          <S.title style={{ color: cor.text.black }}>R$ 8,00</S.title>
+          <S.title style={{ color: cor.text.black }}>
+            {_toCurrency(total)}
+          </S.title>
         </Center>
       </S.headerCongidados>
 
@@ -104,8 +117,19 @@ export function Rewards() {
         <S.title style={{ fontSize: _title }}>{getYear(new Date())}</S.title>
       </Center>
 
-      <Box>
-        <Extrato />
+      <Box mt={8}>
+        <FlatList
+          data={invits}
+          keyExtractor={h => h.name}
+          contentContainerStyle={{ gap: 20 }}
+          renderItem={({ item: h }) => <Extrato item={h} />}
+          onEndReached={() => fetchNextPage()}
+          ListEmptyComponent={
+            <Center>
+              <S.text>Nenhum convidado encontrado.</S.text>
+            </Center>
+          }
+        />
       </Box>
     </S.Container>
   );

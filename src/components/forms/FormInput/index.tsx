@@ -26,8 +26,7 @@ export function FormInput({ name, control, mask, error, ...rest }: T) {
           date: (e: string) =>
             e ? e.replace(/(\d{2})(\d{2})(\d{4})/, '$1/$2/$3') : '',
           cpf: (e: string) => (e ? msk.formatCPFOrCNPJ(e) : ''),
-          'cell-phone': (e: string) =>
-            e ? e.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3') : '',
+          'cell-phone': (e: string) => (e ? msk.cellPhone(e) : ''),
           'short-date': (e: string) =>
             e ? e.replace(/(\d{2})(\d{2})/, '$1/$2') : '',
           money: (e: string) => (e ? msk.money(e) : ''),

@@ -17,7 +17,7 @@ import { AppError } from '@/services/AppError';
 import { cor } from '@/styles/cor';
 import { font } from '@/styles/fonts';
 import { _currencyToNumber, convertNumberToCurrency } from '@/utils/unidades';
-import { PUBLIC_KEY } from '@env';
+import { PUBLIC_KEY_TST } from '@env';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Encrypt } from '../cripto';
@@ -127,7 +127,7 @@ export function Card({ providerId, setPaymentType, ref, paymentType }: I) {
       number: obj.number,
       holder: obj.holder,
       securityCode: obj.ccv,
-      publicKey: PUBLIC_KEY
+      publicKey: PUBLIC_KEY_TST
     });
 
 
@@ -163,13 +163,6 @@ export function Card({ providerId, setPaymentType, ref, paymentType }: I) {
 
       const pay = await payCard.mutateAsync(schema);
 
-      if (pay[0].status !== 'succeeded') {
-        return Toast.show({
-          title: 'Erro ao pagar com cartão',
-          description: 'Não foi possível realizar o pagamento. Por favor, tente novamente ou entre em contato com o seu banco.',
-          tipo: 'warning',
-        });
-      }
 
       const cardTokek = {
         token: pay[0].payment_method.card.id,

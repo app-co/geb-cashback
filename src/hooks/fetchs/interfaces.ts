@@ -80,3 +80,25 @@ export interface ICompany {
   totalRecordsPerPage: number;
   records: IRecordsCompany[];
 }
+
+export interface ITRansactionByInvit {
+  name: string;
+  transacoes: number[];
+}
+
+export interface IRecordsTranssactionInvit {
+  totalPages: number;
+  currentPage: number;
+  totalRecords: number;
+  pageSize: number;
+  pageNumber: number;
+  totalRecordsPerPage: number;
+  records: ITRansactionByInvit[];
+  totalRewards: number;
+}
+
+export interface IInvit {
+  id: string;
+  codigo: string;
+  userId: string;
+}

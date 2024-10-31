@@ -19,22 +19,22 @@ export interface ICep {
 interface I {
   error: any;
   control: any;
+  cep: string;
   getCep: (h: ICep) => void;
 }
 
-export function Locality({ error, control, getCep }: I) {
-  const [cep, setCep] = React.useState('');
+export function Locality({ error, cep, control, getCep }: I) {
+  // const [cep, setCep] = React.useState('');
 
   async function get() {
     const { data } = await axios.get(
       `https://brasilapi.com.br/api/cep/v1/${cep}`,
     );
-
     getCep(data);
   }
 
   React.useEffect(() => {
-    if (cep.length === 8) {
+    if (cep && cep.length === 8) {
       get();
     }
   }, [cep]);
@@ -55,9 +55,7 @@ export function Locality({ error, control, getCep }: I) {
             keyboardType="numeric"
             control={control}
             placeholder="CEP"
-            value={cep}
             maxLength={8}
-            onChangeText={setCep}
           />
 
           <HStack space={2} alignItems="center">

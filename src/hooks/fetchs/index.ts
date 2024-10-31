@@ -3,7 +3,13 @@ import { api } from '@/services/api';
 import { pathsRoutes } from '@/services/schemeRoutes';
 
 import { IExtrato, IMetrica } from '../interfaces';
-import { ICompany, IRecordsCompany, IWallet } from './interfaces';
+import {
+  ICompany,
+  IInvit,
+  IRecordsCompany,
+  IRecordsTranssactionInvit,
+  IWallet,
+} from './interfaces';
 import {
   objRegisterFavorites,
   schemaCreateUser,
@@ -105,6 +111,21 @@ export class Fetch {
 
   async getDestaque() {
     const { data } = await api.get<IRecordsCompany[]>('/company/destaque');
+    return data;
+  }
+
+  async getTransactionsByInvit(params: t.TGetTransactionByInvite) {
+    const { data } = await api.get<IRecordsTranssactionInvit>(
+      '/invit/transactions',
+      {
+        params,
+      },
+    );
+    return data;
+  }
+
+  async getInvit() {
+    const { data } = await api.get<IInvit>('/invit');
     return data;
   }
 }

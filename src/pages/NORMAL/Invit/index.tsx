@@ -15,6 +15,7 @@ import {
 
 import { Button } from '@/components/forms/Button';
 import { Line } from '@/components/Line';
+import { useInvit } from '@/hooks/querys';
 import { cor } from '@/styles/cor';
 import { font } from '@/styles/fonts';
 import { _text, hightPercent, widtPercent } from '@/styles/sizes';
@@ -25,6 +26,8 @@ import * as S from './styles';
 export function Invit() {
   const convite = '32934d';
   const nav = useNavigation();
+
+  const { data: invit } = useInvit();
 
   async function copTextInvit() {
     await Clipboard.setStringAsync(convite);
@@ -67,7 +70,7 @@ export function Invit() {
           <TouchableOpacity onPress={copTextInvit}>
             <HStack alignSelf="center" space={3} alignItems="center">
               <S.text>
-                Código do convite: <S.title>32934d</S.title>{' '}
+                Código do convite: <S.title>{invit?.codigo}</S.title>
               </S.text>
               <Folders weight="duotone" />
             </HStack>
@@ -128,7 +131,9 @@ export function Invit() {
           </Box>
         </S.body>
 
-        <TouchableOpacity onPress={() => nav.navigate('rewards')}>
+        <TouchableOpacity
+          onPress={() => nav.navigate('rewards', { codigo: invit?.codigo })}
+        >
           <HStack mt={26} alignSelf="center" alignItems="center" space={1}>
             <S.title style={{ fontSize: _text }}>ver detalhes</S.title>
             <CaretRight weight="duotone" />
