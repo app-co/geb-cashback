@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 
 import { cor } from '@/styles/cor';
-import { _title } from '@/styles/sizes';
+import { _canva, _title } from '@/styles/sizes';
 
 export const Container = styled.View`
   margin-top: 40%;
@@ -19,4 +19,14 @@ export const title = styled.Text`
   font-size: ${_title}px;
   text-align: center;
   margin-bottom: 20px;
+`;
+
+export const input = styled.TextInput`
+  background-color: ${cor.bgSoft};
+  padding: 10px;
+  height: ${_canva + 25}px;
+  border-radius: 10;
+  color: ${cor.text.light};
+  font-size: ${_title}px;
+  text-align: center;
 `;

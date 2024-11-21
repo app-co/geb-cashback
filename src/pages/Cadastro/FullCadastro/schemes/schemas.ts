@@ -2,13 +2,29 @@ import { z } from 'zod';
 
 export const schemaRegisterUser = z
   .object({
-    name: z.string({ message: '* campo obrigátorio' }),
-    email: z.string({ message: '* campo obrigátorio' }).email('email inválido'),
-    password: z.string({ message: '* campo obrigátorio' }),
-    confirmation_pass: z.string({ message: '* campo obrigátorio' }),
-    document: z.string({ message: '* campo obrigátorio' }),
-    contato: z.string({ message: '* campo obrigátorio' }),
-    born: z.string({ message: '* campo obrigátorio' }),
+    name: z
+      .string({ message: '* campo obrigátorio' })
+      .min(3, 'Digite seu nome')
+      .transform(h => h.trim()),
+    email: z
+      .string({ message: '* campo obrigátorio' })
+      .email('email inválido')
+      .transform(h => h.trim()),
+    password: z
+      .string({ message: '* campo obrigátorio' })
+      .min(6, 'Senha deve conter 6 dígitos')
+      .transform(h => h.trim()),
+    confirmation_pass: z
+      .string({ message: '* campo obrigátorio' })
+      .min(6, 'Senha deve conter 6 dígitos')
+      .transform(h => h.trim()),
+    document: z
+      .string({ message: '* campo obrigátorio' })
+      .transform(h => h.trim()),
+    contato: z
+      .string({ message: '* campo obrigátorio' })
+      .transform(h => h.trim()),
+    born: z.string({ message: '* campo obrigátorio' }).transform(h => h.trim()),
     profission: z.string({ message: '* campo obrigátorio' }),
     city: z.string({ message: '* campo obrigátorio' }),
     region_code: z.string({ message: '* campo obrigátorio' }),

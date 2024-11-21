@@ -52,9 +52,11 @@ export function A({ error, control }: I) {
             control={control}
             icon="lock"
             placeholder="Sua senha"
+            secureTextEntry
           />
 
           <FormInput
+            secureTextEntry
             label="Confirme sua senha"
             error={error?.confirmation_pass}
             name="confirmation_pass"

@@ -23,8 +23,7 @@ export function FormInput({ name, control, mask, error, ...rest }: T) {
       control={control}
       render={({ field: { onChange, value } }) => {
         const mascars: any = {
-          date: (e: string) =>
-            e ? e.replace(/(\d{2})(\d{2})(\d{4})/, '$1/$2/$3') : '',
+          date: (e: string) => msk.Bigdate(e),
           cpf: (e: string) => (e ? msk.formatCPFOrCNPJ(e) : ''),
           'cell-phone': (e: string) => (e ? msk.cellPhone(e) : ''),
           'short-date': (e: string) =>

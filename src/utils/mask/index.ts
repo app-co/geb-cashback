@@ -23,6 +23,20 @@ export class Mask {
     return e;
   }
 
+  public Bigdate(value: string) {
+    let e = null;
+
+    if (!value) return;
+
+    e = value.replace(/\D/g, '');
+
+    e = e.replace(/^(\d{2})(\d+)/, '$1/$2');
+
+    e = e.replace(/^(.*)\/(\d{2})(\d+)/, '$1/$2/$3');
+
+    return e;
+  }
+
   formatCPFOrCNPJ(text: string) {
     if (!text) return;
 
