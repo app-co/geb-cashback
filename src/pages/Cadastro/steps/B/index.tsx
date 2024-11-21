@@ -52,7 +52,7 @@ export function B({ error, setValue, control }: I) {
             control={control}
             placeholder="Seu número de WhattsApp"
             mask="cell-phone"
-            maxLength={15}
+            maxLength={16}
           />
 
           <FormInput
@@ -62,8 +62,7 @@ export function B({ error, setValue, control }: I) {
             keyboardType="numeric"
             autoCapitalize="none"
             control={control}
-            icon="lock"
-            placeholder="dd/mm/yyyy"
+            placeholder="dia/mês/ano"
             mask="date"
             maxLength={10}
           />

@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { FormInput } from '@/components/forms/FormInput';
+import { InputForm } from '@/components/forms/InputForm';
+import { cor } from '@/styles/cor';
 
 import * as S from './styles';
 
@@ -15,7 +16,11 @@ export function StepInvit({ control }: I) {
         <S.title>
           Digite o código de convite para participar das promoções
         </S.title>
-        <FormInput name="codigoInvit" control={control} label="Código" />
+        <InputForm
+          name="codigoInvit"
+          control={control}
+          render={() => <S.input cursorColor={cor.text.lightSoft} />}
+        />
       </S.box>
     </S.Container>
   );

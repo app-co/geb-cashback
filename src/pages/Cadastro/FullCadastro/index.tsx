@@ -12,6 +12,7 @@ import { Keyboard } from '@/components/templates/KeyboardAvoidingWrapper';
 import { useAuth } from '@/context/auth';
 import { useStepByStep } from '@/context/step-by-step';
 import { useSignUp } from '@/hooks/mutations';
+import { AppError } from '@/services/AppError';
 import { cor } from '@/styles/cor';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -50,6 +51,7 @@ export function FullCadastro() {
 
   const control = useForm<TRegisterUser>({
     resolver: zodResolver(schemaRegisterUser),
+    mode: 'onChange',
   });
 
   const components = [
@@ -89,30 +91,31 @@ export function FullCadastro() {
 
   const handleSave = React.useCallback(
     async (obj: TRegisterUser) => {
+      const parce = schemaRegisterUser.parse(obj);
       try {
         const U = {
-          name: obj.name,
-          email: obj.email.trim(),
-          password: obj.password.trim(),
+          name: parce.name,
+          email: parce.email,
+          password: parce.password,
           account_type: type,
-          codigoInvit: obj.codigoInvit,
+          codigoInvit: parce.codigoInvit,
         };
 
         const P = {
-          document: obj.document.replace(/\D/g, ''),
+          document: parce.document.replace(/\D/g, ''),
           avatar: '',
-          born: obj.born,
-          profission: obj.profission,
-          contato: obj.contato.replace(/\D/g, ''),
+          born: parce.born,
+          profission: parce.profission,
+          contato: parce.contato.replace(/\D/g, ''),
         };
 
         const L = {
-          city: obj.city,
-          region_code: obj.region_code,
-          postal_code: obj.postal_code.replace(/\D/g, ''),
-          complement: obj.complement,
-          street: obj.street,
-          number: obj.number,
+          city: parce.city,
+          region_code: parce.region_code,
+          postal_code: parce.postal_code.replace(/\D/g, ''),
+          complement: parce.complement,
+          street: parce.street,
+          number: parce.number,
         };
 
         await mutateAsync({ U, P, L });
@@ -124,6 +127,14 @@ export function FullCadastro() {
         });
         navigate('login');
       } catch (error) {
+        console.log({ error });
+        if (error instanceof AppError) {
+          return Toast.show({
+            title: 'Ops!',
+            description: error.message,
+            tipo: 'error',
+          });
+        }
         Toast.show({
           title: 'Ops!',
           description:
@@ -135,13 +146,24 @@ export function FullCadastro() {
     [type],
   );
 
+  if (
+    control.formState.errors?.confirmation_pass?.message ===
+    'Senhas não conferem'
+  ) {
+    Toast.show({
+      title: 'Ops!',
+      description:
+        'As senhas não conferem. Verifique se você digitou a senha corretamente.',
+      tipo: 'warning',
+    });
+  }
+
   const handleNext = React.useCallback(async () => {
     let isValid = false;
     switch (currentStep) {
       case 0:
         {
           isValid = true;
-          changeStep(currentStep + 1);
         }
         break;
       case 1:
@@ -185,6 +207,8 @@ export function FullCadastro() {
       default:
         break;
     }
+
+    console.log(isValid);
 
     if (isValid) {
       changeStep(currentStep + 1);
