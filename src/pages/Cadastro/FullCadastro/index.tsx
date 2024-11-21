@@ -146,17 +146,8 @@ export function FullCadastro() {
     [type],
   );
 
-  if (
-    control.formState.errors?.confirmation_pass?.message ===
-    'Senhas não conferem'
-  ) {
-    Toast.show({
-      title: 'Ops!',
-      description:
-        'As senhas não conferem. Verifique se você digitou a senha corretamente.',
-      tipo: 'warning',
-    });
-  }
+  const pass = control.watch('password');
+  const confirmPass = control.watch('confirmation_pass');
 
   const handleNext = React.useCallback(async () => {
     let isValid = false;
@@ -174,6 +165,13 @@ export function FullCadastro() {
             'password',
             'confirmation_pass',
           ]);
+
+          if (pass !== confirmPass) {
+            control.setError('confirmation_pass', {
+              message: 'Senhas não conferem',
+            });
+            isValid = false;
+          }
         }
 
         break;
@@ -208,12 +206,10 @@ export function FullCadastro() {
         break;
     }
 
-    console.log(isValid);
-
     if (isValid) {
       changeStep(currentStep + 1);
     }
-  }, [currentStep]);
+  }, [changeStep, confirmPass, pass]);
 
   return (
     <Keyboard>

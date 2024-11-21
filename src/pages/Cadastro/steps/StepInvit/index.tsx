@@ -16,6 +16,7 @@ export function StepInvit({ control }: I) {
         <S.title>
           Digite o código de convite para participar das promoções
         </S.title>
+        <S.text>(Opcional)</S.text>
         <InputForm
           name="codigoInvit"
           control={control}

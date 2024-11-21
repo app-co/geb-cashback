@@ -10,7 +10,7 @@ import { _subtitle, _text, hightPercent } from '@/styles/sizes';
 const colors = {
   success: '#004a25',
   error: '#7e0000',
-  warning: '#672600ff',
+  warning: '#b54200ff',
 }
 
 export const container = styled(Animated.View) <{ type: 'success' | 'error' | 'warning' }>`

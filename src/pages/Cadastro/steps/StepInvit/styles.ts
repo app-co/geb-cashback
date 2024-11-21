@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 
 import { cor } from '@/styles/cor';
-import { _canva, _title } from '@/styles/sizes';
+import { _canva, _text, _title } from '@/styles/sizes';
 
 export const Container = styled.View`
   margin-top: 40%;
@@ -17,6 +17,14 @@ export const title = styled.Text`
   color: ${cor.text.black};
   font-family: Bold;
   font-size: ${_title}px;
+  text-align: center;
+  margin-bottom: 20px;
+`;
+
+export const text = styled.Text`
+  color: ${cor.text.black};
+  font-family: regular;
+  font-size: ${_text}px;
   text-align: center;
   margin-bottom: 20px;
 `;
