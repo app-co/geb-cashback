@@ -29,7 +29,6 @@ import { GlobalErrorModal } from '@/components/modals/global-error';
 import { ToastModal } from '@/components/modals/toast';
 import { UnauthorizedModal } from '@/components/modals/unauthorizedModal';
 import { Splash } from '@/components/Splash';
-import { reactotron } from '@/config/reactotron';
 import { AuthContextProvider } from '@/context/auth';
 import { StorageProvider } from '@/context/storage';
 import { Routes } from '@/routes';
@@ -85,10 +84,6 @@ export default function App() {
   }
   if (hasPermission === false) {
     return <Text>No access to camera</Text>;
-  }
-
-  if (__DEV__) {
-    reactotron.connect();
   }
 
   return (

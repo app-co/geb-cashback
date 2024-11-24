@@ -89,6 +89,8 @@ export function FullCadastro() {
     changeStep(currentStep - 1);
   }
 
+  console.log('erro =>', control.formState.errors)
+
   const handleSave = React.useCallback(
     async (obj: TRegisterUser) => {
       const parce = schemaRegisterUser.parse(obj);
@@ -149,6 +151,14 @@ export function FullCadastro() {
   const pass = control.watch('password');
   const confirmPass = control.watch('confirmation_pass');
 
+  React.useEffect(() => {
+    if (pass !== confirmPass) {
+      control.setError('confirmation_pass', {
+        message: 'Senhas não conferem',
+      });
+    }
+  }, [confirmPass])
+
   const handleNext = React.useCallback(async () => {
     let isValid = false;
     switch (currentStep) {
@@ -165,13 +175,6 @@ export function FullCadastro() {
             'password',
             'confirmation_pass',
           ]);
-
-          if (pass !== confirmPass) {
-            control.setError('confirmation_pass', {
-              message: 'Senhas não conferem',
-            });
-            isValid = false;
-          }
         }
 
         break;
@@ -206,10 +209,11 @@ export function FullCadastro() {
         break;
     }
 
+    console.log(isValid)
     if (isValid) {
       changeStep(currentStep + 1);
     }
-  }, [changeStep, confirmPass, pass]);
+  }, [currentStep]);
 
   return (
     <Keyboard>
