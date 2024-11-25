@@ -28,6 +28,8 @@ import Toast from '../modals/toast/handler';
 import { Select } from '../Select';
 import * as S from './styles';
 
+import * as Linking from 'expo-linking'
+
 
 const transformEnununsSegmentos = _segmentos().transform
 const segmentos = _segmentos().enun
@@ -138,11 +140,11 @@ export function Providers() {
     setFavorites(map)
   }, [favoritesLoading])
 
-
+  function opeUrl(url: string) {
+    Linking.openURL(url)
+  }
 
   if (!company && updateSegmento.isLoading) return <Loading />
-
-
 
   return (
     <S.Container>
@@ -258,7 +260,7 @@ export function Providers() {
 
               <HStack space={8} mt="4">
                 {h.social_midia && h.social_midia.map(j => (
-                  <TouchableOpacity>
+                  <TouchableOpacity key={j.id} style={{padding: 5}} onPress={() => opeUrl(j.link)} >
                     {_socialMidia.find(p => p.value === j.type)?.ico}
                   </TouchableOpacity>
                 ))}

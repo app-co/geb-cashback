@@ -14,6 +14,7 @@ import { useRoute } from '@react-navigation/native';
 
 import * as S from './styles';
 import { months } from './utils';
+import { _toCurrency } from '@/utils/unidades';
 
 export function Rewards() {
   const refMonth = useRef<FlatList>(null);

@@ -1,59 +1,59 @@
 /* eslint-disable react/jsx-no-bind */
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState } from "react";
 import {
   RefreshControl,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
-} from 'react-native';
+} from "react-native";
 
 import {
   BarcodeScanningResult,
   CameraView,
   useCameraPermissions,
-} from 'expo-camera';
+} from "expo-camera";
 
-import { Box, Center, HStack } from 'native-base';
-import { PixLogo, XCircle } from 'phosphor-react-native';
+import { Box, Center, HStack } from "native-base";
+import { PixLogo, XCircle } from "phosphor-react-native";
 
-import { Button } from '@/components/forms/Button';
-import { Line } from '@/components/Line';
-import { Parceiros } from '@/components/Parceiros';
-import { useAuth } from '@/context/auth';
-import { useDestaque, useUserWallet } from '@/hooks/querys';
-import { Destaque } from '@/pages/communs/Destaque';
-import { cor } from '@/styles/cor';
-import { _title } from '@/styles/sizes';
-import { convertNumberToCurrency } from '@/utils/unidades';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { Button } from "@/components/forms/Button";
+import { Line } from "@/components/Line";
+import { Parceiros } from "@/components/Parceiros";
+import { useAuth } from "@/context/auth";
+import { useDestaque, useUserWallet } from "@/hooks/querys";
+import { Destaque } from "@/pages/communs/Destaque";
+import { cor } from "@/styles/cor";
+import { _title } from "@/styles/sizes";
+import { convertNumberToCurrency } from "@/utils/unidades";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
-import { MenuBox } from '../components/MenuBox';
-import { MenuHeader } from '../components/MenuHeader';
-import * as S from './styles';
+import { MenuBox } from "../components/MenuBox";
+import { MenuHeader } from "../components/MenuHeader";
+import * as S from "./styles";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   camera: {
     flex: 1,
   },
   buttonContainer: {
     flex: 1,
-    flexDirection: 'row',
-    backgroundColor: 'transparent',
+    flexDirection: "row",
+    backgroundColor: "transparent",
     margin: 64,
   },
   button: {
     flex: 1,
-    alignSelf: 'flex-end',
-    alignItems: 'center',
+    alignSelf: "flex-end",
+    alignItems: "center",
   },
   text: {
     fontSize: 24,
-    fontWeight: 'bold',
-    color: 'white',
+    fontWeight: "bold",
+    color: "white",
   },
 });
 
@@ -74,23 +74,23 @@ export function Home() {
 
   const handleScan = React.useCallback(async (data: BarcodeScanningResult) => {
     setOpneScan(false);
-    navigation.navigate('transactions', {
+    navigation.navigate("transactions", {
       providerId: data.data,
     });
   }, []);
 
-  const [facing, setFacing] = useState('back');
+  const [facing, setFacing] = useState("back");
   const [permission, requestPermission] = useCameraPermissions();
 
   useFocusEffect(
     useCallback(() => {
       if (!user.locality) {
-        navigation.navigate('fullCadastro', {
-          type: 'extra_cash',
+        navigation.navigate("fullCadastro", {
+          type: "extra_cash",
           session: true,
         });
       }
-    }, [user]),
+    }, [user])
   );
 
   function refaching() {
@@ -107,7 +107,7 @@ export function Home() {
     // Camera permissions are not granted yet.
     return (
       <Box>
-        <S.title style={{ textAlign: 'center' }}>
+        <S.title style={{ textAlign: "center" }}>
           We need your permission to show the camera
         </S.title>
         <Button onPress={requestPermission} title="grant permission" />
@@ -116,7 +116,7 @@ export function Home() {
   }
 
   function toggleCameraFacing() {
-    setFacing(current => (current === 'back' ? 'back' : 'front'));
+    setFacing((current) => (current === "back" ? "back" : "front"));
   }
 
   const casheback = convertNumberToCurrency(wallet?.amount_cashback ?? 0);
@@ -134,9 +134,9 @@ export function Home() {
           mt="12"
         >
           <CameraView
-            onBarcodeScanned={h => handleScan(h)}
+            onBarcodeScanned={(h) => handleScan(h)}
             barcodeScannerSettings={{
-              barcodeTypes: ['qr'],
+              barcodeTypes: ["qr"],
             }}
             style={{
               width: 380,
@@ -159,7 +159,7 @@ export function Home() {
       )}
 
       <Button
-        onPress={() => navigation.navigate('BusinnesConfig')}
+        onPress={() => navigation.navigate("BusinnesConfig")}
         title="Minha Empresa"
         styleType="border"
       />
@@ -172,14 +172,14 @@ export function Home() {
       >
         <HStack mt="8" alignItems="flex-end" justifyContent="space-between">
           <Box>
-            <S.subtitle style={{ fontWeight: '800' }}>Cashback</S.subtitle>
+            <S.subtitle style={{ fontWeight: "800" }}>Cashback</S.subtitle>
             <S.cash>
               <S.title>{casheback}</S.title>
             </S.cash>
           </Box>
 
           <Box>
-            <S.cash onPress={() => navigation.navigate('cacheOut')}>
+            <S.cash onPress={() => navigation.navigate("cacheOut")}>
               <S.title>SACAR</S.title>
               <PixLogo weight="duotone" />
             </S.cash>
@@ -188,12 +188,12 @@ export function Home() {
 
         <Box mt="8">
           <MenuBox
-            presExtrato={() => navigation.navigate('extrato')}
+            presExtrato={() => navigation.navigate("extrato")}
             presBuy={() => {
               toggleCameraFacing();
               setOpneScan(!openScan);
             }}
-            presProvider={() => navigation.navigate('providers')}
+            presProvider={() => navigation.navigate("providers")}
           />
         </Box>
 
@@ -215,9 +215,11 @@ export function Home() {
           >
             Destaques
           </S.title>
-          <Destaque />
+          <Destaque destaque={destaque} />
         </Box>
       </ScrollView>
     </S.Container>
   );
 }
+
+//756.680.809-51

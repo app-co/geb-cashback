@@ -47,12 +47,6 @@ api.interceptors.response.use(
       return Promise.reject(new AppError(data?.error));
     }
 
-    Toast.show({
-      title: 'Atenção',
-      description: 'Tente novamente mais tarde',
-      tipo: 'warning',
-    });
-
     return Promise.reject(error);
   },
 );

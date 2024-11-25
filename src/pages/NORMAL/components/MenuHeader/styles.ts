@@ -7,7 +7,7 @@ import { _text, canvaPercent } from '@/styles/sizes';
 export const Container = styled.View`
   background-color: ${cor.focus.a};
   margin-top: ${canvaPercent('5')}px;
-  padding: 20px 20px 15px 20px;
+  padding: 10px 15px;
   border-radius: 25px;
   height: 130px;
   justify-content: center;
@@ -22,7 +22,7 @@ export const main = styled.View`
 export const content = styled.View``;
 
 export const title = styled.Text`
-  font-size: 18;
+  font-size: 18px;
 `;
 
 export const titleName = styled.Text`

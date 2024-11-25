@@ -1,7 +1,7 @@
-import React from 'react';
-import { FlatList, TouchableOpacity } from 'react-native';
+import React from "react";
+import { FlatList, TouchableOpacity } from "react-native";
 
-import { HStack, Image } from 'native-base';
+import { HStack, Image } from "native-base";
 import {
   Globe,
   InstagramLogo,
@@ -9,15 +9,17 @@ import {
   ShareNetwork,
   Trash,
   WhatsappLogo,
-} from 'phosphor-react-native';
+} from "phosphor-react-native";
 
-import { Loading } from '@/components/Loading';
-import { useRemoveFavorites } from '@/hooks/mutations';
-import { useFavorites } from '@/hooks/querys';
-import { cor } from '@/styles/cor';
-import { useNavigation } from '@react-navigation/native';
+import { Loading } from "@/components/Loading";
+import { useRemoveFavorites } from "@/hooks/mutations";
+import { useFavorites } from "@/hooks/querys";
+import { cor } from "@/styles/cor";
+import { useNavigation } from "@react-navigation/native";
 
-import * as S from './styles';
+import * as S from "./styles";
+import { _socialMidia } from "@/utils/socia-midia";
+import * as Linking from 'expo-linking'
 
 export function Favoritos() {
   const navigation = useNavigation();
@@ -45,7 +47,7 @@ export function Favoritos() {
         renderItem={({ item: h }) => (
           <S.boxProvider
             onPress={() =>
-              navigation.navigate('transactions', { providerId: h.id })
+              navigation.navigate("transactions", { providerId: h.id })
             }
           >
             <S.logo>
@@ -68,27 +70,21 @@ export function Favoritos() {
                 </S.actions>
               </HStack>
               <S.texts>
-                {h.location?.street}, {h.location?.number}, {h.location?.city} -{' '}
+                {h.location?.street}, {h.location?.number}, {h.location?.city} -{" "}
                 {h.location?.region_code}
               </S.texts>
               <S.texts>Contato: {h.telefone}</S.texts>
 
               <HStack space={8} mt="4">
-                <TouchableOpacity>
-                  <WhatsappLogo size={25} color="green" weight="duotone" />
-                </TouchableOpacity>
-
-                <TouchableOpacity>
-                  <InstagramLogo size={25} color="#2096e4" weight="duotone" />
-                </TouchableOpacity>
-
-                <TouchableOpacity>
-                  <Globe color="#c1c1c1" size={25} weight="duotone" />
-                </TouchableOpacity>
-
-                <TouchableOpacity>
-                  <MapTrifold color="#c1c1c1" size={25} weight="duotone" />
-                </TouchableOpacity>
+                {h.social_midia &&
+                  h.social_midia.map((j) => (
+                    <TouchableOpacity
+                      style={{ padding: 5 }}
+                      onPress={() => Linking.openURL(j.link)}
+                    >
+                      {_socialMidia.find((p) => p.value === j.type)?.ico}
+                    </TouchableOpacity>
+                  ))}
               </HStack>
             </S.bx>
           </S.boxProvider>
