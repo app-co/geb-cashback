@@ -28,7 +28,7 @@ function handleServerError(error: AxiosError) {
 }
 
 const api = axios.create({
-  baseURL,
+  baseURL: 'http://192.168.0.66:3333',
 }) as APIInstaceProps;
 
 api.interceptors.response.use(

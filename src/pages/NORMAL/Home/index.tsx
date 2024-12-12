@@ -135,7 +135,7 @@ export function Home() {
               width: 380,
               height: 300,
 
-              zIndex: 100,
+              zIndex: 1000,
             }}
             facing={facing}
           >

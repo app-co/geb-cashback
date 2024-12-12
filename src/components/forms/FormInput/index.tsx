@@ -32,7 +32,7 @@ export function FormInput({ name, control, mask, error, ...rest }: T) {
           card: (e: string) => (e ? msk.card(e) : ''),
         };
 
-        const m = mascars[mask];
+        const m = mascars[mask ?? ''];
 
         return (
           <Input

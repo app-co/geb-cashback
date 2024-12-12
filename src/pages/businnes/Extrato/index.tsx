@@ -33,16 +33,6 @@ export function Extrato() {
 
   return (
     <S.Container>
-      <S.headerCongidados>
-        <Center>
-          <S.text style={{ color: cor.text.black }}>Seus convidados</S.text>
-          <S.title style={{ color: cor.text.black }}>04</S.title>
-        </Center>
-        <Center>
-          <S.text style={{ color: cor.text.black }}>Cashback Rewards</S.text>
-          <S.title style={{ color: cor.text.black }}>R$ 8,00</S.title>
-        </Center>
-      </S.headerCongidados>
 
       <Center mt={4}>
         <S.title style={{ fontSize: _title }}>{getYear(new Date())}</S.title>
